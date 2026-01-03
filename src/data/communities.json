@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "fish-creek",
+    "name": "Fish Creek",
+    "tagline": "The heart of Door County",
+    "description": "In many ways, Fish Creek is the hub of Door County. A good portion of the region's top restaurants, shops, and outdoor attractions are in or near this quaint-yet-bustling town. Come here if you seek social and family life, arts and culture, historic sites, world-class dining, and shoreline sunsets.",
+    "highlights": ["Peninsula State Park", "Downtown shopping", "Fish boils", "Sunset concerts"],
+    "image": "/images/communities/fish-creek.jpg"
+  },
+  {
+    "slug": "sister-bay",
+    "name": "Sister Bay",
+    "tagline": "Door County's dining destination",
+    "description": "Sister Bay has gained a reputation for being the food, dining, and beverage hub of the county. Options include supper clubs, pubs and taverns, waterfront dining, seafood, bakeries, pizza, craft beer, breakfast spots, and way more. Visitors also flock here for the beaches.",
+    "highlights": ["Restaurants & cafés", "Beach swimming", "Al Johnson's goat roof", "Marina"],
+    "image": "/images/communities/sister-bay.jpg"
+  },
+  {
+    "slug": "ephraim",
+    "name": "Ephraim",
+    "tagline": "Charming and picturesque",
+    "description": "The idyllic setting of Ephraim offers the famously graffitied Anderson Dock, access to Peninsula State Park, and tons of water sports and activities. Historic white buildings, old-timey shops, and a peaceful waterfront make this village unforgettable.",
+    "highlights": ["Anderson Dock", "Wilson's ice cream", "Kayaking", "Historic village"],
+    "image": "/images/communities/ephraim.jpg"
+  },
+  {
+    "slug": "sturgeon-bay",
+    "name": "Sturgeon Bay",
+    "tagline": "Gateway to Door County",
+    "description": "As the largest city and county seat, Sturgeon Bay offers urban amenities while maintaining small-town charm. Explore maritime history, working shipyards, a vibrant downtown, and excellent dining. It's also home to many wineries and orchards.",
+    "highlights": ["Downtown shops", "Maritime museum", "Shipyards", "Wineries"],
+    "image": "/images/communities/sturgeon-bay.jpg"
+  },
+  {
+    "slug": "baileys-harbor",
+    "name": "Baileys Harbor",
+    "tagline": "Art and nature in harmony",
+    "description": "A near-perfect confluence of art and nature, Baileys Harbor is home to thousands of acres of beautiful, protected lands. Find plenty of space for hiking, biking, and paddling, plus independent restaurants, a brewery, and three historic lighthouses.",
+    "highlights": ["The Ridges Sanctuary", "Lighthouses", "Cana Island", "Craft beverages"],
+    "image": "/images/communities/baileys-harbor.jpg"
+  },
+  {
+    "slug": "egg-harbor",
+    "name": "Egg Harbor",
+    "tagline": "Family fun on the water",
+    "description": "Egg Harbor is considered one of the busier and more family-friendly villages in Door County. Enjoy the beach, marina, and parks, plus a great selection of restaurants and shops. The village hosts popular events throughout the year.",
+    "highlights": ["Family beach", "Marina", "Shopping", "Alpine Golf Course"],
+    "image": "/images/communities/egg-harbor.jpg"
+  },
+  {
+    "slug": "ellison-bay",
+    "name": "Ellison Bay",
+    "tagline": "Authentic and unhurried",
+    "description": "Located near the tip of the peninsula, Ellison Bay offers a quieter, more authentic Door County experience. Find excellent dining, charming shops, and easy access to Newport State Park and Washington Island.",
+    "highlights": ["Wickman House", "Newport State Park access", "Village shops", "Local galleries"],
+    "image": "/images/communities/ellison-bay.jpg"
+  },
+  {
+    "slug": "washington-island",
+    "name": "Washington Island",
+    "tagline": "An island escape",
+    "description": "Start with a 30-minute ferry ride across Death's Door strait to reach this unique island community. Explore by car, bike, or UTV. Don't miss Schoolhouse Beach with its smooth stones, the lavender farm, and the option to continue to Rock Island State Park.",
+    "highlights": ["Ferry crossing", "Schoolhouse Beach", "Lavender fields", "Rock Island"],
+    "image": "/images/communities/washington-island.jpg"
+  },
+  {
+    "slug": "jacksonport",
+    "name": "Jacksonport",
+    "tagline": "On the quiet side",
+    "description": "Located on the 'quiet' side of the peninsula, Jacksonport is a small town with unexpectedly big attractions. Cave Point County Park and Whitefish Dunes State Park are nearby, plus eclectic restaurants and shops.",
+    "highlights": ["Cave Point", "Whitefish Dunes", "Cherry orchards", "Lakeside dining"],
+    "image": "/images/communities/jacksonport.jpg"
+  },
+  {
+    "slug": "gills-rock",
+    "name": "Gills Rock",
+    "tagline": "At the tip of the thumb",
+    "description": "Gills Rock is the last stop at the tip of the peninsula before the highway heads back south or you continue north to the Washington Island Ferry. Stop here for coastal scenery, the maritime museum, and views of Death's Door passage.",
+    "highlights": ["Washington Island Ferry", "Maritime museum", "Death's Door views", "Fishing charters"],
+    "image": "/images/communities/gills-rock.jpg"
+  },
+  {
+    "slug": "southern-door",
+    "name": "Southern Door County",
+    "tagline": "Rural charm and Belgian heritage",
+    "description": "Southern Door County, including Brussels and Forestville, offers a quieter feel with rustic farms, countryside views, and signs of Belgian heritage. Outdoor enthusiasts enjoy hiking, biking, snowshoeing, and ATVing on less-traveled trails.",
+    "highlights": ["Belgian heritage", "Rural farms", "Quiet trails", "Local festivals"],
+    "image": "/images/communities/southern-door.jpg"
+  }
+]

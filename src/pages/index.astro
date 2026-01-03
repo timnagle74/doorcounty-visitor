@@ -1,0 +1,207 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const heroStats = [
+  { value: '300+', label: 'Miles of Shoreline' },
+  { value: '5', label: 'State Parks' },
+  { value: '11', label: 'Lighthouses' },
+  { value: '19', label: 'Communities' },
+];
+
+const categories = [
+  {
+    title: 'Stay',
+    href: '/stay',
+    description: 'Hotels, B&Bs, vacation rentals, and campgrounds',
+    icon: 'bed',
+    count: 500,
+  },
+  {
+    title: 'Eat',
+    href: '/eat',
+    description: 'Restaurants, cafés, wineries, and fish boils',
+    icon: 'utensils',
+    count: 200,
+  },
+  {
+    title: 'Do',
+    href: '/do',
+    description: 'Parks, tours, beaches, and attractions',
+    icon: 'compass',
+    count: 150,
+  },
+  {
+    title: 'Shop',
+    href: '/shop',
+    description: 'Galleries, boutiques, and local goods',
+    icon: 'shopping-bag',
+    count: 100,
+  },
+];
+
+const communities = [
+  { name: 'Fish Creek', slug: 'fish-creek', image: '/images/communities/fish-creek.jpg' },
+  { name: 'Sister Bay', slug: 'sister-bay', image: '/images/communities/sister-bay.jpg' },
+  { name: 'Ephraim', slug: 'ephraim', image: '/images/communities/ephraim.jpg' },
+  { name: 'Sturgeon Bay', slug: 'sturgeon-bay', image: '/images/communities/sturgeon-bay.jpg' },
+  { name: 'Baileys Harbor', slug: 'baileys-harbor', image: '/images/communities/baileys-harbor.jpg' },
+  { name: 'Egg Harbor', slug: 'egg-harbor', image: '/images/communities/egg-harbor.jpg' },
+];
+---
+
+<BaseLayout 
+  title="Home"
+  description="Plan your perfect Door County, Wisconsin getaway. Discover lodging, restaurants, attractions, and activities across the peninsula's charming communities."
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[80vh] flex items-center bg-dc-lake-900">
+    <!-- Background Image Placeholder -->
+    <div class="absolute inset-0 bg-gradient-to-br from-dc-lake-800 to-dc-lake-900">
+      <!-- TODO: Add hero background image -->
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <h1 class="text-white mb-6 animate-fade-in">
+          Discover 
+          <span class="text-dc-cherry-400">Door County</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
+          Wisconsin's beloved peninsula awaits. Explore charming villages, stunning shorelines, 
+          world-class dining, and endless adventures along 300 miles of beautiful coastline.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-12 animate-slide-up animate-delay-200">
+          <div class="flex-1 relative">
+            <input 
+              type="text" 
+              placeholder="Search restaurants, hotels, activities..."
+              class="w-full px-6 py-4 rounded-xl bg-white/95 backdrop-blur text-dc-lake-900 placeholder:text-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-cherry-500"
+            />
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-dc-cherry-500 rounded-lg text-white hover:bg-dc-cherry-600 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 animate-slide-up animate-delay-300">
+          {heroStats.map((stat) => (
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                {stat.value}
+              </div>
+              <div class="text-dc-sand-300 text-sm">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Cards -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Explore Door County</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          From cozy inns to outdoor adventures, find everything you need for your perfect getaway.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {categories.map((category, index) => (
+          <a 
+            href={category.href}
+            class="card p-6 group hover:-translate-y-1 transition-all duration-300"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="w-12 h-12 bg-dc-lake-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-dc-lake-500 transition-colors">
+              <svg class="w-6 h-6 text-dc-lake-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {category.icon === 'bed' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                )}
+                {category.icon === 'utensils' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                )}
+                {category.icon === 'compass' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                )}
+                {category.icon === 'shopping-bag' && (
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                )}
+              </svg>
+            </div>
+            <h3 class="text-xl mb-2 group-hover:text-dc-lake-600 transition-colors">{category.title}</h3>
+            <p class="text-dc-lake-500 text-sm mb-4">{category.description}</p>
+            <span class="text-dc-cherry-500 font-accent font-medium text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+              Browse {category.count}+ listings
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Communities Section -->
+  <section class="section bg-dc-sand-100">
+    <div class="container-wide">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+        <div>
+          <h2 class="mb-4">Explore Communities</h2>
+          <p class="text-lg text-dc-lake-600 max-w-2xl">
+            Each village has its own personality. Find the one that speaks to you.
+          </p>
+        </div>
+        <a href="/communities" class="btn btn-outline mt-4 md:mt-0">
+          View All Communities
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {communities.map((community) => (
+          <a 
+            href={`/communities/${community.slug}`}
+            class="card overflow-hidden group"
+          >
+            <div class="aspect-listing bg-dc-lake-200 relative overflow-hidden">
+              <!-- TODO: Add community images -->
+              <div class="absolute inset-0 bg-gradient-to-t from-dc-lake-900/80 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4">
+                <h3 class="text-white text-2xl group-hover:text-dc-cherry-300 transition-colors">
+                  {community.name}
+                </h3>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section bg-gradient-lake text-white">
+    <div class="container-narrow text-center">
+      <h2 class="text-white mb-6">Ready to Plan Your Trip?</h2>
+      <p class="text-xl text-dc-sand-200 mb-8 max-w-2xl mx-auto">
+        Use our trip planner to save your favorite spots, build an itinerary, 
+        and make the most of your Door County adventure.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/trip-planner" class="btn bg-white text-dc-lake-700 hover:bg-dc-sand-100">
+          Start Planning
+        </a>
+        <a href="/guides" class="btn border-2 border-white text-white hover:bg-white/10">
+          Browse Guides
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

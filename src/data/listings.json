@@ -1,0 +1,190 @@
+[
+  {
+    "id": "sample-001",
+    "slug": "white-gull-inn",
+    "name": "The White Gull Inn",
+    "type": "restaurant",
+    "subcategories": ["fish_boil", "fine_dining", "american"],
+    "description": {
+      "short": "Historic Fish Creek inn famous for its traditional Door County fish boil, serving American cuisine since 1896.",
+      "full": "Since 1896, The White Gull Inn has been welcoming guests to Fish Creek with warm hospitality and exceptional cuisine. Our traditional Door County fish boil, held Wednesday, Friday, Saturday, and Sunday evenings, is a must-experience event featuring locally-caught whitefish cooked over an open fire with the dramatic 'boilover' finale. Beyond fish boil nights, enjoy our full dinner menu featuring fresh, locally-sourced ingredients in our charming dining room."
+    },
+    "location": {
+      "address": "4225 Main Street",
+      "city": "fish_creek",
+      "cityDisplay": "Fish Creek",
+      "state": "WI",
+      "zip": "54212",
+      "coordinates": {
+        "lat": 45.1234,
+        "lng": -87.2345
+      }
+    },
+    "contact": {
+      "phone": "+1-920-868-3517",
+      "email": "info@whitegullinn.com",
+      "website": "https://whitegullinn.com"
+    },
+    "hours": {
+      "monday": "5:00 PM - 9:00 PM",
+      "tuesday": "5:00 PM - 9:00 PM",
+      "wednesday": "5:00 PM - 9:00 PM",
+      "thursday": "5:00 PM - 9:00 PM",
+      "friday": "5:00 PM - 9:00 PM",
+      "saturday": "5:00 PM - 9:00 PM",
+      "sunday": "5:00 PM - 9:00 PM",
+      "notes": "Fish boil: Wed, Fri, Sat, Sun evenings. Reservations recommended."
+    },
+    "images": {
+      "primary": "/images/listings/white-gull-inn.jpg",
+      "gallery": [
+        "/images/listings/white-gull-inn-2.jpg",
+        "/images/listings/white-gull-inn-3.jpg"
+      ],
+      "logo": "/images/logos/white-gull-inn.png"
+    },
+    "social": {
+      "facebook": "https://www.facebook.com/whitegullinn",
+      "instagram": "https://www.instagram.com/whitegullinn",
+      "tripadvisor": "https://www.tripadvisor.com/Restaurant_Review-g59929-d435267-Reviews-White_Gull_Inn-Fish_Creek_Door_County_Wisconsin.html"
+    },
+    "ratings": {
+      "aggregate": 4.7,
+      "count": 342
+    },
+    "restaurant": {
+      "cuisines": ["American", "Seafood"],
+      "priceRange": "$$",
+      "acceptsReservations": true,
+      "reservationUrl": null,
+      "menuUrl": "https://whitegullinn.com/menus/",
+      "hasFishBoil": true,
+      "dietaryOptions": ["Vegetarian", "Gluten-Free Options"]
+    },
+    "listing": {
+      "status": "active",
+      "tier": "featured",
+      "verified": true,
+      "verifiedDate": "2024-06-15",
+      "lastUpdated": "2025-01-02"
+    }
+  },
+  {
+    "id": "sample-002",
+    "slug": "bay-shore-inn",
+    "name": "Bay Shore Inn",
+    "type": "lodging_resort",
+    "subcategories": ["waterfront", "family_friendly"],
+    "description": {
+      "short": "Waterfront resort in Sturgeon Bay offering suites with stunning views of Green Bay, indoor pool, and private beach access.",
+      "full": "Bay Shore Inn offers the perfect Door County retreat on the shores of Green Bay. Our spacious suites feature fully-equipped kitchens, fireplaces, and private balconies overlooking the water. Enjoy our heated indoor pool, whirlpool, and private sandy beach. Located just minutes from downtown Sturgeon Bay, we're your ideal home base for exploring all of Door County."
+    },
+    "location": {
+      "address": "4205 Bay Shore Drive",
+      "city": "sturgeon_bay",
+      "cityDisplay": "Sturgeon Bay",
+      "state": "WI",
+      "zip": "54235",
+      "coordinates": {
+        "lat": 44.8567,
+        "lng": -87.3456
+      }
+    },
+    "contact": {
+      "phone": "+1-920-743-4551",
+      "email": "info@bayshoreinn.net",
+      "website": "https://www.bayshoreinn.net"
+    },
+    "hours": {
+      "notes": "Check-in: 3:00 PM, Check-out: 11:00 AM. Office hours: 8 AM - 8 PM"
+    },
+    "images": {
+      "primary": "/images/listings/bay-shore-inn.jpg",
+      "gallery": [
+        "/images/listings/bay-shore-inn-2.jpg",
+        "/images/listings/bay-shore-inn-3.jpg"
+      ],
+      "logo": "/images/logos/bay-shore-inn.png"
+    },
+    "social": {
+      "facebook": "https://www.facebook.com/bayshoreinn",
+      "tripadvisor": "https://www.tripadvisor.com/Hotel_Review-g60398-d114350-Reviews-Bay_Shore_Inn-Sturgeon_Bay_Door_County_Wisconsin.html"
+    },
+    "ratings": {
+      "aggregate": 4.5,
+      "count": 215
+    },
+    "lodging": {
+      "roomCount": 36,
+      "priceRange": "$$-$$$",
+      "amenities": ["Indoor Pool", "Hot Tub", "Private Beach", "Free WiFi", "Kitchen", "Fireplace", "Balcony"],
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
+      "petsAllowed": false
+    },
+    "listing": {
+      "status": "active",
+      "tier": "verified",
+      "verified": true,
+      "verifiedDate": "2024-05-20",
+      "lastUpdated": "2025-01-01"
+    }
+  },
+  {
+    "id": "sample-003",
+    "slug": "peninsula-state-park",
+    "name": "Peninsula State Park",
+    "type": "park",
+    "subcategories": ["hiking", "biking", "camping", "lighthouse"],
+    "description": {
+      "short": "Wisconsin's most popular state park featuring 3,776 acres of forests, bluffs, and shoreline along Green Bay.",
+      "full": "Peninsula State Park is Door County's crown jewel, encompassing 3,776 acres of diverse terrain along Green Bay. Explore over 20 miles of hiking and biking trails, visit the historic Eagle Bluff Lighthouse, swim at Nicolet Beach, or camp under the stars. The park offers golf at one of Wisconsin's most scenic courses, observation towers with panoramic views, and endless opportunities for kayaking, fishing, and wildlife watching."
+    },
+    "location": {
+      "address": "9462 Shore Road",
+      "city": "fish_creek",
+      "cityDisplay": "Fish Creek",
+      "state": "WI",
+      "zip": "54212",
+      "coordinates": {
+        "lat": 45.1456,
+        "lng": -87.2234
+      }
+    },
+    "contact": {
+      "phone": "+1-920-868-3258",
+      "website": "https://dnr.wisconsin.gov/topic/parks/peninsula"
+    },
+    "hours": {
+      "monday": "6:00 AM - 11:00 PM",
+      "tuesday": "6:00 AM - 11:00 PM",
+      "wednesday": "6:00 AM - 11:00 PM",
+      "thursday": "6:00 AM - 11:00 PM",
+      "friday": "6:00 AM - 11:00 PM",
+      "saturday": "6:00 AM - 11:00 PM",
+      "sunday": "6:00 AM - 11:00 PM",
+      "notes": "Vehicle admission required. Hours may vary seasonally."
+    },
+    "images": {
+      "primary": "/images/listings/peninsula-state-park.jpg",
+      "gallery": [
+        "/images/listings/peninsula-state-park-2.jpg",
+        "/images/listings/peninsula-state-park-3.jpg"
+      ]
+    },
+    "social": {
+      "facebook": "https://www.facebook.com/WisconsinStateParks"
+    },
+    "ratings": {
+      "aggregate": 4.8,
+      "count": 1250
+    },
+    "listing": {
+      "status": "active",
+      "tier": "free",
+      "verified": true,
+      "verifiedDate": "2024-03-01",
+      "lastUpdated": "2024-12-15"
+    }
+  }
+]

@@ -1,0 +1,143 @@
+---
+// src/components/Footer.astro
+// Site footer with links and info
+
+const currentYear = new Date().getFullYear();
+
+const footerLinks = {
+  explore: [
+    { label: 'Stay', href: '/stay' },
+    { label: 'Eat', href: '/eat' },
+    { label: 'Do', href: '/do' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'Events', href: '/events' },
+  ],
+  communities: [
+    { label: 'Fish Creek', href: '/communities/fish-creek' },
+    { label: 'Sister Bay', href: '/communities/sister-bay' },
+    { label: 'Ephraim', href: '/communities/ephraim' },
+    { label: 'Sturgeon Bay', href: '/communities/sturgeon-bay' },
+    { label: 'All Communities', href: '/communities' },
+  ],
+  resources: [
+    { label: 'Trip Planner', href: '/trip-planner' },
+    { label: 'Maps', href: '/maps' },
+    { label: 'Weather', href: '/weather' },
+    { label: 'Getting Here', href: '/getting-here' },
+    { label: 'FAQs', href: '/faqs' },
+  ],
+  business: [
+    { label: 'List Your Business', href: 'https://doorcounty.io' },
+    { label: 'Advertise', href: '/advertise' },
+    { label: 'Partner With Us', href: '/partner' },
+  ],
+};
+---
+
+<footer class="bg-dc-lake-800 text-dc-sand-100">
+  <!-- Main Footer -->
+  <div class="container-wide section">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+      <!-- Brand Column -->
+      <div class="col-span-2 md:col-span-4 lg:col-span-1">
+        <a href="/" class="flex items-center gap-2 mb-4">
+          <div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xl text-white">Door County</span>
+            <span class="font-display text-xl text-dc-cherry-400">Visitor</span>
+          </div>
+        </a>
+        <p class="text-dc-sand-300 text-sm leading-relaxed mb-6">
+          Your complete guide to Wisconsin's beautiful Door County peninsula. Discover lodging, dining, attractions, and plan your perfect getaway.
+        </p>
+        <!-- Social Links -->
+        <div class="flex gap-4">
+          <a href="#" class="text-dc-sand-400 hover:text-white transition-colors" aria-label="Facebook">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.77 7.46H14.5v-1.9c0-.9.6-1.1 1-1.1h3V.5h-4.33C10.24.5 9.5 3.44 9.5 5.32v2.15h-3v4h3v12h5v-12h3.85l.42-4z"/>
+            </svg>
+          </a>
+          <a href="#" class="text-dc-sand-400 hover:text-white transition-colors" aria-label="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Explore Links -->
+      <div>
+        <h3 class="font-accent font-semibold text-white mb-4">Explore</h3>
+        <ul class="space-y-2">
+          {footerLinks.explore.map((link) => (
+            <li>
+              <a href={link.href} class="text-dc-sand-300 hover:text-white transition-colors text-sm">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Communities Links -->
+      <div>
+        <h3 class="font-accent font-semibold text-white mb-4">Communities</h3>
+        <ul class="space-y-2">
+          {footerLinks.communities.map((link) => (
+            <li>
+              <a href={link.href} class="text-dc-sand-300 hover:text-white transition-colors text-sm">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources Links -->
+      <div>
+        <h3 class="font-accent font-semibold text-white mb-4">Resources</h3>
+        <ul class="space-y-2">
+          {footerLinks.resources.map((link) => (
+            <li>
+              <a href={link.href} class="text-dc-sand-300 hover:text-white transition-colors text-sm">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Business Links -->
+      <div>
+        <h3 class="font-accent font-semibold text-white mb-4">For Business</h3>
+        <ul class="space-y-2">
+          {footerLinks.business.map((link) => (
+            <li>
+              <a href={link.href} class="text-dc-sand-300 hover:text-white transition-colors text-sm">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-dc-lake-700">
+    <div class="container-wide py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-dc-sand-400 text-sm">
+        © {currentYear} Door County Visitor. All rights reserved.
+      </p>
+      <div class="flex gap-6 text-sm">
+        <a href="/privacy" class="text-dc-sand-400 hover:text-white transition-colors">Privacy</a>
+        <a href="/terms" class="text-dc-sand-400 hover:text-white transition-colors">Terms</a>
+        <a href="/accessibility" class="text-dc-sand-400 hover:text-white transition-colors">Accessibility</a>
+      </div>
+    </div>
+  </div>
+</footer>
