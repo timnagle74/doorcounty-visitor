@@ -11,6 +11,9 @@ const description = "Find the perfect Door County lodging - from waterfront reso
 const lodgings = await getListings('door-county', { type: 'lodging' });
 const communities = await getCommunities('door-county');
 
+// Debug: log the counts
+console.log('Stay page - lodgings count:', lodgings.length, 'communities count:', communities.length);
+
 // Generate JSON-LD schemas for SEO/AEO
 const itemListSchema = generateItemListSchema(
   lodgings,
