@@ -81,24 +81,44 @@ export const POST: APIRoute = async ({ request }) => {
     console.log('GHL webhook received - full payload:', JSON.stringify(payload, null, 2));
 
     // Handle multiple GHL payload formats - they vary by trigger type
-    const contactId = payload.contact?.id || payload.id || payload.contact_id || payload.contactId;
+    // GHL uses different field names depending on the trigger/action
+    const p = payload as Record<string, unknown>;
+    const contactId = payload.contact?.id
+      || payload.id
+      || p['contact_id']
+      || p['contactId']
+      || (payload.location as Record<string, unknown>)?.id
+      || p['Contact Id']
+      || p['contact Id'];
+
+    // Debug: log all keys in the payload to help identify the correct field
+    const payloadKeys = Object.keys(payload);
+    console.log('GHL webhook - all payload keys:', payloadKeys);
+    console.log('GHL webhook - full payload:', JSON.stringify(payload, null, 2));
+
+    if (!contactId) {
+      console.log('No contact ID found in payload. Keys received:', payloadKeys);
+      // Return the keys we received so we can debug in GHL
+      return new Response(JSON.stringify({
+        success: true,
+        message: 'No contact ID in payload',
+        keysReceived: payloadKeys,
+        sampleData: {
+          email: payload.email,
+          first_name: payload.first_name,
+          firstName: payload.firstName,
+        }
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
     // Fetch current tags from GHL API (source of truth)
     // This ensures we always have the latest state, not stale webhook data
     const tags = await fetchGHLContactTags(contactId as string);
 
-    // Debug: log all keys in the payload
-    console.log('Payload keys:', Object.keys(payload));
-
     console.log('Extracted contactId:', contactId, 'tags:', tags);
-
-    if (!contactId) {
-      console.log('No contact ID found in payload');
-      return new Response(JSON.stringify({ success: true, message: 'No contact ID in payload' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
 
     const supabase = getSupabaseAdmin();
 
