@@ -5,6 +5,8 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 
+const GHL_API_BASE = 'https://services.leadconnectorhq.com';
+
 interface GHLWebhookPayload {
   type?: string;
   locationId?: string;
@@ -36,6 +38,40 @@ function getSupabaseAdmin() {
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
+/**
+ * Fetch current contact tags from GHL API
+ * This ensures we always have the latest state
+ */
+async function fetchGHLContactTags(contactId: string): Promise<string[]> {
+  const apiToken = import.meta.env.GHL_API_TOKEN;
+
+  if (!apiToken) {
+    console.error('GHL_API_TOKEN not configured');
+    return [];
+  }
+
+  try {
+    const response = await fetch(`${GHL_API_BASE}/contacts/${contactId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+        'Version': '2021-07-28',
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch GHL contact ${contactId}: ${response.status}`);
+      return [];
+    }
+
+    const data = await response.json();
+    return data.contact?.tags || [];
+  } catch (error) {
+    console.error('Error fetching GHL contact:', error);
+    return [];
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     // GHL sends webhooks with specific headers - verify if needed
@@ -46,7 +82,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Handle multiple GHL payload formats - they vary by trigger type
     const contactId = payload.contact?.id || payload.id || payload.contact_id || payload.contactId;
-    const tags = payload.contact?.tags || payload.tags || [];
+
+    // Fetch current tags from GHL API (source of truth)
+    // This ensures we always have the latest state, not stale webhook data
+    const tags = await fetchGHLContactTags(contactId as string);
 
     // Debug: log all keys in the payload
     console.log('Payload keys:', Object.keys(payload));
