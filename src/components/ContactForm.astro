@@ -1,0 +1,179 @@
+---
+// src/components/ContactForm.astro
+// Contact form component that submits to GHL via API
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["contact-form-wrapper", className]}>
+  <form id="contact-form" class="space-y-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="firstName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+          First Name <span class="text-dc-cherry-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          required
+          class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+          placeholder="John"
+        />
+      </div>
+      <div>
+        <label for="lastName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+          Last Name
+        </label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+          placeholder="Doe"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="email" class="block text-sm font-medium text-dc-lake-700 mb-1">
+        Email <span class="text-dc-cherry-500">*</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+        placeholder="john@example.com"
+      />
+    </div>
+
+    <div>
+      <label for="phone" class="block text-sm font-medium text-dc-lake-700 mb-1">
+        Phone
+      </label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+        placeholder="(555) 123-4567"
+      />
+    </div>
+
+    <div>
+      <label for="subject" class="block text-sm font-medium text-dc-lake-700 mb-1">
+        Subject
+      </label>
+      <select
+        id="subject"
+        name="subject"
+        class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+      >
+        <option value="general">General Inquiry</option>
+        <option value="trip">Trip Planning Help</option>
+        <option value="business">Business Inquiry</option>
+        <option value="feedback">Website Feedback</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="message" class="block text-sm font-medium text-dc-lake-700 mb-1">
+        Message <span class="text-dc-cherry-500">*</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        rows="4"
+        class="w-full px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors resize-none"
+        placeholder="How can we help you?"
+      ></textarea>
+    </div>
+
+    <div id="form-message" class="hidden p-4 rounded-lg text-sm"></div>
+
+    <button
+      type="submit"
+      id="submit-btn"
+      class="w-full sm:w-auto px-6 py-3 bg-dc-cherry-600 hover:bg-dc-cherry-700 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-dc-cherry-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      <span id="btn-text">Send Message</span>
+      <span id="btn-loading" class="hidden">
+        <svg class="animate-spin inline-block w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Sending...
+      </span>
+    </button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('btn-text') as HTMLSpanElement;
+  const btnLoading = document.getElementById('btn-loading') as HTMLSpanElement;
+  const formMessage = document.getElementById('form-message') as HTMLDivElement;
+
+  function showMessage(message: string, isError: boolean) {
+    formMessage.textContent = message;
+    formMessage.classList.remove('hidden', 'bg-dc-forest-100', 'text-dc-forest-800', 'bg-dc-cherry-100', 'text-dc-cherry-800');
+    if (isError) {
+      formMessage.classList.add('bg-dc-cherry-100', 'text-dc-cherry-800');
+    } else {
+      formMessage.classList.add('bg-dc-forest-100', 'text-dc-forest-800');
+    }
+  }
+
+  function setLoading(loading: boolean) {
+    submitBtn.disabled = loading;
+    btnText.classList.toggle('hidden', loading);
+    btnLoading.classList.toggle('hidden', !loading);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    formMessage.classList.add('hidden');
+
+    const formData = new FormData(form);
+    const data = {
+      type: 'contact' as const,
+      firstName: formData.get('firstName') as string,
+      lastName: formData.get('lastName') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string,
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        showMessage('Thank you! Your message has been sent. We\'ll be in touch soon.', false);
+        form.reset();
+      } else {
+        showMessage(result.error || 'Something went wrong. Please try again.', true);
+      }
+    } catch (error) {
+      showMessage('Unable to send message. Please try again later.', true);
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>

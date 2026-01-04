@@ -1,0 +1,143 @@
+---
+// src/components/NewsletterSignup.astro
+// Newsletter signup form component
+
+interface Props {
+  variant?: 'default' | 'compact' | 'footer';
+  class?: string;
+}
+
+const { variant = 'default', class: className } = Astro.props;
+
+const isCompact = variant === 'compact';
+const isFooter = variant === 'footer';
+---
+
+<div class:list={["newsletter-signup", className]} data-variant={variant}>
+  {!isCompact && !isFooter && (
+    <div class="mb-4">
+      <h3 class="text-xl font-display font-bold text-dc-lake-800">Stay in the Loop</h3>
+      <p class="text-dc-lake-600 mt-1">Get Door County tips, events, and exclusive offers delivered to your inbox.</p>
+    </div>
+  )}
+
+  {isFooter && (
+    <div class="mb-4">
+      <h3 class="font-accent font-semibold text-white mb-2">Newsletter</h3>
+      <p class="text-dc-sand-300 text-sm">Get the latest Door County updates.</p>
+    </div>
+  )}
+
+  <form class="newsletter-form" data-variant={variant}>
+    <div class:list={[
+      "flex gap-2",
+      isCompact || isFooter ? "flex-col sm:flex-row" : "flex-col sm:flex-row"
+    ]}>
+      {!isCompact && !isFooter && (
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First name (optional)"
+          class="flex-1 px-4 py-2 border border-dc-sand-300 rounded-lg focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500 transition-colors"
+        />
+      )}
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="Enter your email"
+        class:list={[
+          "flex-1 px-4 py-2 rounded-lg transition-colors",
+          isFooter
+            ? "bg-dc-lake-700 border border-dc-lake-600 text-white placeholder-dc-sand-400 focus:ring-2 focus:ring-dc-cherry-500 focus:border-dc-cherry-500"
+            : "border border-dc-sand-300 focus:ring-2 focus:ring-dc-lake-500 focus:border-dc-lake-500"
+        ]}
+      />
+      <button
+        type="submit"
+        class:list={[
+          "px-6 py-2 font-medium rounded-lg transition-colors focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap",
+          isFooter
+            ? "bg-dc-cherry-600 hover:bg-dc-cherry-700 text-white focus:ring-dc-cherry-500"
+            : "bg-dc-lake-600 hover:bg-dc-lake-700 text-white focus:ring-dc-lake-500"
+        ]}
+      >
+        <span class="btn-text">Subscribe</span>
+        <span class="btn-loading hidden">
+          <svg class="animate-spin inline-block w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <div class:list={[
+      "form-message hidden mt-2 p-2 rounded text-sm",
+      isFooter ? "text-dc-sand-300" : ""
+    ]}></div>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll('.newsletter-form').forEach((form) => {
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const btnText = form.querySelector('.btn-text') as HTMLSpanElement;
+    const btnLoading = form.querySelector('.btn-loading') as HTMLSpanElement;
+    const formMessage = form.querySelector('.form-message') as HTMLDivElement;
+    const variant = form.getAttribute('data-variant');
+    const isFooter = variant === 'footer';
+
+    function showMessage(message: string, isError: boolean) {
+      formMessage.textContent = message;
+      formMessage.classList.remove('hidden', 'bg-dc-forest-100', 'text-dc-forest-800', 'bg-dc-cherry-100', 'text-dc-cherry-800', 'text-dc-forest-400', 'text-dc-cherry-400');
+
+      if (isFooter) {
+        formMessage.classList.add(isError ? 'text-dc-cherry-400' : 'text-dc-forest-400');
+      } else {
+        formMessage.classList.add(isError ? 'bg-dc-cherry-100' : 'bg-dc-forest-100');
+        formMessage.classList.add(isError ? 'text-dc-cherry-800' : 'text-dc-forest-800');
+      }
+    }
+
+    function setLoading(loading: boolean) {
+      submitBtn.disabled = loading;
+      btnText.classList.toggle('hidden', loading);
+      btnLoading.classList.toggle('hidden', !loading);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      formMessage.classList.add('hidden');
+
+      const formData = new FormData(form as HTMLFormElement);
+      const data = {
+        type: 'newsletter' as const,
+        email: formData.get('email') as string,
+        firstName: formData.get('firstName') as string || undefined,
+      };
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showMessage('Thanks for subscribing! Check your inbox for updates.', false);
+          (form as HTMLFormElement).reset();
+        } else {
+          showMessage(result.error || 'Something went wrong. Please try again.', true);
+        }
+      } catch (error) {
+        showMessage('Unable to subscribe. Please try again later.', true);
+      } finally {
+        setLoading(false);
+      }
+    });
+  });
+</script>

@@ -1,6 +1,8 @@
 // src/lib/schema.ts
 // JSON-LD schema generation utilities
 
+import type { Listing } from './supabase';
+
 const SITE_URL = 'https://doorcountyvisitor.com';
 
 /**
@@ -438,4 +440,226 @@ export function generateFAQSchema(
       },
     })),
   };
+}
+
+/**
+ * Generate ItemList schema for directory pages (AEO optimization)
+ */
+export function generateItemListSchema(
+  listings: Listing[],
+  category: 'eat' | 'stay' | 'do' | 'shop',
+  listName: string
+): object {
+  const categoryLabels: Record<string, string> = {
+    eat: 'Restaurants',
+    stay: 'Places to Stay',
+    do: 'Things to Do',
+    shop: 'Shops',
+  };
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: listName || `${categoryLabels[category]} in Door County`,
+    description: `Directory of ${categoryLabels[category].toLowerCase()} in Door County, Wisconsin`,
+    numberOfItems: listings.length,
+    itemListElement: listings.slice(0, 20).map((listing, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': getSchemaType(listing.type),
+        '@id': `${SITE_URL}/${category}/${listing.slug}`,
+        name: listing.name,
+        description: listing.description_short,
+        url: `${SITE_URL}/${category}/${listing.slug}`,
+        ...(listing.image_primary && { image: listing.image_primary }),
+        ...(listing.rating_aggregate && {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: listing.rating_aggregate,
+            reviewCount: listing.rating_count || 0,
+          },
+        }),
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: listing.city,
+          addressRegion: listing.state || 'WI',
+          addressCountry: 'US',
+        },
+      },
+    })),
+  };
+}
+
+/**
+ * Generate schema from Supabase Listing format
+ */
+export function generateListingSchemaFromSupabase(listing: Listing, category: string): object {
+  const pageUrl = `${SITE_URL}/${category}/${listing.slug}`;
+  const schemaType = getSchemaType(listing.type);
+
+  const base: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': schemaType,
+    '@id': `${pageUrl}/#business`,
+    name: listing.name,
+    description: listing.description_full || listing.description_short,
+    url: pageUrl,
+  };
+
+  // Image
+  if (listing.image_primary) {
+    base.image = listing.image_gallery?.length
+      ? [listing.image_primary, ...listing.image_gallery]
+      : listing.image_primary;
+  }
+
+  // Contact
+  if (listing.phone) base.telephone = listing.phone;
+  if (listing.email) base.email = listing.email;
+
+  // Address
+  if (listing.address || listing.city) {
+    base.address = {
+      '@type': 'PostalAddress',
+      ...(listing.address && { streetAddress: listing.address }),
+      addressLocality: listing.city,
+      addressRegion: listing.state || 'WI',
+      ...(listing.zip && { postalCode: listing.zip }),
+      addressCountry: 'US',
+    };
+  }
+
+  // Coordinates
+  if (listing.latitude && listing.longitude) {
+    base.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: listing.latitude,
+      longitude: listing.longitude,
+    };
+  }
+
+  // Ratings
+  if (listing.rating_aggregate && listing.rating_count) {
+    base.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: listing.rating_aggregate,
+      reviewCount: listing.rating_count,
+      bestRating: '5',
+      worstRating: '1',
+    };
+  }
+
+  // Social links
+  const sameAs: string[] = [];
+  if (listing.social_facebook) sameAs.push(listing.social_facebook);
+  if (listing.social_instagram) sameAs.push(listing.social_instagram);
+  if (listing.social_tripadvisor) sameAs.push(listing.social_tripadvisor);
+  if (listing.website) sameAs.push(listing.website);
+  if (sameAs.length > 0) base.sameAs = sameAs;
+
+  // Restaurant-specific
+  if (listing.restaurant_data) {
+    if (listing.restaurant_data.cuisines) {
+      base.servesCuisine = listing.restaurant_data.cuisines;
+    }
+    if (listing.restaurant_data.priceRange) {
+      base.priceRange = listing.restaurant_data.priceRange;
+    }
+    if (listing.restaurant_data.acceptsReservations !== undefined) {
+      base.acceptsReservations = listing.restaurant_data.acceptsReservations;
+    }
+    if (listing.restaurant_data.menuUrl) {
+      base.menu = listing.restaurant_data.menuUrl;
+    }
+  }
+
+  // Lodging-specific
+  if (listing.lodging_data) {
+    if (listing.lodging_data.roomCount) {
+      base.numberOfRooms = listing.lodging_data.roomCount;
+    }
+    if (listing.lodging_data.priceRange) {
+      base.priceRange = listing.lodging_data.priceRange;
+    }
+    if (listing.lodging_data.amenities?.length) {
+      base.amenityFeature = listing.lodging_data.amenities.map(a => ({
+        '@type': 'LocationFeatureSpecification',
+        name: a,
+        value: true,
+      }));
+    }
+  }
+
+  // Opening hours
+  if (listing.hours) {
+    const specs = generateOpeningHoursFromJson(listing.hours);
+    if (specs) base.openingHoursSpecification = specs;
+  }
+
+  return base;
+}
+
+/**
+ * Helper to get Schema.org type from internal type
+ */
+function getSchemaType(type: string): string {
+  const map: Record<string, string> = {
+    restaurant: 'Restaurant',
+    lodging_resort: 'Resort',
+    lodging_hotel: 'Hotel',
+    lodging_bnb: 'BedAndBreakfast',
+    lodging_cabin: 'LodgingBusiness',
+    lodging_vacation_rental: 'LodgingBusiness',
+    campground: 'Campground',
+    park: 'Park',
+    attraction: 'TouristAttraction',
+    activity: 'TouristAttraction',
+    museum: 'Museum',
+    gallery: 'ArtGallery',
+    winery: 'Winery',
+    shop: 'Store',
+    boutique: 'Store',
+    gift_shop: 'Store',
+  };
+  return map[type] || 'LocalBusiness';
+}
+
+/**
+ * Generate opening hours from JSONB hours field
+ */
+function generateOpeningHoursFromJson(hours: Record<string, string>): object[] | undefined {
+  const dayMapping: Record<string, string> = {
+    monday: 'Monday',
+    tuesday: 'Tuesday',
+    wednesday: 'Wednesday',
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday',
+    sunday: 'Sunday',
+  };
+
+  const specs: object[] = [];
+
+  for (const [day, value] of Object.entries(hours)) {
+    if (day === 'notes' || !value || value.toLowerCase() === 'closed') continue;
+
+    const schemaDay = dayMapping[day];
+    if (!schemaDay) continue;
+
+    const match = value.match(/(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)/i);
+    if (match) {
+      const opens = convertTo24Hour(match[1]);
+      const closes = convertTo24Hour(match[2]);
+
+      specs.push({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: schemaDay,
+        opens,
+        closes,
+      });
+    }
+  }
+
+  return specs.length > 0 ? specs : undefined;
 }

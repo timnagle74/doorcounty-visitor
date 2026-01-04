@@ -1,0 +1,152 @@
+---
+// src/pages/privacy.astro
+// Privacy Policy page
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Privacy Policy | Door County Visitor';
+const description = 'Privacy Policy for the Door County Visitor website. Learn how we collect, use, and protect your information.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="container-narrow">
+      <h1 class="text-4xl font-display font-bold text-dc-lake-800 mb-8">Privacy Policy</h1>
+
+      <div class="prose prose-lg max-w-none text-dc-lake-700">
+        <p class="text-sm text-dc-lake-500 mb-8">Last updated: January 3, 2026</p>
+
+        <h2>1. Introduction</h2>
+        <p>
+          doorcounty.io ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+        </p>
+
+        <h2>2. Information We Collect</h2>
+
+        <h3>Information You Provide</h3>
+        <p>We collect information you voluntarily provide, including:</p>
+        <ul>
+          <li><strong>Contact Information:</strong> Name, email address, phone number</li>
+          <li><strong>Business Information:</strong> Business name, address, and details (for listing claims)</li>
+          <li><strong>Communications:</strong> Messages sent through contact forms</li>
+          <li><strong>Consent Records:</strong> Your consent preferences for SMS and email communications</li>
+        </ul>
+
+        <h3>Information Collected Automatically</h3>
+        <p>When you visit our Site, we may automatically collect:</p>
+        <ul>
+          <li>IP address and location data</li>
+          <li>Browser type and version</li>
+          <li>Pages visited and time spent</li>
+          <li>Referring website</li>
+          <li>Device information</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>We use collected information to:</p>
+        <ul>
+          <li>Provide and improve our services</li>
+          <li>Process listing claims and verify business ownership</li>
+          <li>Send newsletters and promotional communications (with consent)</li>
+          <li>Send SMS messages regarding your account or listing (with consent)</li>
+          <li>Respond to inquiries and provide customer support</li>
+          <li>Analyze site usage and improve user experience</li>
+          <li>Comply with legal obligations</li>
+        </ul>
+
+        <h2>4. SMS Communications</h2>
+        <p>
+          If you provide your phone number and consent to SMS communications:
+        </p>
+        <ul>
+          <li>We will send text messages related to your listing claim or account</li>
+          <li>Message frequency varies based on your interactions</li>
+          <li>Message and data rates may apply</li>
+          <li>You can opt out at any time by replying STOP</li>
+          <li>For help, reply HELP or contact us at hello@doorcounty.io</li>
+        </ul>
+        <p>
+          We do not sell or share your phone number with third parties for their marketing purposes.
+        </p>
+
+        <h2>5. Information Sharing</h2>
+        <p>We may share your information with:</p>
+        <ul>
+          <li><strong>Service Providers:</strong> Third-party vendors who help us operate our business (hosting, email, CRM)</li>
+          <li><strong>Legal Requirements:</strong> When required by law or to protect our rights</li>
+          <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
+        </ul>
+        <p>We do not sell your personal information to third parties.</p>
+
+        <h2>6. Data Security</h2>
+        <p>
+          We implement appropriate technical and organizational measures to protect your information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.
+        </p>
+
+        <h2>7. Your Rights</h2>
+        <p>Depending on your location, you may have the right to:</p>
+        <ul>
+          <li>Access the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your information</li>
+          <li>Opt out of marketing communications</li>
+          <li>Withdraw consent for SMS communications</li>
+        </ul>
+        <p>
+          To exercise these rights, contact us at <a href="mailto:hello@doorcounty.io" class="text-dc-cherry-600 hover:underline">hello@doorcounty.io</a>.
+        </p>
+
+        <h2>8. Cookies and Tracking</h2>
+        <p>
+          We use cookies and similar technologies to enhance your experience, analyze site traffic, and understand user behavior. You can control cookies through your browser settings.
+        </p>
+
+        <h2>9. Third-Party Links</h2>
+        <p>
+          Our Site may contain links to third-party websites. We are not responsible for the privacy practices of these sites. We encourage you to review their privacy policies.
+        </p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>
+          Our Site is not intended for children under 13. We do not knowingly collect personal information from children under 13. If you believe we have collected such information, please contact us immediately.
+        </p>
+
+        <h2>11. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.
+        </p>
+
+        <h2>12. Contact Us</h2>
+        <p>
+          If you have questions about this Privacy Policy or our data practices, please contact us:
+        </p>
+        <p>
+          <strong>doorcounty.io</strong><br>
+          Email: <a href="mailto:hello@doorcounty.io" class="text-dc-cherry-600 hover:underline">hello@doorcounty.io</a>
+        </p>
+
+        <div class="mt-8 p-6 bg-dc-sand-50 rounded-xl">
+          <h3 class="text-lg font-display font-bold text-dc-lake-800 mb-2">SMS Opt-Out</h3>
+          <p class="text-dc-lake-600 mb-0">
+            To stop receiving SMS messages from doorcounty.io, reply <strong>STOP</strong> to any text message. You will receive a confirmation message and will no longer receive SMS communications from us.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    @apply text-2xl font-display font-bold text-dc-lake-800 mt-8 mb-4;
+  }
+  .prose h3 {
+    @apply text-xl font-display font-semibold text-dc-lake-700 mt-6 mb-3;
+  }
+  .prose p {
+    @apply mb-4;
+  }
+  .prose ul {
+    @apply list-disc pl-6 mb-4 space-y-2;
+  }
+</style>

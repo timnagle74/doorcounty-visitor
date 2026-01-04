@@ -1,0 +1,379 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { getListings, getCommunities } from '../../lib/supabase';
+import { generateItemListSchema, generateBreadcrumbSchema } from '../../lib/schema';
+
+const title = "Restaurants, Cafes, Breweries & More | Where to Eat & Drink in Door County";
+const description = "Discover the best restaurants, fish boils, cafés, breweries, bakeries, and dining experiences in Door County, Wisconsin. From waterfront fine dining to local coffee shops.";
+
+// Fetch from Supabase
+const restaurants = await getListings('door-county', { type: 'restaurant' });
+const communities = await getCommunities('door-county');
+
+// Generate JSON-LD schemas for SEO/AEO
+const itemListSchema = generateItemListSchema(
+  restaurants,
+  'eat',
+  'Door County Restaurants & Dining'
+);
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Where to Eat', url: 'https://doorcountyvisitor.com/eat' },
+]);
+---
+
+<BaseLayout title={title} description={description} schema={[itemListSchema, breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-dc-lake-600 to-dc-lake-800 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-10"></div>
+    <div class="container-wide relative">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3 animate-fade-in">Explore Door County</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 animate-slide-up">
+          Where to <span class="text-dc-cherry-400">Eat</span>
+        </h1>
+        <p class="text-xl text-dc-lake-100 mb-8 animate-slide-up animation-delay-100">
+          From legendary fish boils to waterfront fine dining, local breweries to cozy cafés. Door County serves up unforgettable culinary experiences for every taste.
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="flex flex-wrap gap-6 animate-slide-up animation-delay-200">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">{restaurants.length}</span>
+            <span class="text-dc-lake-200 text-sm">Places</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">{restaurants.filter(r => r.subcategories?.includes('brewery') || r.subcategories?.includes('winery')).length}</span>
+            <span class="text-dc-lake-200 text-sm">Breweries & Wineries</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">{restaurants.filter(r => r.subcategories?.includes('cafe') || r.subcategories?.includes('bakery')).length}</span>
+            <span class="text-dc-lake-200 text-sm">Cafés & Bakeries</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="sticky top-16 z-30 bg-white border-b border-dc-sand-200 shadow-sm">
+    <div class="container-wide py-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Community Filter -->
+        <div class="relative">
+          <select
+            id="community-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Communities</option>
+            {communities.map(community => (
+              <option value={community.slug}>{community.name}</option>
+            ))}
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Type Filter -->
+        <div class="relative">
+          <select
+            id="type-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Types</option>
+            <optgroup label="Dining">
+              <option value="fish_boil">Fish Boil</option>
+              <option value="fine_dining">Fine Dining</option>
+              <option value="supper_club">Supper Club</option>
+              <option value="waterfront">Waterfront</option>
+              <option value="breakfast">Breakfast & Brunch</option>
+              <option value="pizza">Pizza</option>
+            </optgroup>
+            <optgroup label="Drinks & Treats">
+              <option value="cafe">Coffee & Café</option>
+              <option value="brewery">Brewery</option>
+              <option value="winery">Winery</option>
+            </optgroup>
+            <optgroup label="Quick Bites">
+              <option value="bakery">Bakery</option>
+              <option value="ice_cream">Ice Cream</option>
+              <option value="deli">Deli & Sandwiches</option>
+            </optgroup>
+            <optgroup label="Cuisine">
+              <option value="american">American</option>
+              <option value="italian">Italian</option>
+              <option value="mexican">Mexican</option>
+              <option value="asian">Asian</option>
+            </optgroup>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="relative">
+          <select
+            id="price-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">Any Price</option>
+            <option value="$">$ - Budget</option>
+            <option value="$$">$$ - Moderate</option>
+            <option value="$$$">$$$ - Upscale</option>
+            <option value="$$$$">$$$$ - Fine Dining</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Fish Boil Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 hover:border-dc-lake-400">
+          <input type="checkbox" id="fish-boil-filter" class="w-4 h-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500" />
+          <span class="text-dc-lake-700 text-sm font-medium">Fish Boil Only</span>
+        </label>
+
+        <!-- Clear Filters -->
+        <button
+          id="clear-filters"
+          class="text-sm text-dc-lake-500 hover:text-dc-cherry-600 font-medium hidden"
+        >
+          Clear filters
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings Grid -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <!-- Results Count -->
+      <div class="flex items-center justify-between mb-8">
+        <p class="text-dc-lake-600">
+          Showing <span id="results-count" class="font-semibold text-dc-lake-800">{restaurants.length}</span> restaurants
+        </p>
+        <div class="relative">
+          <select
+            id="sort-select"
+            class="appearance-none bg-white border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500"
+          >
+            <option value="featured">Featured First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="name">Name A-Z</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {restaurants.map((listing, index) => (
+          <div
+            class="animate-fade-in"
+            style={`animation-delay: ${Math.min(index * 50, 300)}ms`}
+            data-listing
+            data-community={listing.city?.toLowerCase().replace(' ', '-')}
+            data-subcategories={listing.subcategories?.join(',')}
+            data-price={listing.restaurant_data?.priceRange}
+            data-fish-boil={listing.restaurant_data?.hasFishBoil}
+            data-rating={listing.rating_aggregate}
+            data-tier={listing.tier}
+            data-name={listing.name}
+          >
+            <ListingCard listing={listing} category="eat" />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16">
+        <svg class="w-16 h-16 text-dc-sand-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-xl font-display font-semibold text-dc-lake-800 mb-2">No restaurants found</h3>
+        <p class="text-dc-lake-600 mb-4">Try adjusting your filters to find what you're looking for.</p>
+        <button id="reset-filters" class="btn-primary">Clear All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fish Boil Highlight -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">
+            The Door County Fish Boil Experience
+          </h2>
+          <p class="text-cherry-100 text-lg mb-6">
+            No visit to Door County is complete without experiencing a traditional fish boil. Watch as locally-caught whitefish, potatoes, and onions are cooked in a massive pot over an open fire, culminating in the dramatic "boilover" finale.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Fresh Lake Michigan whitefish</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Spectacular boilover finale</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Door County cherry pie for dessert</span>
+            </li>
+          </ul>
+          <a href="/eat?filter=fish_boil" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">
+            Find Fish Boil Restaurants
+          </a>
+        </div>
+        <div class="relative">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-dc-cherry-700">
+            <img
+              src="/images/fish-boil.jpg"
+              alt="Traditional Door County fish boil with flames"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Community -->
+  <section class="section">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Dine by Community
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Each Door County village has its own culinary personality. Explore restaurants by location.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {communities.slice(0, 8).map(community => (
+          <a
+            href={`/eat?community=${community.slug}`}
+            class="group relative aspect-[3/2] rounded-lg overflow-hidden bg-dc-lake-800"
+          >
+            <img
+              src={community.image_url || `/images/communities/${community.slug}.jpg`}
+              alt={community.name}
+              class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dc-lake-900/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+              <h3 class="font-display font-semibold text-white text-lg">{community.name}</h3>
+              <p class="text-dc-sand-300 text-sm">{community.tagline}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filter functionality
+  const communityFilter = document.getElementById('community-filter') as HTMLSelectElement;
+  const typeFilter = document.getElementById('type-filter') as HTMLSelectElement;
+  const priceFilter = document.getElementById('price-filter') as HTMLSelectElement;
+  const fishBoilFilter = document.getElementById('fish-boil-filter') as HTMLInputElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const clearFiltersBtn = document.getElementById('clear-filters');
+  const resetFiltersBtn = document.getElementById('reset-filters');
+  const resultsCount = document.getElementById('results-count');
+  const listingsGrid = document.getElementById('listings-grid');
+  const emptyState = document.getElementById('empty-state');
+
+  function applyFilters() {
+    const community = communityFilter?.value || '';
+    const type = typeFilter?.value || '';
+    const price = priceFilter?.value || '';
+    const fishBoilOnly = fishBoilFilter?.checked || false;
+    const sort = sortSelect?.value || 'featured';
+
+    const listings = Array.from(document.querySelectorAll('[data-listing]')) as HTMLElement[];
+    let visibleCount = 0;
+
+    // Filter
+    listings.forEach(listing => {
+      const matchesCommunity = !community || listing.dataset.community?.replace('_', '-') === community;
+      const matchesType = !type || listing.dataset.subcategories?.includes(type);
+      const matchesPrice = !price || listing.dataset.price === price;
+      const matchesFishBoil = !fishBoilOnly || listing.dataset.fishBoil === 'true';
+
+      const isVisible = matchesCommunity && matchesType && matchesPrice && matchesFishBoil;
+      listing.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    // Sort visible listings
+    const visibleListings = listings.filter(l => l.style.display !== 'none');
+    visibleListings.sort((a, b) => {
+      if (sort === 'rating') {
+        return (parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0'));
+      } else if (sort === 'name') {
+        return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      } else {
+        // Featured first
+        const tierOrder: Record<string, number> = { featured: 0, verified: 1, free: 2 };
+        return (tierOrder[a.dataset.tier || 'free'] || 2) - (tierOrder[b.dataset.tier || 'free'] || 2);
+      }
+    });
+
+    // Reorder in DOM
+    visibleListings.forEach(listing => listingsGrid?.appendChild(listing));
+
+    // Update count and show/hide states
+    if (resultsCount) resultsCount.textContent = visibleCount.toString();
+    if (emptyState) emptyState.classList.toggle('hidden', visibleCount > 0);
+    if (listingsGrid) listingsGrid.classList.toggle('hidden', visibleCount === 0);
+
+    // Show/hide clear button
+    const hasFilters = community || type || price || fishBoilOnly;
+    if (clearFiltersBtn) clearFiltersBtn.classList.toggle('hidden', !hasFilters);
+  }
+
+  function clearAllFilters() {
+    if (communityFilter) communityFilter.value = '';
+    if (typeFilter) typeFilter.value = '';
+    if (priceFilter) priceFilter.value = '';
+    if (fishBoilFilter) fishBoilFilter.checked = false;
+    applyFilters();
+  }
+
+  // Event listeners
+  communityFilter?.addEventListener('change', applyFilters);
+  typeFilter?.addEventListener('change', applyFilters);
+  priceFilter?.addEventListener('change', applyFilters);
+  fishBoilFilter?.addEventListener('change', applyFilters);
+  sortSelect?.addEventListener('change', applyFilters);
+  clearFiltersBtn?.addEventListener('click', clearAllFilters);
+  resetFiltersBtn?.addEventListener('click', clearAllFilters);
+
+  // Check URL params on load
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('community') && communityFilter) {
+    communityFilter.value = params.get('community') || '';
+  }
+  if (params.get('filter') && typeFilter) {
+    typeFilter.value = params.get('filter') || '';
+  }
+  applyFilters();
+</script>

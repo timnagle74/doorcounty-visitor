@@ -1,0 +1,119 @@
+---
+// src/pages/terms.astro
+// Terms and Conditions page
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Terms & Conditions | Door County Visitor';
+const description = 'Terms and Conditions for using the Door County Visitor website and services.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section">
+    <div class="container-narrow">
+      <h1 class="text-4xl font-display font-bold text-dc-lake-800 mb-8">Terms & Conditions</h1>
+
+      <div class="prose prose-lg max-w-none text-dc-lake-700">
+        <p class="text-sm text-dc-lake-500 mb-8">Last updated: January 3, 2026</p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By accessing and using the doorcounty.io website ("Site"), you agree to be bound by these Terms & Conditions ("Terms"). If you do not agree to these Terms, please do not use the Site.
+        </p>
+
+        <h2>2. Use of the Site</h2>
+        <p>
+          The Site provides information about businesses, attractions, restaurants, lodging, and activities in Door County, Wisconsin. You may use the Site for personal, non-commercial purposes only.
+        </p>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Use the Site for any unlawful purpose</li>
+          <li>Attempt to gain unauthorized access to any portion of the Site</li>
+          <li>Use automated systems to access the Site without permission</li>
+          <li>Interfere with or disrupt the Site's functionality</li>
+          <li>Copy, reproduce, or redistribute content without permission</li>
+        </ul>
+
+        <h2>3. Business Listings</h2>
+        <p>
+          Business listings on the Site are provided for informational purposes. While we strive to maintain accurate information, we do not guarantee the accuracy, completeness, or timeliness of any listing information.
+        </p>
+        <p>
+          Business owners may claim and manage their listings by submitting a claim request. We reserve the right to verify ownership and approve or deny any claim at our discretion.
+        </p>
+
+        <h2>4. User Submissions</h2>
+        <p>
+          By submitting information through our forms (contact forms, newsletter signups, listing claims), you grant us permission to use that information in accordance with our <a href="/privacy" class="text-dc-cherry-600 hover:underline">Privacy Policy</a>.
+        </p>
+
+        <h2>5. SMS Communications</h2>
+        <p>
+          By providing your phone number and consenting to SMS communications, you agree to receive text messages from doorcounty.io. Message and data rates may apply. You can opt out at any time by replying STOP to any message.
+        </p>
+        <p>SMS messages may include:</p>
+        <ul>
+          <li>Updates regarding your listing claim request</li>
+          <li>Important notifications about your business listing</li>
+          <li>Promotional information (if opted in)</li>
+        </ul>
+
+        <h2>6. Intellectual Property</h2>
+        <p>
+          All content on the Site, including text, graphics, logos, images, and software, is the property of doorcounty.io or its content suppliers and is protected by copyright and other intellectual property laws.
+        </p>
+
+        <h2>7. Third-Party Links</h2>
+        <p>
+          The Site may contain links to third-party websites. We are not responsible for the content, accuracy, or practices of any third-party sites. Visiting linked sites is at your own risk.
+        </p>
+
+        <h2>8. Disclaimer of Warranties</h2>
+        <p>
+          THE SITE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE DO NOT WARRANT THAT THE SITE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.
+        </p>
+
+        <h2>9. Limitation of Liability</h2>
+        <p>
+          TO THE FULLEST EXTENT PERMITTED BY LAW, DOORCOUNTY.IO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE SITE.
+        </p>
+
+        <h2>10. Indemnification</h2>
+        <p>
+          You agree to indemnify and hold harmless doorcounty.io, its officers, directors, employees, and agents from any claims, damages, losses, or expenses arising from your use of the Site or violation of these Terms.
+        </p>
+
+        <h2>11. Changes to Terms</h2>
+        <p>
+          We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting to the Site. Your continued use of the Site after any changes constitutes acceptance of the new Terms.
+        </p>
+
+        <h2>12. Governing Law</h2>
+        <p>
+          These Terms shall be governed by and construed in accordance with the laws of the State of Wisconsin, without regard to its conflict of law provisions.
+        </p>
+
+        <h2>13. Contact Us</h2>
+        <p>
+          If you have questions about these Terms, please contact us at:
+        </p>
+        <p>
+          <strong>doorcounty.io</strong><br>
+          Email: <a href="mailto:hello@doorcounty.io" class="text-dc-cherry-600 hover:underline">hello@doorcounty.io</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    @apply text-2xl font-display font-bold text-dc-lake-800 mt-8 mb-4;
+  }
+  .prose p {
+    @apply mb-4;
+  }
+  .prose ul {
+    @apply list-disc pl-6 mb-4 space-y-2;
+  }
+</style>
