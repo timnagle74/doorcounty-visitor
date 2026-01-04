@@ -1,0 +1,390 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { getListings, getCommunities } from '../../lib/supabase';
+import { generateItemListSchema, generateBreadcrumbSchema } from '../../lib/schema';
+
+const title = "Places to Stay in Door County | Hotels, Resorts & Rentals";
+const description = "Find the perfect Door County lodging - from waterfront resorts and cozy B&Bs to vacation rentals and campgrounds. Book your Wisconsin getaway.";
+
+// Fetch from Supabase - 'lodging' is the main type in our database
+const lodgings = await getListings('door-county', { type: 'lodging' });
+const communities = await getCommunities('door-county');
+
+// Generate JSON-LD schemas for SEO/AEO
+const itemListSchema = generateItemListSchema(
+  lodgings,
+  'stay',
+  'Door County Lodging & Accommodations'
+);
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Where to Stay', url: 'https://doorcountyvisitor.com/stay' },
+]);
+---
+
+<BaseLayout title={title} description={description} schema={[itemListSchema, breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-dc-forest-600 to-dc-forest-800 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-[url('/images/pattern-trees.svg')] opacity-10"></div>
+    <div class="container-wide relative">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3 animate-fade-in">Explore Door County</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 animate-slide-up">
+          Where to <span class="text-dc-cherry-400">Stay</span>
+        </h1>
+        <p class="text-xl text-dc-forest-100 mb-8 animate-slide-up animation-delay-100">
+          From lakefront resorts to charming bed & breakfasts, find your perfect Door County retreat. Wake up to stunning water views, cozy fireplaces, and small-town tranquility.
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="flex flex-wrap gap-6 animate-slide-up animation-delay-200">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">300+</span>
+            <span class="text-dc-forest-200 text-sm">Lodging Options</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">1,500+</span>
+            <span class="text-dc-forest-200 text-sm">Vacation Rentals</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">5</span>
+            <span class="text-dc-forest-200 text-sm">State Park Campgrounds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lodging Type Cards -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Find Your Style
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Door County offers accommodations for every preference and budget.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <a href="/stay?type=lodging_resort" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">Resorts</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Full amenities</p>
+        </a>
+
+        <a href="/stay?type=lodging_hotel" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">Hotels</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Classic comfort</p>
+        </a>
+
+        <a href="/stay?type=lodging_bnb" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">B&Bs</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Cozy & charming</p>
+        </a>
+
+        <a href="/stay?type=lodging_cabin" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">Cabins</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Rustic retreats</p>
+        </a>
+
+        <a href="/stay?type=lodging_vacation_rental" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">Rentals</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Home away</p>
+        </a>
+
+        <a href="/stay?type=campground" class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-lake-50 hover:shadow-lg transition-all">
+          <div class="w-12 h-12 mx-auto mb-3 bg-dc-lake-100 rounded-full flex items-center justify-center group-hover:bg-dc-lake-200 transition-colors">
+            <svg class="w-6 h-6 text-dc-lake-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-dc-lake-800">Camping</h3>
+          <p class="text-sm text-dc-lake-500 mt-1">Under the stars</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="sticky top-16 z-30 bg-white border-b border-dc-sand-200 shadow-sm">
+    <div class="container-wide py-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Community Filter -->
+        <div class="relative">
+          <select
+            id="community-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Communities</option>
+            {communities.map(community => (
+              <option value={community.slug}>{community.name}</option>
+            ))}
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Type Filter -->
+        <div class="relative">
+          <select
+            id="type-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Types</option>
+            <option value="lodging_resort">Resorts</option>
+            <option value="lodging_hotel">Hotels</option>
+            <option value="lodging_bnb">B&Bs</option>
+            <option value="lodging_cabin">Cabins</option>
+            <option value="lodging_vacation_rental">Vacation Rentals</option>
+            <option value="campground">Campgrounds</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Amenities Filter -->
+        <div class="relative">
+          <select
+            id="amenity-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">Any Amenities</option>
+            <option value="pool">Pool</option>
+            <option value="waterfront">Waterfront</option>
+            <option value="pet-friendly">Pet Friendly</option>
+            <option value="fireplace">Fireplace</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="hot-tub">Hot Tub</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Waterfront Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 hover:border-dc-lake-400">
+          <input type="checkbox" id="waterfront-filter" class="w-4 h-4 rounded border-dc-sand-300 text-dc-lake-500 focus:ring-dc-lake-500" />
+          <span class="text-dc-lake-700 text-sm font-medium">Waterfront Only</span>
+        </label>
+
+        <!-- Clear Filters -->
+        <button
+          id="clear-filters"
+          class="text-sm text-dc-lake-500 hover:text-dc-cherry-600 font-medium hidden"
+        >
+          Clear filters
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings Grid -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <!-- Results Count -->
+      <div class="flex items-center justify-between mb-8">
+        <p class="text-dc-lake-600">
+          Showing <span id="results-count" class="font-semibold text-dc-lake-800">{lodgings.length}</span> places to stay
+        </p>
+        <div class="relative">
+          <select
+            id="sort-select"
+            class="appearance-none bg-white border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500"
+          >
+            <option value="featured">Featured First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="name">Name A-Z</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {lodgings.map((listing, index) => (
+          <div
+            class="animate-fade-in"
+            style={`animation-delay: ${Math.min(index * 50, 300)}ms`}
+            data-listing
+            data-community={listing.city?.toLowerCase().replace(' ', '-')}
+            data-type={listing.type}
+            data-subcategories={listing.subcategories?.join(',')}
+            data-amenities={listing.lodging_data?.amenities?.join(',').toLowerCase()}
+            data-rating={listing.rating_aggregate}
+            data-tier={listing.tier}
+            data-name={listing.name}
+          >
+            <ListingCard listing={listing} category="stay" />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16">
+        <svg class="w-16 h-16 text-dc-sand-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-xl font-display font-semibold text-dc-lake-800 mb-2">No lodging found</h3>
+        <p class="text-dc-lake-600 mb-4">Try adjusting your filters to find what you're looking for.</p>
+        <button id="reset-filters" class="btn-primary">Clear All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Community -->
+  <section class="section">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Stay by Community
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Each Door County village offers a unique atmosphere. Find the perfect home base for your adventure.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {communities.slice(0, 8).map(community => (
+          <a
+            href={`/stay?community=${community.slug}`}
+            class="group relative aspect-[3/2] rounded-lg overflow-hidden bg-dc-forest-800"
+          >
+            <img
+              src={community.image_url || `/images/communities/${community.slug}.jpg`}
+              alt={community.name}
+              class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dc-forest-900/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+              <h3 class="font-display font-semibold text-white text-lg">{community.name}</h3>
+              <p class="text-dc-sand-300 text-sm">{community.tagline}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filter functionality
+  const communityFilter = document.getElementById('community-filter') as HTMLSelectElement;
+  const typeFilter = document.getElementById('type-filter') as HTMLSelectElement;
+  const amenityFilter = document.getElementById('amenity-filter') as HTMLSelectElement;
+  const waterfrontFilter = document.getElementById('waterfront-filter') as HTMLInputElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const clearFiltersBtn = document.getElementById('clear-filters');
+  const resetFiltersBtn = document.getElementById('reset-filters');
+  const resultsCount = document.getElementById('results-count');
+  const listingsGrid = document.getElementById('listings-grid');
+  const emptyState = document.getElementById('empty-state');
+
+  function applyFilters() {
+    const community = communityFilter?.value || '';
+    const type = typeFilter?.value || '';
+    const amenity = amenityFilter?.value || '';
+    const waterfrontOnly = waterfrontFilter?.checked || false;
+    const sort = sortSelect?.value || 'featured';
+
+    const listings = Array.from(document.querySelectorAll('[data-listing]')) as HTMLElement[];
+    let visibleCount = 0;
+
+    // Filter
+    listings.forEach(listing => {
+      const matchesCommunity = !community || listing.dataset.community?.replace('_', '-') === community;
+      const matchesType = !type || listing.dataset.type === type;
+      const matchesAmenity = !amenity || listing.dataset.amenities?.includes(amenity);
+      const matchesWaterfront = !waterfrontOnly || listing.dataset.subcategories?.includes('waterfront');
+
+      const isVisible = matchesCommunity && matchesType && matchesAmenity && matchesWaterfront;
+      listing.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    // Sort visible listings
+    const visibleListings = listings.filter(l => l.style.display !== 'none');
+    visibleListings.sort((a, b) => {
+      if (sort === 'rating') {
+        return (parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0'));
+      } else if (sort === 'name') {
+        return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      } else {
+        // Featured first
+        const tierOrder: Record<string, number> = { featured: 0, verified: 1, free: 2 };
+        return (tierOrder[a.dataset.tier || 'free'] || 2) - (tierOrder[b.dataset.tier || 'free'] || 2);
+      }
+    });
+
+    // Reorder in DOM
+    visibleListings.forEach(listing => listingsGrid?.appendChild(listing));
+
+    // Update count and show/hide states
+    if (resultsCount) resultsCount.textContent = visibleCount.toString();
+    if (emptyState) emptyState.classList.toggle('hidden', visibleCount > 0);
+    if (listingsGrid) listingsGrid.classList.toggle('hidden', visibleCount === 0);
+
+    // Show/hide clear button
+    const hasFilters = community || type || amenity || waterfrontOnly;
+    if (clearFiltersBtn) clearFiltersBtn.classList.toggle('hidden', !hasFilters);
+  }
+
+  function clearAllFilters() {
+    if (communityFilter) communityFilter.value = '';
+    if (typeFilter) typeFilter.value = '';
+    if (amenityFilter) amenityFilter.value = '';
+    if (waterfrontFilter) waterfrontFilter.checked = false;
+    applyFilters();
+  }
+
+  // Event listeners
+  communityFilter?.addEventListener('change', applyFilters);
+  typeFilter?.addEventListener('change', applyFilters);
+  amenityFilter?.addEventListener('change', applyFilters);
+  waterfrontFilter?.addEventListener('change', applyFilters);
+  sortSelect?.addEventListener('change', applyFilters);
+  clearFiltersBtn?.addEventListener('click', clearAllFilters);
+  resetFiltersBtn?.addEventListener('click', clearAllFilters);
+
+  // Check URL params on load
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('community') && communityFilter) {
+    communityFilter.value = params.get('community') || '';
+  }
+  if (params.get('type') && typeFilter) {
+    typeFilter.value = params.get('type') || '';
+  }
+  applyFilters();
+</script>

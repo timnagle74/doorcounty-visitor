@@ -1,0 +1,420 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { getListings, getCommunities } from '../../lib/supabase';
+import { generateItemListSchema, generateBreadcrumbSchema } from '../../lib/schema';
+
+const title = "Things to Do in Door County | Activities & Attractions";
+const description = "Explore Door County's best activities, state parks, outdoor adventures, tours, and attractions. Plan your perfect Wisconsin getaway.";
+
+// Fetch from Supabase - includes activities, wineries, breweries
+const activities = await getListings('door-county', { types: ['activity', 'winery', 'brewery'] });
+const communities = await getCommunities('door-county');
+
+// Generate JSON-LD schemas for SEO/AEO
+const itemListSchema = generateItemListSchema(
+  activities,
+  'do',
+  'Door County Activities & Attractions'
+);
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Things to Do', url: 'https://doorcountyvisitor.com/do' },
+]);
+
+const categoryCards = [
+  { slug: 'parks', label: 'State Parks', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z', count: '5' },
+  { slug: 'hiking', label: 'Hiking', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', count: '100+' },
+  { slug: 'beaches', label: 'Beaches', icon: 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z', count: '30+' },
+  { slug: 'lighthouses', label: 'Lighthouses', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', count: '11' },
+  { slug: 'kayaking', label: 'Kayaking', icon: 'M13 10V3L4 14h7v7l9-11h-7z', count: '20+' },
+  { slug: 'wineries', label: 'Wineries', icon: 'M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7', count: '10+' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[itemListSchema, breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-dc-cherry-600 to-dc-cherry-800 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-[url('/images/pattern-adventure.svg')] opacity-10"></div>
+    <div class="container-wide relative">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3 animate-fade-in">Explore Door County</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 animate-slide-up">
+          Things to <span class="text-dc-sand-300">Do</span>
+        </h1>
+        <p class="text-xl text-dc-cherry-100 mb-8 animate-slide-up animation-delay-100">
+          Adventure awaits around every corner of Door County. Explore state parks, paddle crystal-clear waters, discover historic lighthouses, and create memories that last a lifetime.
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="flex flex-wrap gap-6 animate-slide-up animation-delay-200">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">5</span>
+            <span class="text-dc-cherry-200 text-sm">State Parks</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">11</span>
+            <span class="text-dc-cherry-200 text-sm">Lighthouses</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">300+</span>
+            <span class="text-dc-cherry-200 text-sm">Miles of Shoreline</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">100+</span>
+            <span class="text-dc-cherry-200 text-sm">Miles of Trails</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Activity Categories -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Explore by Activity
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Whether you're seeking outdoor adventure or cultural experiences, Door County has something for everyone.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {categoryCards.map(cat => (
+          <a href={`/do?category=${cat.slug}`} class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-cherry-50 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto mb-3 bg-dc-cherry-100 rounded-full flex items-center justify-center group-hover:bg-dc-cherry-200 transition-colors">
+              <svg class="w-6 h-6 text-dc-cherry-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={cat.icon} />
+              </svg>
+            </div>
+            <h3 class="font-display font-semibold text-dc-lake-800">{cat.label}</h3>
+            <p class="text-sm text-dc-lake-500 mt-1">{cat.count}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="sticky top-16 z-30 bg-white border-b border-dc-sand-200 shadow-sm">
+    <div class="container-wide py-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Community Filter -->
+        <div class="relative">
+          <select
+            id="community-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Communities</option>
+            {communities.map(community => (
+              <option value={community.slug}>{community.name}</option>
+            ))}
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="relative">
+          <select
+            id="category-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Activities</option>
+            <option value="parks">State Parks</option>
+            <option value="hiking">Hiking</option>
+            <option value="biking">Biking</option>
+            <option value="beaches">Beaches</option>
+            <option value="kayaking">Kayaking & Paddling</option>
+            <option value="lighthouses">Lighthouses</option>
+            <option value="wineries">Wineries & Orchards</option>
+            <option value="tours">Tours</option>
+            <option value="museums">Museums</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Free Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 hover:border-dc-lake-400">
+          <input type="checkbox" id="free-filter" class="w-4 h-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500" />
+          <span class="text-dc-lake-700 text-sm font-medium">Free Activities</span>
+        </label>
+
+        <!-- Outdoor Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 hover:border-dc-lake-400">
+          <input type="checkbox" id="outdoor-filter" class="w-4 h-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500" />
+          <span class="text-dc-lake-700 text-sm font-medium">Outdoor Only</span>
+        </label>
+
+        <!-- Clear Filters -->
+        <button
+          id="clear-filters"
+          class="text-sm text-dc-lake-500 hover:text-dc-cherry-600 font-medium hidden"
+        >
+          Clear filters
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings Grid -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <!-- Results Count -->
+      <div class="flex items-center justify-between mb-8">
+        <p class="text-dc-lake-600">
+          Showing <span id="results-count" class="font-semibold text-dc-lake-800">{activities.length}</span> activities
+        </p>
+        <div class="relative">
+          <select
+            id="sort-select"
+            class="appearance-none bg-white border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500"
+          >
+            <option value="featured">Featured First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="name">Name A-Z</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {activities.map((listing, index) => (
+          <div
+            class="animate-fade-in"
+            style={`animation-delay: ${Math.min(index * 50, 300)}ms`}
+            data-listing
+            data-community={listing.city?.toLowerCase().replace(' ', '-')}
+            data-type={listing.type}
+            data-subcategories={listing.subcategories?.join(',')}
+            data-rating={listing.rating_aggregate}
+            data-tier={listing.tier}
+            data-name={listing.name}
+          >
+            <ListingCard listing={listing} category="do" />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16">
+        <svg class="w-16 h-16 text-dc-sand-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-xl font-display font-semibold text-dc-lake-800 mb-2">No activities found</h3>
+        <p class="text-dc-lake-600 mb-4">Try adjusting your filters to find what you're looking for.</p>
+        <button id="reset-filters" class="btn-primary">Clear All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured: Peninsula State Park -->
+  <section class="section bg-dc-forest-700 text-white">
+    <div class="container-wide">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1">
+          <span class="inline-block bg-dc-forest-600 text-dc-sand-300 text-sm font-medium px-3 py-1 rounded-full mb-4">
+            Must Visit
+          </span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">
+            Peninsula State Park
+          </h2>
+          <p class="text-dc-forest-100 text-lg mb-6">
+            Wisconsin's most popular state park spans 3,776 acres of forests, bluffs, and shoreline. Explore 20+ miles of trails, visit the historic Eagle Bluff Lighthouse, swim at Nicolet Beach, or catch a show at the outdoor amphitheater.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>20+ miles of hiking & biking trails</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Eagle Bluff Lighthouse tours</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Nicolet Beach swimming</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Golf at scenic Peninsula Golf Course</span>
+            </li>
+          </ul>
+          <a href="/do/peninsula-state-park" class="btn bg-white text-dc-forest-700 hover:bg-dc-sand-100">
+            Explore the Park
+          </a>
+        </div>
+        <div class="order-1 md:order-2 relative">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-dc-forest-800">
+            <img
+              src="/images/peninsula-state-park-hero.jpg"
+              alt="Peninsula State Park scenic overlook"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Community -->
+  <section class="section">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Explore by Community
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Every Door County village offers unique activities and attractions.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {communities.slice(0, 8).map(community => (
+          <a
+            href={`/do?community=${community.slug}`}
+            class="group relative aspect-[3/2] rounded-lg overflow-hidden bg-dc-cherry-800"
+          >
+            <img
+              src={community.image_url || `/images/communities/${community.slug}.jpg`}
+              alt={community.name}
+              class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dc-cherry-900/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+              <h3 class="font-display font-semibold text-white text-lg">{community.name}</h3>
+              <p class="text-dc-sand-300 text-sm">{community.tagline}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filter functionality
+  const communityFilter = document.getElementById('community-filter') as HTMLSelectElement;
+  const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+  const freeFilter = document.getElementById('free-filter') as HTMLInputElement;
+  const outdoorFilter = document.getElementById('outdoor-filter') as HTMLInputElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const clearFiltersBtn = document.getElementById('clear-filters');
+  const resetFiltersBtn = document.getElementById('reset-filters');
+  const resultsCount = document.getElementById('results-count');
+  const listingsGrid = document.getElementById('listings-grid');
+  const emptyState = document.getElementById('empty-state');
+
+  function applyFilters() {
+    const community = communityFilter?.value || '';
+    const category = categoryFilter?.value || '';
+    const freeOnly = freeFilter?.checked || false;
+    const outdoorOnly = outdoorFilter?.checked || false;
+    const sort = sortSelect?.value || 'featured';
+
+    const listings = Array.from(document.querySelectorAll('[data-listing]')) as HTMLElement[];
+    let visibleCount = 0;
+
+    // Map categories to types/subcategories
+    const categoryMap: Record<string, string[]> = {
+      parks: ['park'],
+      hiking: ['hiking'],
+      biking: ['biking'],
+      beaches: ['beach'],
+      kayaking: ['kayaking', 'paddling'],
+      lighthouses: ['lighthouse'],
+      wineries: ['winery', 'orchard'],
+      tours: ['tour'],
+      museums: ['museum'],
+    };
+
+    // Filter
+    listings.forEach(listing => {
+      const matchesCommunity = !community || listing.dataset.community?.replace('_', '-') === community;
+
+      let matchesCategory = !category;
+      if (category && categoryMap[category]) {
+        const types = categoryMap[category];
+        matchesCategory = types.some(t =>
+          listing.dataset.type === t || listing.dataset.subcategories?.includes(t)
+        );
+      }
+
+      const isVisible = matchesCommunity && matchesCategory;
+      listing.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    // Sort visible listings
+    const visibleListings = listings.filter(l => l.style.display !== 'none');
+    visibleListings.sort((a, b) => {
+      if (sort === 'rating') {
+        return (parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0'));
+      } else if (sort === 'name') {
+        return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      } else {
+        // Featured first
+        const tierOrder: Record<string, number> = { featured: 0, verified: 1, free: 2 };
+        return (tierOrder[a.dataset.tier || 'free'] || 2) - (tierOrder[b.dataset.tier || 'free'] || 2);
+      }
+    });
+
+    // Reorder in DOM
+    visibleListings.forEach(listing => listingsGrid?.appendChild(listing));
+
+    // Update count and show/hide states
+    if (resultsCount) resultsCount.textContent = visibleCount.toString();
+    if (emptyState) emptyState.classList.toggle('hidden', visibleCount > 0);
+    if (listingsGrid) listingsGrid.classList.toggle('hidden', visibleCount === 0);
+
+    // Show/hide clear button
+    const hasFilters = community || category || freeOnly || outdoorOnly;
+    if (clearFiltersBtn) clearFiltersBtn.classList.toggle('hidden', !hasFilters);
+  }
+
+  function clearAllFilters() {
+    if (communityFilter) communityFilter.value = '';
+    if (categoryFilter) categoryFilter.value = '';
+    if (freeFilter) freeFilter.checked = false;
+    if (outdoorFilter) outdoorFilter.checked = false;
+    applyFilters();
+  }
+
+  // Event listeners
+  communityFilter?.addEventListener('change', applyFilters);
+  categoryFilter?.addEventListener('change', applyFilters);
+  freeFilter?.addEventListener('change', applyFilters);
+  outdoorFilter?.addEventListener('change', applyFilters);
+  sortSelect?.addEventListener('change', applyFilters);
+  clearFiltersBtn?.addEventListener('click', clearAllFilters);
+  resetFiltersBtn?.addEventListener('click', clearAllFilters);
+
+  // Check URL params on load
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('community') && communityFilter) {
+    communityFilter.value = params.get('community') || '';
+  }
+  if (params.get('category') && categoryFilter) {
+    categoryFilter.value = params.get('category') || '';
+  }
+  applyFilters();
+</script>

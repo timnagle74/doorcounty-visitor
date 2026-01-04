@@ -1,0 +1,404 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { getListings, getCommunities } from '../../lib/supabase';
+import { generateItemListSchema, generateBreadcrumbSchema } from '../../lib/schema';
+
+const title = "Shopping in Door County | Boutiques, Galleries & Local Shops";
+const description = "Discover Door County's unique shops, art galleries, antique stores, and local boutiques. Find handcrafted goods, cherry products, and one-of-a-kind treasures.";
+
+// Fetch from Supabase - 'shop' and 'service' types include galleries, boutiques, etc.
+const shops = await getListings('door-county', { types: ['shop', 'service'] });
+const communities = await getCommunities('door-county');
+
+// Generate JSON-LD schemas for SEO/AEO
+const itemListSchema = generateItemListSchema(
+  shops,
+  'shop',
+  'Door County Shops & Galleries'
+);
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Where to Shop', url: 'https://doorcountyvisitor.com/shop' },
+]);
+
+const categoryCards = [
+  { slug: 'galleries', label: 'Art Galleries', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', count: '40+' },
+  { slug: 'boutiques', label: 'Boutiques', icon: 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z', count: '50+' },
+  { slug: 'antiques', label: 'Antiques', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', count: '20+' },
+  { slug: 'specialty', label: 'Specialty Foods', icon: 'M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z', count: '30+' },
+  { slug: 'gifts', label: 'Gift Shops', icon: 'M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7', count: '60+' },
+  { slug: 'books', label: 'Bookstores', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', count: '10+' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[itemListSchema, breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-dc-sand-600 to-dc-sand-800 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-[url('/images/pattern-dots.svg')] opacity-10"></div>
+    <div class="container-wide relative">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-200 font-medium mb-3 animate-fade-in">Explore Door County</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 animate-slide-up">
+          Where to <span class="text-dc-cherry-400">Shop</span>
+        </h1>
+        <p class="text-xl text-dc-sand-100 mb-8 animate-slide-up animation-delay-100">
+          Browse charming boutiques, world-class art galleries, and unique local shops. Take home handcrafted treasures, Door County cherry products, and memories of your visit.
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="flex flex-wrap gap-6 animate-slide-up animation-delay-200">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">200+</span>
+            <span class="text-dc-sand-200 text-sm">Unique Shops</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">40+</span>
+            <span class="text-dc-sand-200 text-sm">Art Galleries</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">11</span>
+            <span class="text-dc-sand-200 text-sm">Shopping Villages</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop Categories -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Shop by Category
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          From fine art to artisan foods, Door County offers shopping experiences as unique as the peninsula itself.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {categoryCards.map(cat => (
+          <a href={`/shop?category=${cat.slug}`} class="group p-6 bg-dc-sand-50 rounded-xl text-center hover:bg-dc-sand-100 hover:shadow-lg transition-all">
+            <div class="w-12 h-12 mx-auto mb-3 bg-dc-sand-200 rounded-full flex items-center justify-center group-hover:bg-dc-sand-300 transition-colors">
+              <svg class="w-6 h-6 text-dc-lake-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={cat.icon} />
+              </svg>
+            </div>
+            <h3 class="font-display font-semibold text-dc-lake-800">{cat.label}</h3>
+            <p class="text-sm text-dc-lake-500 mt-1">{cat.count}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="sticky top-16 z-30 bg-white border-b border-dc-sand-200 shadow-sm">
+    <div class="container-wide py-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Community Filter -->
+        <div class="relative">
+          <select
+            id="community-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Communities</option>
+            {communities.map(community => (
+              <option value={community.slug}>{community.name}</option>
+            ))}
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="relative">
+          <select
+            id="category-filter"
+            class="appearance-none bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm font-medium hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500 focus:border-transparent cursor-pointer"
+          >
+            <option value="">All Categories</option>
+            <option value="galleries">Art Galleries</option>
+            <option value="boutiques">Boutiques</option>
+            <option value="antiques">Antiques</option>
+            <option value="specialty">Specialty Foods</option>
+            <option value="gifts">Gift Shops</option>
+            <option value="books">Bookstores</option>
+            <option value="jewelry">Jewelry</option>
+            <option value="home">Home & Garden</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        <!-- Local Artisan Toggle -->
+        <label class="flex items-center gap-2 cursor-pointer bg-dc-sand-50 border border-dc-sand-300 rounded-lg px-4 py-2 hover:border-dc-lake-400">
+          <input type="checkbox" id="artisan-filter" class="w-4 h-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500" />
+          <span class="text-dc-lake-700 text-sm font-medium">Local Artisans</span>
+        </label>
+
+        <!-- Clear Filters -->
+        <button
+          id="clear-filters"
+          class="text-sm text-dc-lake-500 hover:text-dc-cherry-600 font-medium hidden"
+        >
+          Clear filters
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings Grid -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <!-- Results Count -->
+      <div class="flex items-center justify-between mb-8">
+        <p class="text-dc-lake-600">
+          Showing <span id="results-count" class="font-semibold text-dc-lake-800">{shops.length}</span> shops
+        </p>
+        <div class="relative">
+          <select
+            id="sort-select"
+            class="appearance-none bg-white border border-dc-sand-300 rounded-lg px-4 py-2 pr-10 text-dc-lake-700 text-sm hover:border-dc-lake-400 focus:outline-none focus:ring-2 focus:ring-dc-lake-500"
+          >
+            <option value="featured">Featured First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="name">Name A-Z</option>
+          </select>
+          <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dc-lake-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {shops.map((listing, index) => (
+          <div
+            class="animate-fade-in"
+            style={`animation-delay: ${Math.min(index * 50, 300)}ms`}
+            data-listing
+            data-community={listing.city?.toLowerCase().replace(' ', '-')}
+            data-type={listing.type}
+            data-subcategories={listing.subcategories?.join(',')}
+            data-rating={listing.rating_aggregate}
+            data-tier={listing.tier}
+            data-name={listing.name}
+          >
+            <ListingCard listing={listing} category="shop" />
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16">
+        <svg class="w-16 h-16 text-dc-sand-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h3 class="text-xl font-display font-semibold text-dc-lake-800 mb-2">No shops found</h3>
+        <p class="text-dc-lake-600 mb-4">Try adjusting your filters to find what you're looking for.</p>
+        <button id="reset-filters" class="btn-primary">Clear All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Door County Cherries Feature -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block bg-dc-cherry-500 text-dc-sand-200 text-sm font-medium px-3 py-1 rounded-full mb-4">
+            Local Specialty
+          </span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">
+            Door County Cherry Products
+          </h2>
+          <p class="text-dc-cherry-100 text-lg mb-6">
+            Door County is famous for its tart Montmorency cherries. Take home a taste of the peninsula with cherry wines, jams, pies, salsas, and countless other cherry-infused treats from local orchards and specialty shops.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Cherry wines & hard ciders</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Fresh-baked cherry pies</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Jams, preserves & salsas</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-dc-sand-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Dried cherries & cherry chocolates</span>
+            </li>
+          </ul>
+          <a href="/shop?category=specialty" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">
+            Find Cherry Products
+          </a>
+        </div>
+        <div class="relative">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-dc-cherry-700">
+            <img
+              src="/images/door-county-cherries.jpg"
+              alt="Fresh Door County cherries"
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Community -->
+  <section class="section">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Shop by Community
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Each Door County village has its own collection of charming shops and galleries.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {communities.slice(0, 8).map(community => (
+          <a
+            href={`/shop?community=${community.slug}`}
+            class="group relative aspect-[3/2] rounded-lg overflow-hidden bg-dc-sand-700"
+          >
+            <img
+              src={community.image_url || `/images/communities/${community.slug}.jpg`}
+              alt={community.name}
+              class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dc-sand-900/80 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+              <h3 class="font-display font-semibold text-white text-lg">{community.name}</h3>
+              <p class="text-dc-sand-300 text-sm">{community.tagline}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Filter functionality
+  const communityFilter = document.getElementById('community-filter') as HTMLSelectElement;
+  const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+  const artisanFilter = document.getElementById('artisan-filter') as HTMLInputElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const clearFiltersBtn = document.getElementById('clear-filters');
+  const resetFiltersBtn = document.getElementById('reset-filters');
+  const resultsCount = document.getElementById('results-count');
+  const listingsGrid = document.getElementById('listings-grid');
+  const emptyState = document.getElementById('empty-state');
+
+  function applyFilters() {
+    const community = communityFilter?.value || '';
+    const category = categoryFilter?.value || '';
+    const artisanOnly = artisanFilter?.checked || false;
+    const sort = sortSelect?.value || 'featured';
+
+    const listings = Array.from(document.querySelectorAll('[data-listing]')) as HTMLElement[];
+    let visibleCount = 0;
+
+    // Map categories to types/subcategories
+    const categoryMap: Record<string, string[]> = {
+      galleries: ['gallery'],
+      boutiques: ['boutique'],
+      antiques: ['antique'],
+      specialty: ['specialty_food'],
+      gifts: ['gift_shop'],
+      books: ['bookstore'],
+      jewelry: ['jewelry'],
+      home: ['home', 'garden'],
+    };
+
+    // Filter
+    listings.forEach(listing => {
+      const matchesCommunity = !community || listing.dataset.community?.replace('_', '-') === community;
+
+      let matchesCategory = !category;
+      if (category && categoryMap[category]) {
+        const types = categoryMap[category];
+        matchesCategory = types.some(t =>
+          listing.dataset.type === t || listing.dataset.subcategories?.includes(t)
+        );
+      }
+
+      const isVisible = matchesCommunity && matchesCategory;
+      listing.style.display = isVisible ? '' : 'none';
+      if (isVisible) visibleCount++;
+    });
+
+    // Sort visible listings
+    const visibleListings = listings.filter(l => l.style.display !== 'none');
+    visibleListings.sort((a, b) => {
+      if (sort === 'rating') {
+        return (parseFloat(b.dataset.rating || '0') - parseFloat(a.dataset.rating || '0'));
+      } else if (sort === 'name') {
+        return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      } else {
+        // Featured first
+        const tierOrder: Record<string, number> = { featured: 0, verified: 1, free: 2 };
+        return (tierOrder[a.dataset.tier || 'free'] || 2) - (tierOrder[b.dataset.tier || 'free'] || 2);
+      }
+    });
+
+    // Reorder in DOM
+    visibleListings.forEach(listing => listingsGrid?.appendChild(listing));
+
+    // Update count and show/hide states
+    if (resultsCount) resultsCount.textContent = visibleCount.toString();
+    if (emptyState) emptyState.classList.toggle('hidden', visibleCount > 0);
+    if (listingsGrid) listingsGrid.classList.toggle('hidden', visibleCount === 0);
+
+    // Show/hide clear button
+    const hasFilters = community || category || artisanOnly;
+    if (clearFiltersBtn) clearFiltersBtn.classList.toggle('hidden', !hasFilters);
+  }
+
+  function clearAllFilters() {
+    if (communityFilter) communityFilter.value = '';
+    if (categoryFilter) categoryFilter.value = '';
+    if (artisanFilter) artisanFilter.checked = false;
+    applyFilters();
+  }
+
+  // Event listeners
+  communityFilter?.addEventListener('change', applyFilters);
+  categoryFilter?.addEventListener('change', applyFilters);
+  artisanFilter?.addEventListener('change', applyFilters);
+  sortSelect?.addEventListener('change', applyFilters);
+  clearFiltersBtn?.addEventListener('click', clearAllFilters);
+  resetFiltersBtn?.addEventListener('click', clearAllFilters);
+
+  // Check URL params on load
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('community') && communityFilter) {
+    communityFilter.value = params.get('community') || '';
+  }
+  if (params.get('category') && categoryFilter) {
+    categoryFilter.value = params.get('category') || '';
+  }
+  applyFilters();
+</script>
