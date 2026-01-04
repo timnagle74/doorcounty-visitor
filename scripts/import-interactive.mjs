@@ -43,6 +43,59 @@ const COMMUNITY_MAP = {
   'algoma': '17157fcb-c3c5-4441-b98c-2a6d6c443bbe',
 };
 
+// Valid Door County cities/areas (for strict validation)
+const VALID_DOOR_COUNTY_CITIES = [
+  'sturgeon bay', 'egg harbor', 'fish creek', 'ephraim', 'sister bay',
+  'ellison bay', 'baileys harbor', 'washington island', 'jacksonport',
+  'gills rock', 'forestville', 'brussels', 'door county',
+  'carlsville', 'institute', 'juddville', 'northport', 'rowleys bay',
+  'liberty grove', 'sevastopol', 'gibraltar', 'maplewood', 'valmy',
+  'washington', 'clay banks', 'nasewaupee', 'gardner'
+];
+
+// Nearby cities (not in Door County but close enough to include)
+const NEARBY_CITIES = [
+  'algoma',      // Kewaunee County, just south
+  'kewaunee',    // Kewaunee County
+  'green bay',   // Brown County, gateway city
+  'de pere',     // Brown County
+];
+
+// Helper: Validate if a location is in Door County or nearby area
+function isValidDoorCountyLocation(item) {
+  // Must be in Wisconsin (check us_state field from Outscraper)
+  const state = (item.us_state || item.state || '').toLowerCase().trim();
+  if (state && state !== 'wi' && state !== 'wisconsin') {
+    return { valid: false, reason: `State is "${item.us_state || item.state}", not Wisconsin` };
+  }
+
+  // Check city against valid Door County cities
+  const city = (item.city || '').toLowerCase().trim();
+  if (!city) {
+    return { valid: false, reason: 'No city specified' };
+  }
+
+  // Check if it's a Door County city
+  const isDoorCounty = VALID_DOOR_COUNTY_CITIES.some(vc =>
+    city.includes(vc) || vc.includes(city)
+  );
+
+  if (isDoorCounty) {
+    return { valid: true, region: 'door_county' };
+  }
+
+  // Check if it's a nearby city
+  const isNearby = NEARBY_CITIES.some(nc =>
+    city.includes(nc) || nc.includes(city)
+  );
+
+  if (isNearby) {
+    return { valid: true, region: 'nearby' };
+  }
+
+  return { valid: false, reason: `City "${item.city}" is not in Door County or nearby area` };
+}
+
 // Parse command line args
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
@@ -454,7 +507,7 @@ async function createGHLContact(item, type) {
 }
 
 // Create Supabase listing
-async function createSupabaseListing(item, ghlContactId, type) {
+async function createSupabaseListing(item, ghlContactId, type, region = 'door_county') {
   const name = item.name;
   const slug = generateSlug(name);
   const city = item.city || 'Door County';
@@ -493,6 +546,7 @@ async function createSupabaseListing(item, ghlContactId, type) {
     tier: 'free',
     is_verified: false,
     ghl_contact_id: ghlContactId,
+    region: region,  // 'door_county' or 'nearby'
   };
 
   if (DRY_RUN) {
@@ -582,6 +636,19 @@ async function main() {
     try {
       console.log(`${created + skipped + failed + 1}/${items.length}: ${item.name}`);
 
+      // Step 0: Validate location is in Door County or nearby area
+      const locationCheck = isValidDoorCountyLocation(item);
+      if (!locationCheck.valid) {
+        console.log(`  ⊘ Skipped: ${locationCheck.reason}`);
+        skipped++;
+        continue;
+      }
+
+      const region = locationCheck.region; // 'door_county' or 'nearby'
+      if (region === 'nearby') {
+        console.log(`  Region: Nearby (${item.city})`);
+      }
+
       // Step 1: Determine type (may prompt user)
       const typeResult = await determineType(item, mappings);
 
@@ -597,8 +664,8 @@ async function main() {
       // Step 2: Create GHL contact
       const ghlContact = await createGHLContact(item, type);
 
-      // Step 3: Create Supabase listing with GHL contact ID
-      await createSupabaseListing(item, ghlContact.id, type);
+      // Step 3: Create Supabase listing with GHL contact ID and region
+      await createSupabaseListing(item, ghlContact.id, type, region);
 
       created++;
       console.log(`  ✓ Created (GHL: ${ghlContact.id})`);
