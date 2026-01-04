@@ -61,9 +61,18 @@ const allSchemas = schema
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
-    <!-- Favicon -->
+    <!-- Favicon & PWA -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1e3a5f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DC Visitor" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Door County Visitor" />
+    <meta name="msapplication-TileColor" content="#1e3a5f" />
+    <meta name="msapplication-tap-highlight" content="no" />
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -81,5 +90,33 @@ const allSchemas = schema
     </main>
     
     <Footer />
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered:', registration.scope);
+
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // New content available, show update prompt if desired
+                      console.log('New content available, refresh to update');
+                    }
+                  });
+                }
+              });
+            })
+            .catch((error) => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

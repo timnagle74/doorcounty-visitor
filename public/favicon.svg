@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="lake" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#1e3a5f"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#lake)"/>
+  <!-- Globe icon representing travel/exploration -->
+  <g transform="translate(96, 96)" fill="none" stroke="white" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="160" cy="160" r="140"/>
+    <path d="M40 160h240"/>
+    <path d="M160 20c-40 30-60 80-60 140s20 110 60 140"/>
+    <path d="M160 20c40 30 60 80 60 140s-20 110-60 140"/>
+    <path d="M60 80c30 20 60 30 100 30s70-10 100-30"/>
+    <path d="M60 240c30-20 60-30 100-30s70 10 100 30"/>
+  </g>
+</svg>
