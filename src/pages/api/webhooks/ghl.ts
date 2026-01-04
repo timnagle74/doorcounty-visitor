@@ -39,6 +39,43 @@ function getSupabaseAdmin() {
 }
 
 /**
+ * Look up contact ID by email from GHL API
+ */
+async function lookupContactIdByEmail(email: string): Promise<string | null> {
+  const apiToken = import.meta.env.GHL_API_TOKEN;
+  const locationId = import.meta.env.GHL_LOCATION_ID;
+
+  if (!apiToken || !locationId) {
+    console.error('GHL credentials not configured');
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      `${GHL_API_BASE}/contacts/search/duplicate?locationId=${locationId}&email=${encodeURIComponent(email)}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiToken}`,
+          'Version': '2021-07-28',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error(`Failed to lookup contact by email ${email}: ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    return data.contact?.id || null;
+  } catch (error) {
+    console.error('Error looking up contact by email:', error);
+    return null;
+  }
+}
+
+/**
  * Fetch current contact tags from GHL API
  * This ensures we always have the latest state
  */
@@ -83,11 +120,10 @@ export const POST: APIRoute = async ({ request }) => {
     // Handle multiple GHL payload formats - they vary by trigger type
     // GHL uses different field names depending on the trigger/action
     const p = payload as Record<string, unknown>;
-    const contactId = payload.contact?.id
+    let contactId = payload.contact?.id
       || payload.id
       || p['contact_id']
       || p['contactId']
-      || (payload.location as Record<string, unknown>)?.id
       || p['Contact Id']
       || p['contact Id'];
 
@@ -96,18 +132,19 @@ export const POST: APIRoute = async ({ request }) => {
     console.log('GHL webhook - all payload keys:', payloadKeys);
     console.log('GHL webhook - full payload:', JSON.stringify(payload, null, 2));
 
+    // If no contact ID but we have email, look up the contact in GHL by email
+    const email = payload.email || p['email'] as string;
+    if (!contactId && email) {
+      console.log('No contact ID, but found email:', email, '- looking up contact');
+      contactId = await lookupContactIdByEmail(email);
+    }
+
     if (!contactId) {
       console.log('No contact ID found in payload. Keys received:', payloadKeys);
-      // Return the keys we received so we can debug in GHL
       return new Response(JSON.stringify({
         success: true,
         message: 'No contact ID in payload',
-        keysReceived: payloadKeys,
-        sampleData: {
-          email: payload.email,
-          first_name: payload.first_name,
-          firstName: payload.firstName,
-        }
+        keys: payloadKeys.join(', ')
       }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
