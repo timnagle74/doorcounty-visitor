@@ -1,0 +1,404 @@
+{
+  "locationId": "a1pjpfTVaYjMD8QJgINa",
+  "folders": [
+    {
+      "name": "Business Info",
+      "key": "business_info",
+      "fields": [
+        {
+          "name": "Business Type",
+          "key": "business_type",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "lodging_resort", "label": "Resort"},
+            {"value": "lodging_hotel", "label": "Hotel/Motel"},
+            {"value": "lodging_bnb", "label": "B&B/Inn"},
+            {"value": "lodging_vacation_rental", "label": "Vacation Rental"},
+            {"value": "lodging_cabin", "label": "Cabin/Cottage"},
+            {"value": "lodging_campground", "label": "Campground"},
+            {"value": "restaurant", "label": "Restaurant"},
+            {"value": "cafe", "label": "Café/Coffee Shop"},
+            {"value": "bar", "label": "Bar/Pub"},
+            {"value": "winery", "label": "Winery"},
+            {"value": "brewery", "label": "Brewery"},
+            {"value": "distillery", "label": "Distillery"},
+            {"value": "bakery", "label": "Bakery"},
+            {"value": "food_truck", "label": "Food Truck"},
+            {"value": "attraction", "label": "Attraction"},
+            {"value": "park", "label": "Park"},
+            {"value": "museum", "label": "Museum"},
+            {"value": "gallery", "label": "Art Gallery"},
+            {"value": "theater", "label": "Theater"},
+            {"value": "tour_operator", "label": "Tour Operator"},
+            {"value": "outdoor_recreation", "label": "Outdoor Recreation"},
+            {"value": "spa_wellness", "label": "Spa/Wellness"},
+            {"value": "shop_retail", "label": "Retail Store"},
+            {"value": "shop_gifts", "label": "Gifts/Souvenirs"},
+            {"value": "shop_antiques", "label": "Antiques"},
+            {"value": "shop_art", "label": "Art/Gallery Shop"},
+            {"value": "shop_boutique", "label": "Boutique"}
+          ]
+        },
+        {
+          "name": "Short Description",
+          "key": "description_short",
+          "dataType": "TEXT",
+          "fieldType": "LARGE_TEXT",
+          "placeholder": "Brief description (150 characters)"
+        },
+        {
+          "name": "Full Description",
+          "key": "description_full",
+          "dataType": "TEXT",
+          "fieldType": "LARGE_TEXT",
+          "placeholder": "Detailed description of your business"
+        },
+        {
+          "name": "Website",
+          "key": "website",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "https://yourbusiness.com"
+        }
+      ]
+    },
+    {
+      "name": "Social Media",
+      "key": "social_media",
+      "fields": [
+        {
+          "name": "Facebook URL",
+          "key": "social_facebook",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "https://facebook.com/yourbusiness"
+        },
+        {
+          "name": "Instagram",
+          "key": "social_instagram",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "@yourbusiness or full URL"
+        },
+        {
+          "name": "TripAdvisor URL",
+          "key": "social_tripadvisor",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "TripAdvisor listing URL"
+        },
+        {
+          "name": "Yelp URL",
+          "key": "social_yelp",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "Yelp listing URL"
+        }
+      ]
+    },
+    {
+      "name": "Hours",
+      "key": "hours",
+      "fields": [
+        {
+          "name": "Monday Hours",
+          "key": "hours_monday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Tuesday Hours",
+          "key": "hours_tuesday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Wednesday Hours",
+          "key": "hours_wednesday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Thursday Hours",
+          "key": "hours_thursday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Friday Hours",
+          "key": "hours_friday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Saturday Hours",
+          "key": "hours_saturday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Sunday Hours",
+          "key": "hours_sunday",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "9:00 AM - 5:00 PM or Closed"
+        },
+        {
+          "name": "Hours Notes",
+          "key": "hours_notes",
+          "dataType": "TEXT",
+          "fieldType": "LARGE_TEXT",
+          "placeholder": "Seasonal hours, holiday closures, etc."
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "key": "images",
+      "fields": [
+        {
+          "name": "Primary Image URL",
+          "key": "image_primary",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "URL to main business photo"
+        },
+        {
+          "name": "Logo URL",
+          "key": "logo_url",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "URL to business logo"
+        },
+        {
+          "name": "Gallery Images",
+          "key": "image_gallery",
+          "dataType": "TEXT",
+          "fieldType": "LARGE_TEXT",
+          "placeholder": "Comma-separated image URLs"
+        }
+      ]
+    },
+    {
+      "name": "Restaurant Details",
+      "key": "restaurant_details",
+      "fields": [
+        {
+          "name": "Cuisine Types",
+          "key": "restaurant_cuisines",
+          "dataType": "TEXT",
+          "fieldType": "MULTIPLE_OPTIONS",
+          "options": [
+            {"value": "american", "label": "American"},
+            {"value": "seafood", "label": "Seafood"},
+            {"value": "italian", "label": "Italian"},
+            {"value": "mexican", "label": "Mexican"},
+            {"value": "asian", "label": "Asian"},
+            {"value": "mediterranean", "label": "Mediterranean"},
+            {"value": "breakfast_brunch", "label": "Breakfast/Brunch"},
+            {"value": "pizza", "label": "Pizza"},
+            {"value": "bbq", "label": "BBQ"},
+            {"value": "fine_dining", "label": "Fine Dining"},
+            {"value": "casual", "label": "Casual"},
+            {"value": "farm_to_table", "label": "Farm-to-Table"},
+            {"value": "vegetarian", "label": "Vegetarian-Friendly"},
+            {"value": "gluten_free", "label": "Gluten-Free Options"}
+          ]
+        },
+        {
+          "name": "Price Range",
+          "key": "restaurant_price",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "$", "label": "$ - Budget"},
+            {"value": "$$", "label": "$$ - Moderate"},
+            {"value": "$$$", "label": "$$$ - Upscale"},
+            {"value": "$$$$", "label": "$$$$ - Fine Dining"}
+          ]
+        },
+        {
+          "name": "Has Fish Boil",
+          "key": "has_fish_boil",
+          "dataType": "TEXT",
+          "fieldType": "CHECKBOX"
+        },
+        {
+          "name": "Accepts Reservations",
+          "key": "accepts_reservations",
+          "dataType": "TEXT",
+          "fieldType": "CHECKBOX"
+        },
+        {
+          "name": "Menu URL",
+          "key": "menu_url",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "Link to online menu"
+        }
+      ]
+    },
+    {
+      "name": "Lodging Details",
+      "key": "lodging_details",
+      "fields": [
+        {
+          "name": "Number of Rooms/Units",
+          "key": "lodging_rooms",
+          "dataType": "NUMERICAL",
+          "fieldType": "TEXT",
+          "placeholder": "Number of rooms or units"
+        },
+        {
+          "name": "Price Range",
+          "key": "lodging_price",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "$", "label": "$ - Budget (<$100/night)"},
+            {"value": "$$", "label": "$$ - Moderate ($100-200/night)"},
+            {"value": "$$$", "label": "$$$ - Upscale ($200-350/night)"},
+            {"value": "$$$$", "label": "$$$$ - Luxury ($350+/night)"}
+          ]
+        },
+        {
+          "name": "Check-in Time",
+          "key": "checkin_time",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "e.g., 3:00 PM"
+        },
+        {
+          "name": "Check-out Time",
+          "key": "checkout_time",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "e.g., 11:00 AM"
+        },
+        {
+          "name": "Pets Allowed",
+          "key": "pets_allowed",
+          "dataType": "TEXT",
+          "fieldType": "CHECKBOX"
+        },
+        {
+          "name": "Amenities",
+          "key": "lodging_amenities",
+          "dataType": "TEXT",
+          "fieldType": "MULTIPLE_OPTIONS",
+          "options": [
+            {"value": "wifi", "label": "WiFi"},
+            {"value": "pool", "label": "Pool"},
+            {"value": "hot_tub", "label": "Hot Tub"},
+            {"value": "fireplace", "label": "Fireplace"},
+            {"value": "kitchen", "label": "Full Kitchen"},
+            {"value": "kitchenette", "label": "Kitchenette"},
+            {"value": "ac", "label": "Air Conditioning"},
+            {"value": "lake_view", "label": "Lake View"},
+            {"value": "waterfront", "label": "Waterfront"},
+            {"value": "beach_access", "label": "Beach Access"},
+            {"value": "pet_friendly", "label": "Pet Friendly"},
+            {"value": "breakfast", "label": "Breakfast Included"},
+            {"value": "restaurant", "label": "Restaurant On-site"},
+            {"value": "fitness", "label": "Fitness Center"},
+            {"value": "spa", "label": "Spa"},
+            {"value": "boat_dock", "label": "Boat Dock"},
+            {"value": "fire_pit", "label": "Fire Pit"},
+            {"value": "grill", "label": "Grill/BBQ"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Activity Details",
+      "key": "activity_details",
+      "fields": [
+        {
+          "name": "Duration",
+          "key": "activity_duration",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "e.g., 2 hours, Half day"
+        },
+        {
+          "name": "Difficulty Level",
+          "key": "activity_difficulty",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "easy", "label": "Easy"},
+            {"value": "moderate", "label": "Moderate"},
+            {"value": "challenging", "label": "Challenging"}
+          ]
+        },
+        {
+          "name": "Equipment Provided",
+          "key": "equipment_provided",
+          "dataType": "TEXT",
+          "fieldType": "CHECKBOX"
+        },
+        {
+          "name": "Seasonal Availability",
+          "key": "seasonal_availability",
+          "dataType": "TEXT",
+          "fieldType": "MULTIPLE_OPTIONS",
+          "options": [
+            {"value": "spring", "label": "Spring"},
+            {"value": "summer", "label": "Summer"},
+            {"value": "fall", "label": "Fall"},
+            {"value": "winter", "label": "Winter"}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Listing Meta",
+      "key": "listing_meta",
+      "fields": [
+        {
+          "name": "Listing Tier",
+          "key": "listing_tier",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "free", "label": "Free"},
+            {"value": "verified", "label": "Verified"},
+            {"value": "featured", "label": "Featured"},
+            {"value": "premium", "label": "Premium"}
+          ]
+        },
+        {
+          "name": "Listing Status",
+          "key": "listing_status",
+          "dataType": "TEXT",
+          "fieldType": "SINGLE_OPTIONS",
+          "options": [
+            {"value": "pending", "label": "Pending Review"},
+            {"value": "active", "label": "Active"},
+            {"value": "inactive", "label": "Inactive"}
+          ]
+        },
+        {
+          "name": "Supabase Listing ID",
+          "key": "supabase_listing_id",
+          "dataType": "TEXT",
+          "fieldType": "TEXT",
+          "placeholder": "Auto-generated"
+        },
+        {
+          "name": "Intake Completed",
+          "key": "intake_completed",
+          "dataType": "TEXT",
+          "fieldType": "CHECKBOX"
+        }
+      ]
+    }
+  ]
+}

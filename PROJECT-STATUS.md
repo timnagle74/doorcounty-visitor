@@ -1,6 +1,6 @@
 # Door County Visitor - Project Status
 
-**Last Updated:** January 4, 2026
+**Last Updated:** January 5, 2026
 
 ---
 
@@ -68,6 +68,13 @@ Building a tourism directory for Door County, Wisconsin with SEO/AEO optimizatio
 - [x] `docs/SCHEMA-GUIDE.md` — JSON-LD templates and implementation guide
 - [x] `docs/WEBHOOKS.md` — Webhook setup and sync documentation
 - [x] `docs/SESSION-LOG.md` — Development session notes
+- [x] `docs/GHL-CUSTOM-FIELDS.md` — Custom field definitions and sync logic
+- [x] `docs/ghl-landing-page.html` — GHL landing page with form embeds
+
+### GHL Custom Fields ✅
+- [x] 36 custom fields created via API (`scripts/custom-fields/create-fields.mjs`)
+- [x] Field IDs mapped in `scripts/custom-fields/field-ids.json`
+- [x] Fields organized by category: Business Info, Social, Hours, Images, Restaurant, Lodging, Activity, Meta
 
 ---
 
@@ -156,7 +163,11 @@ doorcounty-visitor/
 │       └── ghl.ts
 ├── scripts/
 │   ├── link-ghl-simple.mjs    ← Links existing data
-│   └── import-clean.mjs       ← TBD: Clean reimport
+│   ├── import-clean.mjs       ← TBD: Clean reimport
+│   └── custom-fields/
+│       ├── fields.json        ← Custom field definitions
+│       ├── field-ids.json     ← Created field IDs mapping
+│       └── create-fields.mjs  ← Script to create fields via API
 ├── docs/
 │   ├── WEBHOOKS.md
 │   ├── SESSION-LOG.md
@@ -184,11 +195,19 @@ doorcounty-visitor/
 2. Optimize images
 3. Refine mobile experience
 
-### Phase 3: Business Platform
+### Phase 3: Business Portal System
+1. ~~**GHL Custom Fields Setup**~~ ✅ — 36 custom fields created via API
+2. **Business Intake Form** (`/claim`) — Full listing submission form
+3. **Magic Link Auth** (`/login` + `/api/auth/magic-link`) — Passwordless business login
+4. **Listing Manager** (`/manage`) — Edit existing listing with pre-populated data
+5. **Webhook: Form → Draft Listing** — Auto-create Supabase listing from intake
+6. **GHL Workflow: Send Magic Link** — Triggered by login request
+
+### Phase 4: Monetization
 1. Set up `doorcounty.io`
-2. Build "Claim Your Listing" flow
-3. Payment integration
-4. Business dashboard
+2. Payment integration (Stripe)
+3. Tiered listing features
+4. Business analytics dashboard
 
 ---
 

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door County Visitor | Coming Early 2026</title>
+  <meta name="description" content="Your complete guide to Door County, Wisconsin is coming soon. Sign up to be notified when we launch.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Door County Visitor | Coming Early 2026">
+  <meta property="og:description" content="Your complete guide to Door County, Wisconsin - lodging, dining, attractions, and more.">
+  <meta property="og:site_name" content="Door County Visitor">
+
+  <!-- Fonts (same as main site) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <style>
+    /* Reset & Base - matching your Tailwind config */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Door County color palette from tailwind.config.mjs */
+      --dc-lake-50: #f0f7fc;
+      --dc-lake-100: #e0eef8;
+      --dc-lake-200: #b9daf0;
+      --dc-lake-300: #7fbde4;
+      --dc-lake-400: #3d9bd4;
+      --dc-lake-500: #1a7a9c;
+      --dc-lake-600: #156584;
+      --dc-lake-700: #14526b;
+      --dc-lake-800: #154559;
+      --dc-lake-900: #1e3a5f;
+
+      --dc-forest-50: #f3faf7;
+      --dc-forest-100: #d7f0e5;
+      --dc-forest-200: #b0e0cc;
+      --dc-forest-300: #7ac9ad;
+      --dc-forest-400: #4aab8a;
+      --dc-forest-500: #2d8f70;
+      --dc-forest-600: #21735a;
+      --dc-forest-700: #1d5c49;
+      --dc-forest-800: #1a4a3c;
+      --dc-forest-900: #173d33;
+
+      --dc-cherry-50: #fef2f3;
+      --dc-cherry-100: #fee2e4;
+      --dc-cherry-200: #fecacd;
+      --dc-cherry-300: #fca5ab;
+      --dc-cherry-400: #f8717b;
+      --dc-cherry-500: #c41e3a;
+      --dc-cherry-600: #b91c35;
+      --dc-cherry-700: #9b1831;
+      --dc-cherry-800: #81172e;
+      --dc-cherry-900: #6f182c;
+
+      --dc-sand-50: #faf9f7;
+      --dc-sand-100: #f5f3ef;
+      --dc-sand-200: #e8e4dc;
+      --dc-sand-300: #d4cec2;
+      --dc-sand-400: #b8af9e;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--dc-lake-900);
+      min-height: 100vh;
+      color: var(--dc-lake-800);
+      line-height: 1.6;
+    }
+
+    /* Typography */
+    .font-display {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .font-accent {
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Layout */
+    .container-wide {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .container-wide { padding: 0 1.5rem; }
+    }
+
+    @media (min-width: 1024px) {
+      .container-wide { padding: 0 2rem; }
+    }
+
+    /* Header */
+    header {
+      padding: 1.5rem 0;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: white;
+      fill: none;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.375rem;
+      font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0 3rem;
+      text-align: center;
+      color: white;
+    }
+
+    @media (min-width: 768px) {
+      .hero { padding: 6rem 0 4rem; }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.9);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .hero h1 span {
+      color: var(--dc-cherry-400);
+    }
+
+    .hero .lead {
+      font-size: 1.25rem;
+      color: var(--dc-sand-200);
+      max-width: 640px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    @media (min-width: 768px) {
+      .hero .lead { font-size: 1.375rem; }
+    }
+
+    /* CTA Buttons */
+    .cta-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+
+    @media (min-width: 640px) {
+      .cta-buttons {
+        flex-direction: row;
+        gap: 1.5rem;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .btn-primary {
+      background: var(--dc-cherry-500);
+      color: white;
+      box-shadow: 0 4px 14px rgba(196, 30, 58, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--dc-cherry-600);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(196, 30, 58, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+      .stats {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--dc-sand-300);
+    }
+
+    /* What We're Building Section */
+    .features-section {
+      background: white;
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--dc-lake-800);
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .section-header h2 { font-size: 2.5rem; }
+    }
+
+    .section-header p {
+      font-size: 1.125rem;
+      color: var(--dc-lake-600);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .features-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .feature-card {
+      background: var(--dc-sand-50);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--dc-lake-100);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .feature-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--dc-lake-600);
+      fill: none;
+    }
+
+    .feature-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--dc-lake-800);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: var(--dc-lake-500);
+    }
+
+    /* Year-Round Section */
+    .year-round-section {
+      background: var(--dc-sand-100);
+      padding: 5rem 0;
+    }
+
+    .year-round-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .year-round-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+      }
+    }
+
+    .year-round-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--dc-lake-800);
+      margin-bottom: 1rem;
+    }
+
+    .year-round-content p {
+      font-size: 1.1rem;
+      color: var(--dc-lake-600);
+      margin-bottom: 1.5rem;
+    }
+
+    .season-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .season-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--dc-lake-700);
+    }
+
+    .season-list svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--dc-forest-500);
+      flex-shrink: 0;
+    }
+
+    .year-round-image {
+      background: linear-gradient(135deg, var(--dc-lake-400), var(--dc-forest-500));
+      border-radius: 1rem;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+    }
+
+    /* Business CTA Section */
+    .business-section {
+      background: linear-gradient(135deg, var(--dc-forest-800), var(--dc-lake-900));
+      padding: 5rem 0;
+      color: white;
+      text-align: center;
+    }
+
+    .business-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .business-section p {
+      font-size: 1.125rem;
+      color: var(--dc-sand-200);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .business-benefits {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--dc-sand-200);
+    }
+
+    .benefit svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--dc-forest-400);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dc-lake-900);
+      padding: 3rem 0;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer .links {
+      margin-top: 0.75rem;
+    }
+
+    footer .links a {
+      margin: 0 0.75rem;
+    }
+
+    /* Background pattern */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='white'/%3E%3C/svg%3E");
+      z-index: 0;
+    }
+
+    .relative { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+
+  <!-- Header -->
+  <header class="relative">
+    <div class="container-wide">
+      <a href="/" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <span class="logo-text">Door County Visitor</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero relative">
+    <div class="container-wide">
+      <span class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Launching Early 2026
+      </span>
+
+      <h1>Discover <span>Door County</span></h1>
+
+      <p class="lead">
+        We're building the most comprehensive guide to Door County, Wisconsin.
+        Find the perfect places to stay, eat, explore, and shop across the peninsula's
+        charming communities — all in one place.
+      </p>
+
+      <div class="cta-buttons">
+        <!--
+          VISITOR SIGNUP BUTTON
+          Replace the onclick with your GHL form popup trigger
+          Example: onclick="hbspt.forms.create({...})" or data attributes for GHL
+        -->
+        <button class="btn btn-primary" id="visitor-signup-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          Get Notified When We Launch
+        </button>
+
+        <!--
+          BUSINESS SIGNUP BUTTON
+          Replace the onclick with your GHL form popup trigger
+        -->
+        <button class="btn btn-outline" id="business-signup-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          List Your Business
+        </button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">400+</div>
+          <div class="stat-label">Local Businesses</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">11</div>
+          <div class="stat-label">Communities</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">300</div>
+          <div class="stat-label">Miles of Shoreline</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">5</div>
+          <div class="stat-label">State Parks</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We're Building -->
+  <section class="features-section relative">
+    <div class="container-wide">
+      <div class="section-header">
+        <h2>What We're Building</h2>
+        <p>A complete resource for planning your Door County adventure, whether you're visiting for a weekend or the whole season.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <h3>Stay</h3>
+          <p>Resorts, B&Bs, cabins, vacation rentals, and campgrounds</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+              <line x1="6" y1="1" x2="6" y2="4"/>
+              <line x1="10" y1="1" x2="10" y2="4"/>
+              <line x1="14" y1="1" x2="14" y2="4"/>
+            </svg>
+          </div>
+          <h3>Eat</h3>
+          <p>Restaurants, cafés, fish boils, wineries, and breweries</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+            </svg>
+          </div>
+          <h3>Do</h3>
+          <p>Parks, beaches, tours, museums, and outdoor adventures</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <h3>Shop</h3>
+          <p>Galleries, boutiques, antiques, and local artisan goods</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Year-Round Section -->
+  <section class="year-round-section relative">
+    <div class="container-wide">
+      <div class="year-round-grid">
+        <div class="year-round-content">
+          <h2>Door County is a Year-Round Destination</h2>
+          <p>
+            While summer brings the crowds, each season offers its own magic.
+            We're building a guide that helps you discover Door County in every season.
+          </p>
+          <ul class="season-list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Cherry blossom season
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Summer festivals
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Fall color tours
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Winter ice fishing
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Cross-country skiing
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Cozy winter getaways
+            </li>
+          </ul>
+        </div>
+        <div class="year-round-image">
+          <!-- Placeholder for seasonal image -->
+          All Four Seasons
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business CTA -->
+  <section class="business-section relative">
+    <div class="container-wide">
+      <h2>Own a Door County Business?</h2>
+      <p>
+        Get your free listing on Door County Visitor. We're partnering with local businesses
+        to create the most comprehensive directory of the peninsula.
+      </p>
+
+      <div class="business-benefits">
+        <span class="benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Free basic listing
+        </span>
+        <span class="benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Reach more visitors
+        </span>
+        <span class="benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Easy to manage
+        </span>
+        <span class="benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Premium options available
+        </span>
+      </div>
+
+      <button class="btn btn-primary" id="business-signup-btn-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+        Claim Your Free Listing
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative">
+    <div class="container-wide">
+      <p>&copy; 2025 Door County Visitor. All rights reserved.</p>
+      <p class="links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- GHL Form Embeds (hidden until triggered) -->
+
+  <!-- Visitor Signup Form -->
+  <iframe
+      src="https://updates.creativeintegrations.com/widget/form/MEYaEsX6Veg6vvcJ6SXw"
+      style="display:none;width:100%;height:100%;border:none;border-radius:4px"
+      id="polite-slide-in-right-MEYaEsX6Veg6vvcJ6SXw"
+      data-layout="{'id':'POLITE_SLIDE_IN','minimizedTitle':'','isLeftAligned':false,'isRightAligned':true,'allowMinimize':false}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Landing Page Visitor SignUp"
+      data-height="508"
+      data-layout-iframe-id="polite-slide-in-right-MEYaEsX6Veg6vvcJ6SXw"
+      data-form-id="MEYaEsX6Veg6vvcJ6SXw"
+      title="Landing Page Visitor SignUp"
+  ></iframe>
+
+  <!-- Business Signup Form -->
+  <iframe
+      src="https://updates.creativeintegrations.com/widget/form/OfxCYWreQ7LB0yCx1MBf"
+      style="display:none;width:100%;height:100%;border:none;border-radius:4px"
+      id="polite-slide-in-right-OfxCYWreQ7LB0yCx1MBf"
+      data-layout="{'id':'POLITE_SLIDE_IN','minimizedTitle':'','isLeftAligned':false,'isRightAligned':true,'allowMinimize':false}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Landing Page Business SignUp"
+      data-height="577"
+      data-layout-iframe-id="polite-slide-in-right-OfxCYWreQ7LB0yCx1MBf"
+      data-form-id="OfxCYWreQ7LB0yCx1MBf"
+      title="Landing Page Business SignUp"
+  ></iframe>
+
+  <!-- GHL Form Embed Script -->
+  <script src="https://updates.creativeintegrations.com/js/form_embed.js"></script>
+
+  <script>
+    // Form IDs
+    const VISITOR_FORM_ID = 'MEYaEsX6Veg6vvcJ6SXw';
+    const BUSINESS_FORM_ID = 'OfxCYWreQ7LB0yCx1MBf';
+
+    // Function to trigger GHL polite slide-in form
+    function showGHLForm(formId) {
+      // GHL form_embed.js listens for this custom event to show the form
+      const iframe = document.getElementById('polite-slide-in-right-' + formId);
+      if (iframe && window.leadConnector) {
+        // Try the leadConnector API if available
+        window.leadConnector.showForm(formId);
+      } else if (iframe) {
+        // Fallback: dispatch a custom event that GHL script listens for
+        const event = new CustomEvent('showForm', { detail: { formId: formId } });
+        document.dispatchEvent(event);
+
+        // Alternative: directly manipulate the iframe visibility
+        // GHL's script should handle this, but as backup:
+        iframe.style.display = 'block';
+      }
+    }
+
+    // Visitor signup button
+    document.getElementById('visitor-signup-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      showGHLForm(VISITOR_FORM_ID);
+    });
+
+    // Business signup buttons (both trigger same form)
+    document.getElementById('business-signup-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      showGHLForm(BUSINESS_FORM_ID);
+    });
+
+    document.getElementById('business-signup-btn-2').addEventListener('click', function(e) {
+      e.preventDefault();
+      showGHLForm(BUSINESS_FORM_ID);
+    });
+  </script>
+
+</body>
+</html>
