@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "gohighlevel": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-df5461e5-cf2c-4638-87c1-2a6c4020d2a7"
+      }
+    }
+  }
+}
