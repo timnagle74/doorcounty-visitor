@@ -3,9 +3,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const heroStats = [
   { value: '300+', label: 'Miles of Shoreline' },
+  { value: '11', label: 'Lighthouses (Most in US)' },
   { value: '5', label: 'State Parks' },
-  { value: '11', label: 'Lighthouses' },
-  { value: '19', label: 'Communities' },
+  { value: '250+', label: 'Historic Shipwrecks' },
 ];
 
 const categories = [
@@ -98,14 +98,15 @@ const seasons = [
 
     <div class="container-wide relative z-10 py-20">
       <div class="max-w-3xl">
+        <p class="text-dc-sand-400 text-sm font-medium mb-2 animate-fade-in">"The Cape Cod of the Midwest" — National Geographic</p>
         <h1 class="text-white mb-6 animate-fade-in">
           Discover 
           <span class="text-dc-cherry-400">Door County</span>
         </h1>
         <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
-          Wisconsin's beloved peninsula awaits — <strong>every season of the year</strong>. 
-          Explore charming villages, stunning shorelines, world-class dining, and endless adventures 
-          along 300 miles of beautiful coastline.
+          America's freshwater escape — where 300 miles of Lake Michigan shoreline meets 
+          charming villages, world-class dining, and bucket-list experiences you won't find anywhere else.
+          <strong class="text-white"> Every season tells a different story.</strong>
         </p>
 
         <!-- Search Bar -->
@@ -255,6 +256,40 @@ const seasons = [
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bucket List Teaser -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="text-dc-cherry-200 font-medium text-sm uppercase tracking-wider mb-2 block">Only in Door County</span>
+        <h2 class="text-white mb-6">Bucket-List Experiences</h2>
+        <p class="text-xl text-dc-cherry-100 mb-8">
+          Some things you simply can't experience anywhere else. Theatrical fish boils. Goats on a roof. 
+          Ferrying across Death's Door. These moments define Door County.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-dc-cherry-700/50 backdrop-blur rounded-xl p-4">
+            <span class="text-3xl mb-2 block">🐟</span>
+            <p class="font-display font-bold">Traditional Fish Boils</p>
+            <p class="text-sm text-dc-cherry-200">Scandinavian heritage since the 1800s</p>
+          </div>
+          <div class="bg-dc-cherry-700/50 backdrop-blur rounded-xl p-4">
+            <span class="text-3xl mb-2 block">🐐</span>
+            <p class="font-display font-bold">Goats on the Roof</p>
+            <p class="text-sm text-dc-cherry-200">Al Johnson's iconic attraction</p>
+          </div>
+          <div class="bg-dc-cherry-700/50 backdrop-blur rounded-xl p-4">
+            <span class="text-3xl mb-2 block">⛴️</span>
+            <p class="font-display font-bold">Death's Door Passage</p>
+            <p class="text-sm text-dc-cherry-200">Ferry to Washington Island</p>
+          </div>
+        </div>
+        <a href="/bucket-list" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">
+          See All 15 Bucket-List Experiences →
+        </a>
       </div>
     </div>
   </section>

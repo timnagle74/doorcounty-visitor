@@ -1,0 +1,288 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema } from '../lib/schema';
+
+const title = "Fall in Door County | America's Premier Autumn Destination";
+const description = "Experience Door County's spectacular fall colors. Often called the Cape Cod of the Midwest, our 300 miles of shoreline transform into a canvas of brilliant reds, oranges, and golds each October.";
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Fall', url: 'https://doorcountyvisitor.com/fall' },
+]);
+
+const fallHighlights = [
+  {
+    title: 'Peak Fall Colors',
+    description: 'Door County\'s fall color season typically peaks in mid-October, when sugar maples, birches, and oaks paint the peninsula in brilliant reds, oranges, and golds against the deep blue of Lake Michigan.',
+    icon: '🍂',
+    timing: 'Late September - Late October',
+  },
+  {
+    title: 'Scenic Color Routes',
+    description: 'Wind through canopied country roads, past stone fences and historic barns. Highway 42 along the bay side and Highway 57 on the lake side offer distinctly different but equally stunning drives.',
+    icon: '🚗',
+    timing: 'Self-guided, any time',
+  },
+  {
+    title: 'Harvest Festivals',
+    description: 'Celebrate the season at apple orchards, pumpkin patches, and harvest festivals throughout the peninsula. Sample fresh cider, pick your own apples, and enjoy the festive autumn atmosphere.',
+    icon: '🎃',
+    timing: 'September - October',
+  },
+  {
+    title: 'Fewer Crowds, Same Beauty',
+    description: 'Experience Door County\'s magic without summer crowds. Fall brings a more intimate, relaxed atmosphere — easier reservations, shorter waits, and locals who have more time to share their favorite spots.',
+    icon: '✨',
+    timing: 'All fall season',
+  },
+];
+
+const colorRoutes = [
+  {
+    name: 'Peninsula State Park Loop',
+    distance: '8 miles',
+    highlights: 'Eagle Tower views, Shore Road, Nicolet Bay',
+    difficulty: 'Easy drive or bike',
+    description: 'The crown jewel of fall color viewing. Drive or bike through towering maples and catch panoramic views from Eagle Tower overlooking the islands.',
+  },
+  {
+    name: 'Highway 42 Bay Side',
+    distance: '45 miles',
+    highlights: 'Fish Creek, Ephraim, Sister Bay, Ellison Bay',
+    difficulty: 'Scenic drive',
+    description: 'The classic Door County route. Charming villages nestled between colorful bluffs and Green Bay. Stop often — each town has its own character.',
+  },
+  {
+    name: 'Highway 57 Lake Side',
+    distance: '40 miles',
+    highlights: 'Jacksonport, Baileys Harbor, Cana Island',
+    difficulty: 'Scenic drive',
+    description: 'The quieter, more rugged side of the peninsula. Dramatic Lake Michigan shoreline meets fiery autumn forest. Visit Cana Island Lighthouse framed by fall colors.',
+  },
+  {
+    name: 'Newport State Park',
+    distance: 'Various trails',
+    highlights: 'Europe Bay, Lynd Point, wilderness trails',
+    difficulty: 'Moderate hiking',
+    description: 'Wisconsin\'s only wilderness state park. No vehicles past the parking lot — hike into pristine fall forest and find solitude on rocky Lake Michigan beaches.',
+  },
+];
+
+const fallExperiences = [
+  {
+    title: 'Traditional Fish Boil',
+    description: 'A Door County bucket-list experience. Watch the theatrical "boil over" as flames leap into the autumn sky, then feast on fresh whitefish, potatoes, and cherry pie.',
+    image: '/images/fall/fish-boil.jpg',
+    category: 'Culinary',
+  },
+  {
+    title: 'Apple & Cherry Orchards',
+    description: 'Pick your own apples at family orchards that have operated for generations. Sample fresh cider, cherry wines, and homemade pies in the crisp fall air.',
+    image: '/images/fall/orchards.jpg',
+    category: 'Agritourism',
+  },
+  {
+    title: 'Lighthouse Tours',
+    description: 'Autumn light transforms Door County\'s 11 lighthouses into photographer\'s dreams. Several offer fall-only interior tours before closing for winter.',
+    image: '/images/fall/lighthouse.jpg',
+    category: 'Heritage',
+  },
+  {
+    title: 'Gallery Walks',
+    description: 'Door County\'s thriving arts community hosts fall gallery walks in Fish Creek, Ephraim, and Sister Bay. Meet artists, enjoy wine, and find the perfect piece.',
+    image: '/images/fall/gallery.jpg',
+    category: 'Arts & Culture',
+  },
+];
+
+const fallTips = [
+  { title: 'Book Early', description: 'Peak color weekends (mid-October) book months ahead. Reserve lodging by August for best selection.' },
+  { title: 'Weekdays Win', description: 'Visit Tuesday-Thursday for the same colors with fewer cars and easier restaurant reservations.' },
+  { title: 'Layer Up', description: 'Fall temperatures range from 40°F-65°F. Bring layers for morning fog and sunny afternoons.' },
+  { title: 'Golden Hour Magic', description: 'The hour after sunrise and before sunset makes fall colors glow. Plan drives accordingly.' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative min-h-[70vh] flex items-center bg-dc-lake-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-orange-700 via-red-800 to-dc-lake-900">
+      <div class="absolute inset-0 bg-[url('/images/fall/hero-colors.jpg')] bg-cover bg-center opacity-40"></div>
+    </div>
+    
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <p class="text-orange-200 font-medium mb-3 animate-fade-in">🍂 America's Premier Autumn Destination</p>
+        <h1 class="text-white mb-6 animate-slide-up">
+          Fall in <span class="text-orange-300">Door County</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-orange-100 mb-6 leading-relaxed animate-slide-up">
+          Where 300 miles of Lake Michigan shoreline meets a forest ablaze with color. 
+          This is autumn at its most spectacular — often compared to New England, but with a character all its own.
+        </p>
+        <p class="text-lg text-orange-200/80 mb-8 animate-slide-up">
+          <em>"The Cape Cod of the Midwest"</em> — National Geographic
+        </p>
+
+        <!-- Peak Color Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 animate-slide-up">
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">Oct 10-20</div>
+            <div class="text-orange-200 text-sm">Peak Color (typical)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">300+</div>
+            <div class="text-orange-200 text-sm">Miles of Shoreline</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">11</div>
+            <div class="text-orange-200 text-sm">Historic Lighthouses</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">5</div>
+            <div class="text-orange-200 text-sm">State Parks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Fall in Door County -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Why Door County for Fall Colors?</h2>
+        <p class="text-lg text-dc-lake-600 max-w-3xl mx-auto">
+          Imagine the best of Vermont — the sugar maples, the charming villages, the winding country roads — 
+          but wrapped around a stunning Great Lakes peninsula. That's Door County in autumn.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {fallHighlights.map((item, index) => (
+          <div class="card p-6 hover:-translate-y-1 transition-all duration-300" style={`animation-delay: ${index * 50}ms`}>
+            <div class="text-4xl mb-4">{item.icon}</div>
+            <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">{item.title}</h3>
+            <p class="text-dc-lake-600 text-sm mb-4">{item.description}</p>
+            <span class="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full">{item.timing}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenic Color Routes -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Scenic Fall Color Routes</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          Whether you prefer a leisurely drive, a challenging hike, or a peaceful bike ride, 
+          these routes showcase Door County's autumn splendor.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {colorRoutes.map((route) => (
+          <div class="card p-6">
+            <div class="flex justify-between items-start mb-4">
+              <h3 class="text-xl font-display font-bold text-dc-lake-800">{route.name}</h3>
+              <span class="text-sm bg-dc-lake-100 text-dc-lake-700 px-3 py-1 rounded-full">{route.distance}</span>
+            </div>
+            <p class="text-dc-lake-600 mb-4">{route.description}</p>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <span class="text-xs text-dc-lake-500">Highlights:</span>
+              <span class="text-xs text-dc-cherry-600">{route.highlights}</span>
+            </div>
+            <span class="text-xs text-dc-lake-500">{route.difficulty}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Fall Experiences Grid -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Bucket-List Fall Experiences</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          Beyond the colors, fall unlocks experiences that define Door County's soul.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {fallExperiences.map((exp) => (
+          <div class="card overflow-hidden">
+            <div class="h-48 bg-gradient-to-br from-orange-200 to-red-200 flex items-center justify-center">
+              <span class="text-6xl opacity-50">🍂</span>
+            </div>
+            <div class="p-6">
+              <span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">{exp.category}</span>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mt-2 mb-2">{exp.title}</h3>
+              <p class="text-dc-lake-600">{exp.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Fall Tips -->
+  <section class="section bg-orange-700 text-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-white mb-4">Fall Travel Tips</h2>
+        <p class="text-lg text-orange-100 max-w-2xl mx-auto">
+          Make the most of your autumn escape with these insider tips.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {fallTips.map((tip) => (
+          <div class="bg-orange-800/50 backdrop-blur rounded-xl p-6 border border-orange-600/30">
+            <h3 class="text-lg font-display font-bold text-white mb-2">{tip.title}</h3>
+            <p class="text-orange-100 text-sm">{tip.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- National Recognition -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="mb-8">Nationally Recognized</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <p class="text-dc-lake-400 text-sm mb-2">National Geographic</p>
+            <p class="text-dc-lake-700 italic">"The Cape Cod of the Midwest"</p>
+          </div>
+          <div class="text-center">
+            <p class="text-dc-lake-400 text-sm mb-2">Travel + Leisure</p>
+            <p class="text-dc-lake-700 italic">"A must-visit for fall color enthusiasts"</p>
+          </div>
+          <div class="text-center">
+            <p class="text-dc-lake-400 text-sm mb-2">Midwest Living</p>
+            <p class="text-dc-lake-700 italic">"Best fall destination in the Midwest"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-white mb-4">Plan Your Fall Escape</h2>
+      <p class="text-xl text-dc-cherry-100 mb-8 max-w-2xl mx-auto">
+        Book early for peak color weekends. The best lodging goes fast.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/stay" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">Find Lodging</a>
+        <a href="/eat" class="btn bg-dc-cherry-700 text-white hover:bg-dc-cherry-800 border border-dc-cherry-500">Dining & Fish Boils</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

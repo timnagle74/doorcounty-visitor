@@ -1,0 +1,295 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../lib/schema';
+
+const title = "Door County Bucket List | 15 Unmissable Experiences";
+const description = "The essential Door County experiences you can't find anywhere else. From theatrical fish boils to goats on a roof, these bucket-list moments define Wisconsin's beloved peninsula.";
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Bucket List', url: 'https://doorcountyvisitor.com/bucket-list' },
+]);
+
+const bucketListItems = [
+  {
+    rank: 1,
+    title: 'Experience a Traditional Fish Boil',
+    description: 'Watch the theatrical "boil over" as flames leap into the sky, then feast on whitefish, potatoes, onions, and cherry pie. This Scandinavian tradition has been a Door County ritual since the 1800s.',
+    why: 'The drama of the boil over is unforgettable. The communal outdoor dining, the heritage, the simplicity — it\'s pure Door County.',
+    where: 'White Gull Inn (Fish Creek), Pelletier\'s (Fish Creek), The Viking (Ellison Bay)',
+    season: 'Year-round (summer = outdoor, winter = indoor)',
+    icon: '🐟',
+    category: 'Culinary Heritage',
+  },
+  {
+    rank: 2,
+    title: 'See the Goats on the Roof at Al Johnson\'s',
+    description: 'Yes, there are actual goats grazing on the grass-covered roof of this Swedish restaurant. Started as a birthday joke in 1973, they\'ve become one of Wisconsin\'s most photographed attractions.',
+    why: 'It\'s delightfully absurd and uniquely Door County. Plus, the Swedish pancakes are legendary.',
+    where: 'Al Johnson\'s Swedish Restaurant, Sister Bay',
+    season: 'Goats: May-October (sunny days). Restaurant: Year-round',
+    icon: '🐐',
+    category: 'Only in Door County',
+  },
+  {
+    rank: 3,
+    title: 'Watch the Sunset from Eagle Tower',
+    description: 'Climb the 60-foot observation tower in Peninsula State Park for 360-degree views of the islands, Green Bay, and the forested peninsula stretching below.',
+    why: 'On a clear evening, you\'ll see why they call this place magical. The sunset paints the bay in impossible colors.',
+    where: 'Peninsula State Park, Fish Creek',
+    season: 'Year-round (rebuilt in 2020 with elevator access)',
+    icon: '🌅',
+    category: 'Scenic Wonder',
+  },
+  {
+    rank: 4,
+    title: 'Ferry to Washington Island & Drink Bitters',
+    description: 'Cross the infamous "Death\'s Door" passage to Wisconsin\'s largest island. At Nelsen\'s Hall, take a shot of Angostura bitters to join the "Bitters Club" — a tradition since Prohibition.',
+    why: 'The ferry ride through Death\'s Door is an adventure itself. The island is a step back in time.',
+    where: 'Washington Island Ferry from Northport, Nelsen\'s Hall Bitters Pub',
+    season: 'Year-round (ice-breaking ferry in winter)',
+    icon: '⛴️',
+    category: 'Island Adventure',
+  },
+  {
+    rank: 5,
+    title: 'Kayak Through the Sea Caves at Cave Point',
+    description: 'Paddle through ancient dolomite caves carved by Lake Michigan\'s relentless waves. The caves glow turquoise on calm days.',
+    why: 'This is the Door County that photographers dream about. Raw, elemental beauty.',
+    where: 'Cave Point County Park, Jacksonport. Rentals: Door County Kayak Tours',
+    season: 'May-October (calm days best)',
+    icon: '🛶',
+    category: 'Adventure',
+  },
+  {
+    rank: 6,
+    title: 'Tour the Historic Lighthouses',
+    description: 'Door County has 11 lighthouses — the highest concentration in the country. Several offer tours, and each has its own story of shipwrecks, keepers, and survival.',
+    why: 'The maritime heritage is palpable. These lights guided ships through Death\'s Door for over a century.',
+    where: 'Cana Island (iconic), Eagle Bluff, Potawatomi, Sherwood Point (Coast Guard tours)',
+    season: 'Most open May-October',
+    icon: '🗼',
+    category: 'Heritage',
+  },
+  {
+    rank: 7,
+    title: 'Pick Cherries in "Cherryland"',
+    description: 'Door County was once the nation\'s #1 cherry producer. Pick your own at family orchards, then sample cherry wines, cherry pies, and cherry everything.',
+    why: 'The cherry heritage runs deep. Orchards have been here for generations.',
+    where: 'Lautenbach\'s, Seaquist, Cherry Lane Orchards',
+    season: 'Cherry picking: July. Products: Year-round',
+    icon: '🍒',
+    category: 'Agritourism',
+  },
+  {
+    rank: 8,
+    title: 'Hike to Europe Bay (Yes, Really)',
+    description: 'At Newport State Park, hike through wilderness to a rocky beach called Europe Bay. It\'s Wisconsin\'s only wilderness state park — no vehicles, just forest and shoreline.',
+    why: 'True solitude is rare. Here, you\'ll find it.',
+    where: 'Newport State Park, Ellison Bay',
+    season: 'Year-round (snowshoeing in winter)',
+    icon: '🥾',
+    category: 'Nature',
+  },
+  {
+    rank: 9,
+    title: 'Explore the Belgian Chapels',
+    description: 'In the 1850s, Walloon Belgians settled southern Door County and built small roadside chapels that still stand today. Find them on country roads near Namur and Brussels.',
+    why: 'A hidden heritage most visitors never discover. Quiet, spiritual, authentic.',
+    where: 'Southern Door County — Namur, Brussels, Rosiere area',
+    season: 'Year-round',
+    icon: '⛪',
+    category: 'Hidden Heritage',
+  },
+  {
+    rank: 10,
+    title: 'Stargaze at a Dark Sky Preserve',
+    description: 'Newport State Park is a certified Dark Sky Park. On a clear night, the Milky Way stretches overhead like a river of light.',
+    why: 'Real darkness is increasingly rare. Here, you remember what the night sky is supposed to look like.',
+    where: 'Newport State Park, Ellison Bay',
+    season: 'Year-round (best: new moon nights, August-October)',
+    icon: '🌌',
+    category: 'Nature',
+  },
+  {
+    rank: 11,
+    title: 'Drive the Door County Coastal Byway',
+    description: 'This 66-mile National Scenic Byway hugs the shoreline from Sturgeon Bay to Northport. Every turn reveals water views, charming villages, and roadside attractions.',
+    why: 'The quintessential Door County experience. Take your time. Stop often.',
+    where: 'Highway 42 (bay side) and Highway 57 (lake side)',
+    season: 'Year-round (peak colors: mid-October)',
+    icon: '🚗',
+    category: 'Scenic Drive',
+  },
+  {
+    rank: 12,
+    title: 'Attend a Barn Theatre Show',
+    description: 'Professional Equity theater in a restored 1940s barn. The Peninsula Players have been producing summer stock since 1935 — America\'s oldest professional resident summer theater.',
+    why: 'Real Broadway talent in an intimate, magical setting. It\'s a Door County institution.',
+    where: 'Peninsula Players Theatre, Fish Creek',
+    season: 'June-October',
+    icon: '🎭',
+    category: 'Arts & Culture',
+  },
+  {
+    rank: 13,
+    title: 'Winter Ice Fishing on the Bay',
+    description: 'When Green Bay freezes, it becomes one of the best ice fishing destinations in the country. Join a guided trip for walleye, whitefish, and northern pike.',
+    why: 'It\'s a completely different Door County. Quiet, stark, beautiful — and the fishing is world-class.',
+    where: 'Little Sturgeon Bay, Sawyer Harbor. Guides: Ice Fish Green Bay',
+    season: 'January-February (ice dependent)',
+    icon: '🎣',
+    category: 'Winter Adventure',
+  },
+  {
+    rank: 14,
+    title: 'Sample the Wine & Cider Trail',
+    description: 'Over 10 wineries and cideries dot the peninsula, many using Door County fruit. Create your own tasting tour along country roads.',
+    why: 'Door County fruit wines are unlike anything else. Cherry, apple, cranberry — unexpected and delicious.',
+    where: 'Door Peninsula Winery, Lautenbach\'s, Island Orchard Cider',
+    season: 'Year-round (harvest season: September-October best)',
+    icon: '🍷',
+    category: 'Culinary',
+  },
+  {
+    rank: 15,
+    title: 'Find Your Beach',
+    description: 'With 300+ miles of shoreline, Door County has a beach for every mood — sandy swimming beaches, rocky wave-watching spots, hidden coves, and everything in between.',
+    why: 'Lake Michigan\'s clarity rivals the Caribbean. The water is cold, but the experience is unforgettable.',
+    where: 'Schoolhouse Beach (rocks), Whitefish Dunes (sand), Nicolet Bay (calm)',
+    season: 'Swimming: June-September. Beach walking: Year-round',
+    icon: '🏖️',
+    category: 'Nature',
+  },
+];
+
+const categories = [...new Set(bucketListItems.map(item => item.category))];
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center bg-dc-lake-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-dc-cherry-700 via-dc-lake-800 to-dc-lake-900">
+      <div class="absolute inset-0 bg-[url('/images/bucket-list/hero.jpg')] bg-cover bg-center opacity-30"></div>
+    </div>
+    
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <p class="text-dc-cherry-300 font-medium mb-3 animate-fade-in">✨ The Definitive List</p>
+        <h1 class="text-white mb-6 animate-slide-up">
+          Door County <span class="text-dc-cherry-400">Bucket List</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
+          15 unmissable experiences that define Wisconsin's beloved peninsula. 
+          These aren't just things to do — they're moments you'll remember forever.
+        </p>
+        <p class="text-lg text-dc-sand-300/80 italic animate-slide-up">
+          "The Cape Cod of the Midwest" — with a character all its own.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Jump -->
+  <section class="bg-white border-b border-dc-sand-200 py-4 sticky top-16 z-40">
+    <div class="container-wide">
+      <div class="flex flex-wrap gap-2 justify-center">
+        {categories.map((cat) => (
+          <a href={`#${cat.toLowerCase().replace(/[^a-z]+/g, '-')}`} 
+             class="text-sm px-3 py-1 rounded-full bg-dc-sand-100 text-dc-lake-600 hover:bg-dc-lake-100 transition-colors">
+            {cat}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bucket List Items -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto space-y-12">
+        {bucketListItems.map((item) => (
+          <article class="relative" id={item.category.toLowerCase().replace(/[^a-z]+/g, '-')}>
+            <div class="flex gap-6">
+              <!-- Rank Number -->
+              <div class="flex-shrink-0 w-16 h-16 bg-dc-cherry-500 rounded-2xl flex items-center justify-center text-white font-display font-bold text-2xl shadow-lg">
+                {item.rank}
+              </div>
+              
+              <!-- Content -->
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="text-3xl">{item.icon}</span>
+                  <span class="text-xs bg-dc-sand-100 text-dc-lake-600 px-3 py-1 rounded-full">{item.category}</span>
+                </div>
+                
+                <h2 class="text-2xl font-display font-bold text-dc-lake-800 mb-3">{item.title}</h2>
+                
+                <p class="text-dc-lake-600 mb-4">{item.description}</p>
+                
+                <div class="bg-dc-sand-50 rounded-xl p-4 space-y-3">
+                  <div>
+                    <span class="text-sm font-bold text-dc-lake-700">Why it's essential: </span>
+                    <span class="text-sm text-dc-lake-600">{item.why}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-bold text-dc-lake-700">Where: </span>
+                    <span class="text-sm text-dc-lake-600">{item.where}</span>
+                  </div>
+                  <div>
+                    <span class="text-sm font-bold text-dc-lake-700">When: </span>
+                    <span class="text-sm text-dc-lake-600">{item.season}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- The Door County Difference -->
+  <section class="section bg-dc-lake-800 text-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-white mb-6">The Door County Difference</h2>
+        <p class="text-xl text-dc-sand-200 mb-8">
+          These experiences exist only here — shaped by our maritime heritage, 
+          Scandinavian and Belgian settlers, and 300 miles of Lake Michigan shoreline. 
+          This isn't a manufactured tourist destination. It's a real place with real history, 
+          where traditions have been kept alive for generations.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 text-center">
+          <div>
+            <div class="text-4xl font-display font-bold text-dc-cherry-400 mb-2">11</div>
+            <div class="text-dc-sand-300">Historic Lighthouses<br/><span class="text-sm text-dc-sand-400">Most in any U.S. county</span></div>
+          </div>
+          <div>
+            <div class="text-4xl font-display font-bold text-dc-cherry-400 mb-2">300+</div>
+            <div class="text-dc-sand-300">Miles of Shoreline<br/><span class="text-sm text-dc-sand-400">Lake Michigan & Green Bay</span></div>
+          </div>
+          <div>
+            <div class="text-4xl font-display font-bold text-dc-cherry-400 mb-2">1800s</div>
+            <div class="text-dc-sand-300">Fish Boil Tradition<br/><span class="text-sm text-dc-sand-400">Still going strong</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-white mb-4">Ready to Check Them Off?</h2>
+      <p class="text-xl text-dc-cherry-100 mb-8 max-w-2xl mx-auto">
+        Start planning your Door County adventure. We'll help you find the perfect places to stay, 
+        eat, and explore.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/stay" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">Find Lodging</a>
+        <a href="/do" class="btn bg-dc-cherry-700 text-white hover:bg-dc-cherry-800 border border-dc-cherry-500">Explore Activities</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
