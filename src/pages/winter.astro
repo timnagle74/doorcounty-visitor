@@ -70,17 +70,17 @@ const winterExperiences = [
   {
     title: 'Cozy Lodging & Fireside Dining',
     description: 'Warm up at Door County\'s finest lodges, B&Bs, and restaurants. Many feature crackling fireplaces, hot cocoa, and hearty winter comfort food. Wisconsin supper clubs are a must.',
-    image: '/images/winter/cozy-lodge.jpg',
+    image: '/images/winter/cozy-cabin.jpg',
   },
   {
-    title: 'Winter Spa Retreats',
-    description: 'Treat yourself to relaxation at one of nine Door County spas. Hot stone massages, saunas, and wellness treatments are the perfect après-ski indulgence.',
-    image: '/images/winter/spa.jpg',
+    title: 'Snowy Trail Adventures',
+    description: 'Explore miles of snow-covered trails through peaceful forests and along the shoreline. Whether on skis, snowshoes, or foot, the winter landscape is magical.',
+    image: '/images/winter/snowy-trail.jpg',
   },
   {
-    title: 'Arts & Culture',
-    description: 'Take a class at The Clearing Folk School or Peninsula School of Art. Winter is the perfect time to discover a new creative hobby away from the crowds.',
-    image: '/images/winter/arts.jpg',
+    title: 'Cross-Country Skiing',
+    description: 'Glide through Door County\'s groomed trails at Peninsula State Park, Newport State Park, and nature preserves. A perfect winter workout with stunning views.',
+    image: '/images/winter/skiing.jpg',
   },
 ];
 
@@ -173,11 +173,12 @@ const winterEvents = [
       <div class="grid md:grid-cols-2 gap-8">
         {winterExperiences.map((exp) => (
           <div class="card overflow-hidden">
-            <div class="h-48 bg-dc-lake-200">
-              <!-- Placeholder for image -->
-              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-dc-lake-300 to-dc-lake-400">
-                <span class="text-white text-lg font-medium">{exp.title}</span>
-              </div>
+            <div class="h-48 bg-dc-lake-200 overflow-hidden">
+              <img 
+                src={exp.image} 
+                alt={exp.title}
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
             </div>
             <div class="p-6">
               <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">{exp.title}</h3>

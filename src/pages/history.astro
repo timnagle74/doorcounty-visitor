@@ -229,8 +229,16 @@ const heritageGroups = [
       </div>
 
       <div class="grid lg:grid-cols-3 gap-8">
-        {heritageGroups.map((group) => (
-          <div class="card p-8">
+        {heritageGroups.map((group, index) => (
+          <div class="card overflow-hidden">
+            <div class="h-40 overflow-hidden">
+              <img 
+                src={index === 0 ? '/images/history/log-cabin.jpg' : index === 1 ? '/images/history/chapel.jpg' : '/images/history/lighthouse.jpg'}
+                alt={group.name}
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-8">
             <h3 class="text-2xl font-display font-bold text-dc-lake-800 mb-4">{group.name}</h3>
             <p class="text-dc-lake-600 mb-6">{group.description}</p>
             
@@ -249,6 +257,7 @@ const heritageGroups = [
               {group.communities.map((community) => (
                 <span class="text-xs bg-dc-lake-100 text-dc-lake-700 px-3 py-1 rounded-full">{community}</span>
               ))}
+            </div>
             </div>
           </div>
         ))}
