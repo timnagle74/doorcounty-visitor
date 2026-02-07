@@ -1,0 +1,324 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../lib/schema';
+
+const title = "Door County Supper Clubs | A Wisconsin Tradition";
+const description = "Experience the beloved Wisconsin supper club tradition in Door County. Old fashioneds, relish trays, prime rib, and Friday fish fry — a dining ritual you won't find anywhere else in America.";
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Supper Clubs', url: 'https://doorcountyvisitor.com/supper-clubs' },
+]);
+
+const faqs = [
+  {
+    question: "What is a Wisconsin supper club?",
+    answer: "A supper club is a traditional Wisconsin dining institution — part restaurant, part social club. They're known for their cocktail culture (especially brandy old fashioneds), relish trays, Friday fish fry, Saturday prime rib, and a leisurely pace where dinner is an event, not just a meal. Most have been family-owned for generations."
+  },
+  {
+    question: "What should I order at a supper club?",
+    answer: "Start with a brandy old fashioned (sweet, sour, or press). Enjoy the complimentary relish tray while you wait. For mains: Friday means fish fry (beer-battered perch or walleye), Saturday is prime rib night. Other classics include surf and turf, broiled seafood, and hand-cut steaks. Save room for grasshopper pie or ice cream drinks."
+  },
+  {
+    question: "Do I need a reservation?",
+    answer: "Highly recommended, especially on Friday and Saturday nights. Supper clubs are beloved by locals and visitors alike, so prime dining times fill up quickly. Call ahead — most don't take online reservations."
+  },
+  {
+    question: "What's the dress code?",
+    answer: "Smart casual to dressy casual. Supper clubs are a step up from everyday dining — locals often dress up for the occasion. You'll see everything from nice jeans to sport coats. No shorts or flip-flops at most establishments."
+  },
+];
+
+const faqSchema = generateFAQSchema(faqs);
+
+const supperClubTraditions = [
+  {
+    name: 'The Brandy Old Fashioned',
+    description: 'Wisconsin\'s signature cocktail. Unlike the bourbon-based version elsewhere, here it\'s made with brandy. Order it "sweet" (with Sprite), "sour" (with sour mix), or "press" (half Sprite, half soda). Garnished with an orange slice and cherry.',
+    icon: '🥃',
+  },
+  {
+    name: 'The Relish Tray',
+    description: 'Before your meal arrives, you\'ll receive a complimentary tray of pickles, olives, cottage cheese, coleslaw, and crackers with cheese spread. It\'s meant to be enjoyed leisurely with your cocktail while you peruse the menu.',
+    icon: '🥒',
+  },
+  {
+    name: 'Friday Fish Fry',
+    description: 'A Wisconsin institution. Every Friday, supper clubs serve beer-battered or breaded fish (usually perch, walleye, or cod) with coleslaw, rye bread, and tartar sauce. It dates back to Catholic traditions of meatless Fridays.',
+    icon: '🐟',
+  },
+  {
+    name: 'Saturday Prime Rib',
+    description: 'The pinnacle of supper club dining. Slow-roasted prime rib, hand-carved to your preferred thickness, served with au jus and horseradish. Many clubs only serve it on Saturday — and it sells out.',
+    icon: '🥩',
+  },
+  {
+    name: 'The Ice Cream Drinks',
+    description: 'End your meal with a Grasshopper (crème de menthe, crème de cacao, ice cream) or a Pink Squirrel (crème de noyaux, crème de cacao, ice cream). These sweet, boozy desserts are a supper club signature.',
+    icon: '🍨',
+  },
+  {
+    name: 'The Leisurely Pace',
+    description: 'Supper clubs aren\'t about turning tables. Expect a long, relaxed evening. Arrive early for cocktails at the bar, linger over your relish tray, savor your meal, and finish with dessert and an after-dinner drink. This is an experience, not just dinner.',
+    icon: '⏰',
+  },
+];
+
+const doorCountySupperClubs = [
+  {
+    name: 'The English Inn',
+    location: 'Fish Creek',
+    established: '1947',
+    signature: 'Prime rib, duck, Friday fish fry',
+    description: 'A Door County institution since 1947. Known for elegant dining in a historic setting with spectacular sunsets over the bay.',
+    vibe: 'Classic elegance',
+  },
+  {
+    name: 'Nightingale Supper Club',
+    location: 'Sturgeon Bay',
+    established: '1954',
+    signature: 'Steaks, seafood, old fashioneds',
+    description: 'Seventieth-anniversary in 2024. A true neighborhood supper club where locals and visitors mix over perfectly crafted cocktails.',
+    vibe: 'Neighborhood gem',
+  },
+  {
+    name: 'Sister Bay Bowl',
+    location: 'Sister Bay',
+    established: '1958',
+    signature: 'Friday fish fry, bowling + dinner combo',
+    description: 'Yes, it\'s in a bowling alley — and that\'s the charm. Locals pack the place for fish fry Fridays and classic supper club fare.',
+    vibe: 'Retro fun',
+  },
+  {
+    name: 'Mr. G\'s Supper Club',
+    location: 'Sturgeon Bay',
+    established: '1969',
+    signature: 'Steaks, Friday fish fry, lobster tail',
+    description: 'Family-owned for over 50 years. The kind of place where the staff knows the regulars by name and the portions are generous.',
+    vibe: 'Family tradition',
+  },
+  {
+    name: 'Donny\'s Glidden Lodge',
+    location: 'Sevastopol',
+    established: '1946',
+    signature: 'Lake views, prime rib, fish boil',
+    description: 'Perched on the Lake Michigan shore with stunning sunset views. Combines supper club tradition with Door County fish boil heritage.',
+    vibe: 'Lakefront classic',
+  },
+  {
+    name: 'The Mill Supper Club',
+    location: 'Sturgeon Bay',
+    established: '1930',
+    signature: 'Steaks, seafood, historic atmosphere',
+    description: 'One of the oldest supper clubs in the region, housed in a converted mill. History and hearty food in every bite.',
+    vibe: 'Historic charm',
+  },
+];
+
+const supperClubTrail = {
+  title: 'The Door County Supper Club Trail',
+  description: 'Visit multiple supper clubs and earn your place in Wisconsin culinary history.',
+  stops: [
+    { order: 1, name: 'First Stop', reward: 'Supper Club Trail sticker' },
+    { order: 3, name: 'Three Clubs', reward: 'Official Trail Member card' },
+    { order: 5, name: 'Five Clubs', reward: 'Door County Supper Club Trail t-shirt' },
+    { order: 'All', name: 'Complete Trail', reward: 'Your name on the Supper Club Wall of Fame' },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema, faqSchema]}>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center bg-dc-lake-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-amber-900 via-dc-lake-900 to-dc-lake-800">
+      <div class="absolute inset-0 bg-[url('/images/supper-clubs/hero.jpg')] bg-cover bg-center opacity-30"></div>
+    </div>
+    
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <p class="text-amber-300 font-medium mb-3 animate-fade-in">🥃 A Wisconsin Tradition</p>
+        <h1 class="text-white mb-6 animate-slide-up">
+          Door County <span class="text-amber-400">Supper Clubs</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-amber-100 mb-8 leading-relaxed animate-slide-up">
+          Brandy old fashioneds. Relish trays. Friday fish fry. Saturday prime rib. 
+          This is the Wisconsin supper club — a dining tradition you won't find anywhere else in America.
+        </p>
+        <p class="text-lg text-amber-200/80 italic animate-slide-up">
+          Dinner here isn't just a meal. It's an institution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is a Supper Club -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center mb-12">
+        <h2 class="mb-6">What is a Wisconsin Supper Club?</h2>
+        <p class="text-xl text-dc-lake-600 leading-relaxed">
+          Imagine a place where cocktail hour is sacred, the relish tray arrives before you even order, 
+          and dinner stretches into a full evening affair. Where the bartender knows how you take your 
+          old fashioned, the prime rib is hand-carved, and the grasshopper pie is made fresh.
+        </p>
+        <p class="text-lg text-dc-lake-500 mt-4">
+          That's a supper club. And Door County has some of Wisconsin's finest.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {supperClubTraditions.map((tradition) => (
+          <div class="card p-6">
+            <span class="text-4xl mb-4 block">{tradition.icon}</span>
+            <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">{tradition.name}</h3>
+            <p class="text-dc-lake-600 text-sm">{tradition.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Door County Supper Clubs -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Door County Supper Clubs</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          These are the real deal — family-owned institutions where generations of Door County visitors 
+          have celebrated special occasions and everyday evenings alike.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {doorCountySupperClubs.map((club) => (
+          <div class="card p-6 hover:-translate-y-1 transition-all">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-display font-bold text-dc-lake-800">{club.name}</h3>
+              <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">Est. {club.established}</span>
+            </div>
+            <p class="text-sm text-dc-cherry-600 mb-2">{club.location}</p>
+            <p class="text-dc-lake-600 text-sm mb-4">{club.description}</p>
+            <div class="border-t border-dc-sand-200 pt-3 mt-auto">
+              <p class="text-xs text-dc-lake-500"><strong>Known for:</strong> {club.signature}</p>
+              <p class="text-xs text-dc-lake-400 mt-1">Vibe: {club.vibe}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Supper Club Trail -->
+  <section class="section bg-amber-700 text-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="text-amber-200 text-sm font-medium uppercase tracking-wider mb-2 block">Coming Soon</span>
+        <h2 class="text-white mb-6">The Door County Supper Club Trail</h2>
+        <p class="text-xl text-amber-100 mb-8">
+          Embark on a culinary journey through Wisconsin's supper club tradition. 
+          Visit participating clubs, collect stamps, and earn your place in Door County dining history.
+        </p>
+        
+        <div class="grid md:grid-cols-4 gap-4 mb-8">
+          {supperClubTrail.stops.map((stop) => (
+            <div class="bg-amber-800/50 backdrop-blur rounded-xl p-4 border border-amber-600/30">
+              <div class="text-2xl font-display font-bold text-amber-200 mb-1">{stop.order}</div>
+              <p class="text-white font-medium text-sm mb-2">{stop.name}</p>
+              <p class="text-amber-200 text-xs">{stop.reward}</p>
+            </div>
+          ))}
+        </div>
+
+        <p class="text-amber-200 text-sm">
+          Interested in joining the trail? Sign up to be notified when we launch.
+        </p>
+        <a href="/contact" class="btn bg-white text-amber-700 hover:bg-amber-50 mt-4 inline-block">
+          Get Notified →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Supper Club -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-center mb-8">Your First Supper Club Visit</h2>
+        
+        <div class="space-y-6">
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-dc-cherry-500 rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+            <div>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">Make a Reservation</h3>
+              <p class="text-dc-lake-600">Call ahead, especially for Friday fish fry or Saturday prime rib. Most supper clubs don't take online reservations — pick up the phone and call like it's 1975.</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-dc-cherry-500 rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+            <div>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">Arrive Early for Cocktails</h3>
+              <p class="text-dc-lake-600">Give yourself time to enjoy the bar. Order a brandy old fashioned (say "sweet" if you like it with Sprite). Soak in the atmosphere. There's no rush.</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-dc-cherry-500 rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+            <div>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">Savor the Relish Tray</h3>
+              <p class="text-dc-lake-600">When you're seated, the relish tray arrives. Pickles, olives, cottage cheese, crackers. It's complimentary and meant to be enjoyed slowly while you decide on dinner.</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-dc-cherry-500 rounded-full flex items-center justify-center text-white font-bold text-xl">4</div>
+            <div>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">Order the Classics</h3>
+              <p class="text-dc-lake-600">Friday? Fish fry. Saturday? Prime rib. Any night? Steaks, surf and turf, or broiled seafood. Trust the traditions — they've been perfected over decades.</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 bg-dc-cherry-500 rounded-full flex items-center justify-center text-white font-bold text-xl">5</div>
+            <div>
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">End with an Ice Cream Drink</h3>
+              <p class="text-dc-lake-600">A Grasshopper or Pink Squirrel is the traditional finale. Sweet, boozy, and absolutely essential to the full experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-center mb-8">Frequently Asked Questions</h2>
+        
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="card p-6">
+              <h3 class="text-lg font-bold text-dc-lake-800 mb-2">{faq.question}</h3>
+              <p class="text-dc-lake-600">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-white mb-4">Ready to Experience the Tradition?</h2>
+      <p class="text-xl text-dc-cherry-100 mb-8 max-w-2xl mx-auto">
+        Make a reservation, dress up a little, and prepare for an evening you'll remember.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/eat" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">Browse All Restaurants</a>
+        <a href="/bucket-list" class="btn bg-dc-cherry-700 text-white hover:bg-dc-cherry-800 border border-dc-cherry-500">Door County Bucket List</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
