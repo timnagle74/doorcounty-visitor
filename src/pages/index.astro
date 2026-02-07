@@ -47,6 +47,41 @@ const communities = [
   { name: 'Baileys Harbor', slug: 'baileys-harbor', image: '/images/communities/baileys-harbor.jpg' },
   { name: 'Egg Harbor', slug: 'egg-harbor', image: '/images/communities/egg-harbor.jpg' },
 ];
+
+const seasons = [
+  {
+    name: 'Winter',
+    href: '/winter',
+    icon: '❄️',
+    months: 'Dec - Mar',
+    highlights: ['Ice Fishing', 'Cross-Country Skiing', 'Snowmobiling', 'Cozy Getaways'],
+    color: 'from-slate-600 to-dc-lake-800',
+  },
+  {
+    name: 'Spring',
+    href: '/spring',
+    icon: '🌸',
+    months: 'Apr - May',
+    highlights: ['Cherry Blossoms', 'Wildflowers', 'Birdwatching', 'Hiking'],
+    color: 'from-pink-400 to-dc-cherry-600',
+  },
+  {
+    name: 'Summer',
+    href: '/summer',
+    icon: '☀️',
+    months: 'Jun - Aug',
+    highlights: ['Beaches', 'Kayaking', 'Fish Boils', 'Festivals'],
+    color: 'from-amber-400 to-dc-cherry-500',
+  },
+  {
+    name: 'Fall',
+    href: '/fall',
+    icon: '🍂',
+    months: 'Sep - Nov',
+    highlights: ['Fall Colors', 'Apple Orchards', 'Harvest Festivals', 'Quiet Trails'],
+    color: 'from-orange-500 to-red-700',
+  },
+];
 ---
 
 <BaseLayout 
@@ -68,8 +103,9 @@ const communities = [
           <span class="text-dc-cherry-400">Door County</span>
         </h1>
         <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
-          Wisconsin's beloved peninsula awaits. Explore charming villages, stunning shorelines, 
-          world-class dining, and endless adventures along 300 miles of beautiful coastline.
+          Wisconsin's beloved peninsula awaits — <strong>every season of the year</strong>. 
+          Explore charming villages, stunning shorelines, world-class dining, and endless adventures 
+          along 300 miles of beautiful coastline.
         </p>
 
         <!-- Search Bar -->
@@ -150,6 +186,43 @@ const communities = [
     </div>
   </section>
 
+  <!-- Plan by Season -->
+  <section class="section bg-dc-lake-800">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-white mb-4">A Year-Round Destination</h2>
+        <p class="text-lg text-dc-sand-200 max-w-2xl mx-auto">
+          Door County is magical in every season. Whether you're chasing summer sun or winter snow, 
+          there's always something to discover.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {seasons.map((season) => (
+          <a 
+            href={season.href}
+            class="group relative overflow-hidden rounded-2xl p-6 text-white transition-transform hover:-translate-y-1"
+          >
+            <div class={`absolute inset-0 bg-gradient-to-br ${season.color} opacity-90 group-hover:opacity-100 transition-opacity`}></div>
+            <div class="relative z-10">
+              <span class="text-4xl mb-3 block">{season.icon}</span>
+              <h3 class="text-2xl font-display font-bold mb-1">{season.name}</h3>
+              <p class="text-white/70 text-sm mb-4">{season.months}</p>
+              <ul class="space-y-1">
+                {season.highlights.map((highlight) => (
+                  <li class="text-sm text-white/90 flex items-center gap-2">
+                    <span class="w-1 h-1 bg-white/60 rounded-full"></span>
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Communities Section -->
   <section class="section bg-dc-sand-100">
     <div class="container-wide">
@@ -182,6 +255,59 @@ const communities = [
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- History & Heritage -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-dc-cherry-500 font-medium text-sm uppercase tracking-wider mb-2 block">Discover Our Heritage</span>
+          <h2 class="mb-6">Stories of the Peninsula</h2>
+          <p class="text-lg text-dc-lake-600 mb-6">
+            From the treacherous waters of <strong>Death's Door</strong> that gave our county its name, 
+            to the Scandinavian and Belgian settlers who shaped our culture — Door County's history is as 
+            rich as its natural beauty.
+          </p>
+          <p class="text-dc-lake-600 mb-8">
+            Learn why there are goats on the roof at Al Johnson's, discover the Belgian chapels of southern 
+            Door County, and explore 11 historic lighthouses that once guided ships through dangerous waters.
+          </p>
+          <a href="/history" class="btn-primary inline-flex items-center gap-2">
+            Explore Our History
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div class="bg-dc-sand-100 rounded-xl p-6 text-center">
+              <span class="text-4xl mb-2 block">🐐</span>
+              <p class="font-display font-bold text-dc-lake-800">Goats on the Roof</p>
+              <p class="text-sm text-dc-lake-600">Since 1973</p>
+            </div>
+            <div class="bg-dc-sand-100 rounded-xl p-6 text-center">
+              <span class="text-4xl mb-2 block">⛪</span>
+              <p class="font-display font-bold text-dc-lake-800">Belgian Chapels</p>
+              <p class="text-sm text-dc-lake-600">1850s Heritage</p>
+            </div>
+          </div>
+          <div class="space-y-4 mt-8">
+            <div class="bg-dc-sand-100 rounded-xl p-6 text-center">
+              <span class="text-4xl mb-2 block">🗼</span>
+              <p class="font-display font-bold text-dc-lake-800">11 Lighthouses</p>
+              <p class="text-sm text-dc-lake-600">Maritime History</p>
+            </div>
+            <div class="bg-dc-sand-100 rounded-xl p-6 text-center">
+              <span class="text-4xl mb-2 block">⚓</span>
+              <p class="font-display font-bold text-dc-lake-800">Death's Door</p>
+              <p class="text-sm text-dc-lake-600">250+ Shipwrecks</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

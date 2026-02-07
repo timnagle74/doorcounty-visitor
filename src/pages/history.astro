@@ -1,0 +1,326 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../lib/schema';
+
+const title = "History of Door County | Heritage, Settlers & Stories";
+const description = "Discover the rich history of Door County, Wisconsin. From Native American heritage to Scandinavian and Belgian settlers, learn how this peninsula became a beloved destination.";
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'History', url: 'https://doorcountyvisitor.com/history' },
+]);
+
+const faqs = [
+  {
+    question: "Why is it called Door County?",
+    answer: "Door County is named after the treacherous strait between the Door Peninsula and Washington Island, known as 'Death's Door' (Porte des Morts in French). The name comes from Native American tales about a failed raid where warriors perished in the dangerous waters, later heard by French explorers in the 1600s."
+  },
+  {
+    question: "Why is there a Swedish restaurant in Sister Bay?",
+    answer: "Al Johnson's Swedish Restaurant was founded in 1949 by Al Johnson, who was born in Chicago but spent childhood summers with family in Sweden. The iconic log building with goats grazing on its sod roof was constructed in Norway in 1973 and shipped to Wisconsin. The goats started as a birthday joke from a friend and became a beloved tradition."
+  },
+  {
+    question: "Why are there so many Belgian influences in Door County?",
+    answer: "In the mid-1800s, Walloon Belgians immigrated to southern Door County, settling areas like Namur, Brussels, and Rosiere. They brought traditions like roadside votive chapels (still standing today) and the Kermiss harvest festival. This community represents one of the largest Belgian settlements in the United States."
+  },
+  {
+    question: "What happened in the Great Peshtigo Fire?",
+    answer: "On October 8, 1871 (the same night as the Great Chicago Fire), the Peshtigo Fire swept through Door County, killing 128 residents including 59 in the town of Williamsonville. A fire whirl (fire tornado) occurred at what is now Tornado Memorial County Park. It remains the deadliest wildfire in American history."
+  },
+];
+
+const faqSchema = generateFAQSchema(faqs);
+
+const timeline = [
+  {
+    era: 'Pre-1600s',
+    title: 'Native American Heritage',
+    description: 'The Potawatomi, Menominee, and Ho-Chunk peoples inhabited the Door Peninsula for centuries. The name "Death\'s Door" originated from tales of a failed Ho-Chunk raid on Washington Island, where Potawatomi warriors perished in the treacherous passage.',
+    icon: '🪶',
+  },
+  {
+    era: '1600s-1700s',
+    title: 'French Exploration',
+    description: 'French explorers and fur traders navigated Death\'s Door passage, documenting the dangers that gave the strait its name. Emmanuel Crespel first recorded the name "Cap a la Mort" in 1728.',
+    icon: '⛵',
+  },
+  {
+    era: '1830s-1850s',
+    title: 'Early Settlement',
+    description: 'Increase Claflin became the first white settler. Door County was separated from Brown County in 1851 and organized in 1861. Moravian religious settlers founded Ephraim in 1853.',
+    icon: '🏠',
+  },
+  {
+    era: '1850s-1870s',
+    title: 'Belgian Immigration',
+    description: 'Walloon Belgians settled southern Door County, establishing communities like Namur and Brussels. They built small roadside chapels and brought traditions like the Kermiss harvest festival that continue today.',
+    icon: '⛪',
+  },
+  {
+    era: '1850s-1900s',
+    title: 'Scandinavian Settlement',
+    description: 'Norwegian, Swedish, and Danish immigrants brought their maritime skills, fishing traditions, and cultural heritage. Their influence is still visible in architecture, cuisine, and place names throughout the peninsula.',
+    icon: '🇳🇴',
+  },
+  {
+    era: '1871',
+    title: 'The Great Peshtigo Fire',
+    description: 'On October 8, 1871, the same night as the Great Chicago Fire, the Peshtigo Fire devastated Door County. 128 people perished, including 59 in Williamsonville. A fire whirl at what is now Tornado Memorial Park created one of the disaster\'s most terrifying moments.',
+    icon: '🔥',
+  },
+  {
+    era: '1881',
+    title: 'Sturgeon Bay Ship Canal',
+    description: 'The completion of the Sturgeon Bay Shipping Canal transformed the northern peninsula into an artificial island and changed the fishing industry forever. Sturgeon Bay became a major shipbuilding center.',
+    icon: '🚢',
+  },
+  {
+    era: 'Early 1900s',
+    title: 'Tourism Begins',
+    description: 'By 1909, tourists began discovering Door County. They arrived by steamship from Menominee, Michigan, as roads were too poor for travel. By 1920, 125,000 visitors came annually.',
+    icon: '🎒',
+  },
+  {
+    era: '1909-1920s',
+    title: 'State Parks Founded',
+    description: 'Peninsula State Park was established in 1909, followed by other parks. The development of crushed stone highways finally made the northern peninsula accessible by automobile.',
+    icon: '🌲',
+  },
+  {
+    era: '1949',
+    title: 'Al Johnson\'s Opens',
+    description: 'Al Johnson opens "Al\'s Home Cooking" in Sister Bay. In 1973, a traditional Norwegian log building with a sod roof was constructed. The famous roof goats started as a birthday joke in 1973 and became an iconic symbol of Door County.',
+    icon: '🐐',
+  },
+  {
+    era: 'Today',
+    title: 'Modern Door County',
+    description: 'Door County welcomes nearly 2 million visitors annually, generating over $600 million in economic impact. The peninsula balances tourism with preservation of its natural beauty, maritime heritage, and small-town charm.',
+    icon: '🌅',
+  },
+];
+
+const heritageGroups = [
+  {
+    name: 'Scandinavian Heritage',
+    description: 'Norwegian, Swedish, and Danish settlers brought maritime expertise, fishing traditions, and distinctive architecture. Their influence permeates Door County culture.',
+    highlights: [
+      'Al Johnson\'s Swedish Restaurant with goats on the roof',
+      'Scandinavian-inspired architecture throughout the peninsula',
+      'Traditional fish boils (originally a practical fisherman\'s meal)',
+      'Stabbur Beer Garden (named for Norwegian storage buildings)',
+      'Nordic art and craft traditions',
+    ],
+    communities: ['Sister Bay', 'Ephraim', 'Fish Creek'],
+  },
+  {
+    name: 'Belgian Walloon Heritage',
+    description: 'Walloons from Belgium settled southern Door County in the 1850s, creating one of the largest Belgian communities in America. Their traditions endure today.',
+    highlights: [
+      'Roadside votive chapels (still in use)',
+      'Kermiss harvest festival',
+      'Belgian Pie (double-crusted fruit pies)',
+      'Namur Historic District',
+      'St. Mary of the Lake Church in Namur',
+    ],
+    communities: ['Namur', 'Brussels', 'Rosiere', 'Forestville'],
+  },
+  {
+    name: 'Maritime Heritage',
+    description: 'Door County\'s 300 miles of shoreline shaped its identity. Fishing, shipbuilding, and the dangers of Death\'s Door are woven into local history.',
+    highlights: [
+      'Over 250 documented shipwrecks in Death\'s Door passage',
+      'Sturgeon Bay shipbuilding industry (still active)',
+      'Historic lighthouses (11 total)',
+      'Commercial fishing heritage',
+      'Door County Maritime Museum',
+    ],
+    communities: ['Sturgeon Bay', 'Gills Rock', 'Washington Island'],
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema, faqSchema]}>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center bg-dc-lake-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-amber-900 via-dc-lake-900 to-dc-lake-800">
+      <div class="absolute inset-0 bg-[url('/images/history/hero-vintage.jpg')] bg-cover bg-center opacity-20"></div>
+    </div>
+    
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3 animate-fade-in">📜 Stories of the Peninsula</p>
+        <h1 class="text-white mb-6 animate-slide-up">
+          The History of <span class="text-dc-cherry-400">Door County</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
+          From Native American legends to Scandinavian settlers, from deadly fires to thriving tourism — 
+          discover the stories that shaped Wisconsin's beloved peninsula.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Death's Door Origin -->
+  <section class="section bg-dc-lake-800 text-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-white mb-6">Why "Door" County?</h2>
+        <p class="text-xl text-dc-sand-200 mb-8 leading-relaxed">
+          The county's name comes from <strong class="text-dc-cherry-400">"Death's Door"</strong> (Porte des Morts in French) — 
+          the treacherous strait between the Door Peninsula and Washington Island. 
+        </p>
+        <p class="text-lg text-dc-sand-300 mb-8">
+          Native American legends tell of a failed raid by Ho-Chunk warriors against the Potawatomi on Washington Island. 
+          Caught in the passage's dangerous currents and sudden storms, the warriors perished. French explorers recorded these tales, 
+          and the ominous name stuck. Over 250 shipwrecks in these waters prove the passage earned its reputation.
+        </p>
+        <div class="inline-flex items-center gap-2 bg-dc-lake-700/50 px-6 py-3 rounded-full">
+          <span class="text-2xl">⚓</span>
+          <span class="text-dc-sand-200">250+ documented shipwrecks in Death's Door passage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Timeline of Door County</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          Centuries of history shaped the peninsula we know and love today.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="relative">
+          <!-- Timeline line -->
+          <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-dc-lake-200 hidden md:block"></div>
+          
+          {timeline.map((item, index) => (
+            <div class="relative flex gap-6 mb-8 group">
+              <!-- Icon -->
+              <div class="flex-shrink-0 w-16 h-16 bg-dc-lake-100 rounded-full flex items-center justify-center text-2xl z-10 group-hover:bg-dc-cherry-100 transition-colors">
+                {item.icon}
+              </div>
+              
+              <!-- Content -->
+              <div class="flex-1 card p-6">
+                <span class="text-dc-cherry-600 font-medium text-sm">{item.era}</span>
+                <h3 class="text-xl font-display font-bold text-dc-lake-800 mt-1 mb-2">{item.title}</h3>
+                <p class="text-dc-lake-600">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cultural Heritage -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Cultural Heritage</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          Door County's unique character comes from the diverse peoples who settled here.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        {heritageGroups.map((group) => (
+          <div class="card p-8">
+            <h3 class="text-2xl font-display font-bold text-dc-lake-800 mb-4">{group.name}</h3>
+            <p class="text-dc-lake-600 mb-6">{group.description}</p>
+            
+            <h4 class="font-bold text-dc-lake-700 mb-3">Highlights</h4>
+            <ul class="space-y-2 mb-6">
+              {group.highlights.map((highlight) => (
+                <li class="flex items-start gap-2 text-dc-lake-600 text-sm">
+                  <span class="text-dc-cherry-500 mt-1">•</span>
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+            
+            <h4 class="font-bold text-dc-lake-700 mb-2">Key Communities</h4>
+            <div class="flex flex-wrap gap-2">
+              {group.communities.map((community) => (
+                <span class="text-xs bg-dc-lake-100 text-dc-lake-700 px-3 py-1 rounded-full">{community}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Al Johnson's Story -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span class="text-4xl mb-4 block">🐐</span>
+            <h2 class="mb-4">The Story of Al Johnson's</h2>
+            <p class="text-dc-lake-600 mb-4">
+              One of Door County's most beloved landmarks started with a Chicago-born man who fell in love with Swedish culture during childhood summers abroad.
+            </p>
+            <p class="text-dc-lake-600 mb-4">
+              <strong>Al Johnson</strong> opened "Al's Home Cooking" in Sister Bay in 1949. After serving as a paratrooper in WWII's 101st Airborne — 
+              and being among the first Americans to enter Auschwitz after liberation — he returned to Door County to build his dream.
+            </p>
+            <p class="text-dc-lake-600 mb-4">
+              In 1973, Al commissioned a traditional log building in Norway, had it shipped across the Atlantic, and reconstructed in Sister Bay 
+              complete with a sod roof. That same year, a friend put a goat named Oscar on the roof as a birthday joke.
+            </p>
+            <p class="text-dc-lake-600 font-medium">
+              The goats never left. Today, they're one of Wisconsin's most photographed attractions.
+            </p>
+          </div>
+          <div class="bg-dc-sand-100 rounded-2xl p-8 text-center">
+            <div class="text-6xl mb-4">🐐🐐🐐</div>
+            <p class="text-dc-lake-800 font-display font-bold text-xl mb-2">Goats on the Roof</p>
+            <p class="text-dc-lake-600 text-sm mb-4">May - October, sunny days, 9am - 5pm</p>
+            <p class="text-dc-lake-500 text-xs">
+              Fun fact: Al Johnson's trademarked "Goats on the Roof" — other US restaurants must pay a licensing fee to have roof goats!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section bg-dc-lake-50">
+    <div class="container-wide">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-center mb-8">Frequently Asked Questions</h2>
+        
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="card p-6">
+              <h3 class="text-lg font-bold text-dc-lake-800 mb-2">{faq.question}</h3>
+              <p class="text-dc-lake-600">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Historic Sites CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-white mb-4">Explore Door County's History</h2>
+      <p class="text-xl text-dc-cherry-100 mb-8 max-w-2xl mx-auto">
+        Visit historic lighthouses, maritime museums, Belgian chapels, and more. History comes alive across the peninsula.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/do" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">Things to Do</a>
+        <a href="/communities" class="btn bg-dc-cherry-700 text-white hover:bg-dc-cherry-800 border border-dc-cherry-500">Explore Communities</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

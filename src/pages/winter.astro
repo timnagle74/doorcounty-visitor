@@ -1,0 +1,273 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema } from '../lib/schema';
+
+const title = "Winter in Door County | Ice Fishing, Skiing & Winter Activities";
+const description = "Discover Door County's magical winter season. From ice fishing and snowmobiling to cross-country skiing and cozy getaways, plan your perfect winter escape to Wisconsin's peninsula.";
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com' },
+  { name: 'Winter', url: 'https://doorcountyvisitor.com/winter' },
+]);
+
+const winterActivities = [
+  {
+    title: 'Ice Fishing',
+    description: 'Door County is one of the top ice fishing destinations in the country. Hit the frozen waters of Sturgeon Bay, Little Sturgeon Bay, or inland lakes for walleye, perch, and northern pike.',
+    icon: '🎣',
+    locations: ['Little Sturgeon Bay', 'Sawyer Harbor', 'Inland Lakes'],
+  },
+  {
+    title: 'Cross-Country Skiing',
+    description: 'Glide through snow-covered trails at Peninsula State Park, Newport State Park, and The Ridges Sanctuary. Over 50 miles of groomed trails await.',
+    icon: '⛷️',
+    locations: ['Peninsula State Park', 'Newport State Park', 'The Ridges Sanctuary'],
+  },
+  {
+    title: 'Snowmobiling',
+    description: 'Some of the best snowmobile trails in Wisconsin wind through Door County. The trail from Baileys Harbor to Sister Bay takes you through areas inaccessible in warmer months.',
+    icon: '🛷',
+    locations: ['Mud Lake Wildlife Area', 'County Trail System'],
+  },
+  {
+    title: 'Snowshoeing',
+    description: 'Strap on snowshoes and explore winter wonderlands at your own pace. State parks and nature preserves offer peaceful trails through snow-laden forests.',
+    icon: '🥾',
+    locations: ['Peninsula State Park', 'Whitefish Dunes', 'Cave Point'],
+  },
+  {
+    title: 'Fat Tire Biking',
+    description: 'Adventure seekers love fat tire biking over snow-packed trails. Rent bikes locally and experience the peninsula from a whole new perspective.',
+    icon: '🚴',
+    locations: ['Peninsula State Park', 'County Trails'],
+  },
+  {
+    title: 'Ice Skating',
+    description: 'Lace up your skates at the Teresa K. Hilander Ice Rink in Sister Bay for skating, hockey, or broomball. Indoor and outdoor options available.',
+    icon: '⛸️',
+    locations: ['Sister Bay Ice Rink', 'Inland Lakes'],
+  },
+  {
+    title: 'Sledding',
+    description: 'Classic winter fun for all ages. Popular hills include Sister Bay Sports Complex, Hole 17 at Peninsula State Park, and Big Hill Park in Sturgeon Bay.',
+    icon: '🛷',
+    locations: ['Sister Bay Sports Complex', 'Peninsula State Park', 'Sturgeon Bay'],
+  },
+  {
+    title: 'Winter Hiking',
+    description: 'Door County\'s trails are stunning in winter. Seek out frozen waterfalls, ice caves, and dramatic ice formations along the shoreline at Cave Point and Whitefish Dunes.',
+    icon: '🥾',
+    locations: ['Cave Point', 'Whitefish Dunes', 'Toft Point'],
+  },
+];
+
+const winterExperiences = [
+  {
+    title: 'Frozen Shoreline Exploration',
+    description: 'Witness the breathtaking beauty of Door County\'s frozen lakefront. Massive icicles, ice shoves, and crystalline formations create otherworldly landscapes at Cave Point, Whitefish Dunes, and Cana Island.',
+    image: '/images/winter/frozen-shoreline.jpg',
+  },
+  {
+    title: 'Cozy Lodging & Fireside Dining',
+    description: 'Warm up at Door County\'s finest lodges, B&Bs, and restaurants. Many feature crackling fireplaces, hot cocoa, and hearty winter comfort food. Wisconsin supper clubs are a must.',
+    image: '/images/winter/cozy-lodge.jpg',
+  },
+  {
+    title: 'Winter Spa Retreats',
+    description: 'Treat yourself to relaxation at one of nine Door County spas. Hot stone massages, saunas, and wellness treatments are the perfect après-ski indulgence.',
+    image: '/images/winter/spa.jpg',
+  },
+  {
+    title: 'Arts & Culture',
+    description: 'Take a class at The Clearing Folk School or Peninsula School of Art. Winter is the perfect time to discover a new creative hobby away from the crowds.',
+    image: '/images/winter/arts.jpg',
+  },
+];
+
+const winterEvents = [
+  { name: 'Fire and Ice Festival', location: 'Sturgeon Bay', month: 'February', description: 'Ice sculptures, bonfires, live music, and winter fun throughout downtown.' },
+  { name: 'Wine Tour & Sleigh Ride', location: 'Various Wineries', month: 'January-February', description: 'Visit local wineries by horse-drawn sleigh.' },
+  { name: 'Guided Winter Hikes', location: 'Ridges Sanctuary', month: 'All Winter', description: 'Naturalist-led explorations of winter ecosystems.' },
+  { name: 'Candlelight Ski & Hike', location: 'Peninsula State Park', month: 'February', description: 'Trails lit by candles for magical evening adventures.' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema]}>
+  <!-- Hero Section -->
+  <section class="relative min-h-[70vh] flex items-center bg-dc-lake-900">
+    <div class="absolute inset-0 bg-gradient-to-br from-dc-lake-800 via-dc-lake-900 to-slate-900">
+      <div class="absolute inset-0 bg-[url('/images/winter/hero-snow.jpg')] bg-cover bg-center opacity-30"></div>
+    </div>
+    
+    <div class="container-wide relative z-10 py-20">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3 animate-fade-in">❄️ A Year-Round Destination</p>
+        <h1 class="text-white mb-6 animate-slide-up">
+          Winter in <span class="text-dc-cherry-400">Door County</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-dc-sand-200 mb-8 leading-relaxed animate-slide-up">
+          Discover a different kind of magic. When snow blankets the peninsula and ice transforms the shoreline, 
+          Door County becomes a winter wonderland of outdoor adventure and cozy getaways.
+        </p>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 animate-slide-up">
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">50+</div>
+            <div class="text-dc-sand-300 text-sm">Miles of Ski Trails</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">5</div>
+            <div class="text-dc-sand-300 text-sm">State Parks Open</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">9</div>
+            <div class="text-dc-sand-300 text-sm">Relaxing Spas</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-display font-bold text-white mb-1">100+</div>
+            <div class="text-dc-sand-300 text-sm">Miles of Snowmobile Trails</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Winter Activities Grid -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Winter Activities</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          From adrenaline-pumping outdoor adventures to peaceful nature escapes, Door County offers unforgettable winter experiences.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {winterActivities.map((activity, index) => (
+          <div class="card p-6 hover:-translate-y-1 transition-all duration-300" style={`animation-delay: ${index * 50}ms`}>
+            <div class="text-4xl mb-4">{activity.icon}</div>
+            <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">{activity.title}</h3>
+            <p class="text-dc-lake-600 text-sm mb-4">{activity.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {activity.locations.map((loc) => (
+                <span class="text-xs bg-dc-lake-100 text-dc-lake-700 px-2 py-1 rounded-full">{loc}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Experiences -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="mb-4">Winter Experiences</h2>
+        <p class="text-lg text-dc-lake-600 max-w-2xl mx-auto">
+          Beyond the trails, Door County winters offer unique experiences you won't find anywhere else.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {winterExperiences.map((exp) => (
+          <div class="card overflow-hidden">
+            <div class="h-48 bg-dc-lake-200">
+              <!-- Placeholder for image -->
+              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-dc-lake-300 to-dc-lake-400">
+                <span class="text-white text-lg font-medium">{exp.title}</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 mb-2">{exp.title}</h3>
+              <p class="text-dc-lake-600">{exp.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Winter Events -->
+  <section class="section bg-dc-lake-800 text-white">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-white mb-4">Winter Events & Festivals</h2>
+        <p class="text-lg text-dc-sand-200 max-w-2xl mx-auto">
+          Door County comes alive with winter celebrations. From ice sculpture festivals to candlelit ski trails, there's always something happening.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {winterEvents.map((event) => (
+          <div class="bg-dc-lake-700/50 backdrop-blur rounded-xl p-6 border border-dc-lake-600/30">
+            <span class="text-dc-cherry-400 text-sm font-medium">{event.month}</span>
+            <h3 class="text-xl font-display font-bold text-white mt-1 mb-2">{event.name}</h3>
+            <p class="text-dc-sand-300 text-sm mb-2">{event.location}</p>
+            <p class="text-dc-sand-200 text-sm">{event.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Washington Island Winter -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="mb-4">Winter on Washington Island</h2>
+        <p class="text-lg text-dc-lake-600 mb-8">
+          Experience true winter isolation on Washington Island. Take the ice-breaking ferry across Death's Door 
+          passage and discover a peaceful island community. Bring your own gear for ice fishing and snowshoeing, 
+          or simply enjoy the solitude of one of Wisconsin's most remote destinations.
+        </p>
+        <a href="/communities/washington-island" class="btn-primary">
+          Explore Washington Island →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Winter Tips -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-center mb-8">Winter Travel Tips</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card p-6">
+            <h3 class="text-lg font-bold text-dc-lake-800 mb-3">🧥 Dress in Layers</h3>
+            <p class="text-dc-lake-600">Wisconsin winters are cold! Dress in moisture-wicking base layers, insulating mid-layers, and waterproof outer layers. Don't forget warm boots, gloves, and a hat.</p>
+          </div>
+          <div class="card p-6">
+            <h3 class="text-lg font-bold text-dc-lake-800 mb-3">🚗 Winter Driving</h3>
+            <p class="text-dc-lake-600">Roads can be icy and snow-covered. Allow extra travel time, and check conditions before heading out. Many visitors find the slower pace refreshing.</p>
+          </div>
+          <div class="card p-6">
+            <h3 class="text-lg font-bold text-dc-lake-800 mb-3">📞 Call Ahead</h3>
+            <p class="text-dc-lake-600">Some businesses operate on limited winter hours. Call ahead to confirm hours for restaurants, shops, and attractions.</p>
+          </div>
+          <div class="card p-6">
+            <h3 class="text-lg font-bold text-dc-lake-800 mb-3">⚠️ Ice Safety</h3>
+            <p class="text-dc-lake-600">When exploring frozen shorelines or ice fishing, always prioritize safety. Check ice thickness and conditions, and never venture out alone.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-white mb-4">Plan Your Winter Escape</h2>
+      <p class="text-xl text-dc-cherry-100 mb-8 max-w-2xl mx-auto">
+        Discover cozy lodging, warm restaurants, and endless winter adventures. Door County is waiting.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/stay" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">Find Lodging</a>
+        <a href="/eat" class="btn bg-dc-cherry-700 text-white hover:bg-dc-cherry-800 border border-dc-cherry-500">Browse Restaurants</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
