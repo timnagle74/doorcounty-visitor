@@ -326,8 +326,11 @@ const dayLabels: Record<string, string> = {
           {!listing.is_verified && (
             <div class="bg-dc-forest-50 rounded-xl p-6">
               <h3 class="font-display font-bold text-dc-lake-800 mb-2">Own this property?</h3>
-              <p class="text-sm text-dc-lake-600 mb-4">Claim your listing to update information and respond to reviews.</p>
-              <a href="/contact" class="btn-secondary w-full text-center text-sm">
+              <p class="text-sm text-dc-lake-600 mb-4">Claim your listing to update information and unlock premium features.</p>
+              <a
+                href={`/claim?slug=${listing.slug}&name=${encodeURIComponent(listing.name)}`}
+                class="btn-secondary w-full text-center text-sm"
+              >
                 Claim This Listing
               </a>
             </div>

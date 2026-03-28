@@ -1,0 +1,636 @@
+---
+// src/pages/claim/index.astro
+// Business listing claim and new-listing intake page
+
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+import { getListing } from '../../lib/supabase';
+
+// Read URL params
+const params = Astro.url.searchParams;
+const prefilledSlug = params.get('slug') ?? '';
+const prefilledName = params.get('name') ?? '';
+
+// If a slug is provided, try to fetch the listing details
+let existingListing = null;
+if (prefilledSlug) {
+  // We try all sections — eat, stay, do, shop are all in the same listings table
+  existingListing = await getListing('door-county', prefilledSlug);
+}
+
+const isClaim = !!prefilledSlug;
+const pageTitle = isClaim
+  ? `Claim Your Listing${existingListing ? `: ${existingListing.name}` : ''}`
+  : 'List Your Door County Business — Free';
+
+const pageDescription = isClaim
+  ? 'Claim your existing Door County Visitor listing to update your info, add photos, and unlock premium features.'
+  : 'Get your Door County business in front of thousands of visitors. Free listing, no credit card required.';
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: 'https://doorcountyvisitor.com/' },
+  { name: 'List Your Business', url: 'https://doorcountyvisitor.com/claim' },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} schema={breadcrumbSchema}>
+
+  <!-- Hero -->
+  <section class="bg-dc-lake-800 text-white py-14 md:py-20">
+    <div class="container-narrow text-center">
+      <div class="inline-flex items-center gap-2 bg-dc-cherry-500 text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Free for every Door County business
+      </div>
+      <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">
+        {isClaim ? pageTitle : 'List Your Business on Door County Visitor'}
+      </h1>
+      <p class="text-xl text-dc-sand-200 max-w-2xl mx-auto">
+        {pageDescription}
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Form Area -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="grid lg:grid-cols-5 gap-10 items-start">
+
+        <!-- Form -->
+        <div class="lg:col-span-3">
+          <div class="bg-white rounded-2xl shadow-card p-6 md:p-8">
+
+            <!-- Mode Toggle (only show on generic /claim) -->
+            {!isClaim && (
+              <div class="flex rounded-xl border border-dc-sand-200 p-1 mb-8 gap-1" id="mode-tabs">
+                <button
+                  type="button"
+                  class="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all tab-btn active"
+                  data-mode="new"
+                >
+                  List a New Business
+                </button>
+                <button
+                  type="button"
+                  class="flex-1 py-2.5 px-4 rounded-lg text-sm font-semibold transition-all tab-btn"
+                  data-mode="claim"
+                >
+                  Claim Existing Listing
+                </button>
+              </div>
+            )}
+
+            <!-- New Listing Form -->
+            <form
+              id="new-listing-form"
+              class={isClaim ? 'hidden' : 'space-y-6'}
+              novalidate
+            >
+              <input type="hidden" name="type" value="new-listing" />
+
+              <!-- Business Info -->
+              <fieldset class="space-y-4">
+                <legend class="text-xs font-bold text-dc-lake-500 uppercase tracking-widest mb-2">Business Information</legend>
+
+                <div>
+                  <label for="nl-businessName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Business Name <span class="text-dc-cherry-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="nl-businessName"
+                    name="businessName"
+                    required
+                    placeholder="e.g. Blue Front Café"
+                    class="input-field"
+                  />
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="nl-businessType" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                      Business Type <span class="text-dc-cherry-500">*</span>
+                    </label>
+                    <select id="nl-businessType" name="businessType" required class="input-field">
+                      <option value="">Select type</option>
+                      <optgroup label="Dining">
+                        <option value="restaurant">Restaurant</option>
+                        <option value="bar">Bar / Pub</option>
+                        <option value="cafe">Café / Coffee Shop</option>
+                        <option value="winery">Winery</option>
+                        <option value="brewery">Brewery</option>
+                        <option value="bakery">Bakery</option>
+                      </optgroup>
+                      <optgroup label="Lodging">
+                        <option value="lodging_hotel">Hotel</option>
+                        <option value="lodging_resort">Resort</option>
+                        <option value="lodging_bnb">Bed & Breakfast</option>
+                        <option value="lodging_vacation_rental">Vacation Rental</option>
+                        <option value="lodging_campground">Campground</option>
+                      </optgroup>
+                      <optgroup label="Activities">
+                        <option value="attraction">Attraction</option>
+                        <option value="park">State / County Park</option>
+                        <option value="outdoor_recreation">Outdoor Recreation</option>
+                        <option value="tour_operator">Tours & Guides</option>
+                        <option value="museum">Museum</option>
+                        <option value="gallery">Art Gallery</option>
+                        <option value="theater">Theater</option>
+                      </optgroup>
+                      <optgroup label="Shopping">
+                        <option value="shop_retail">Retail Shop</option>
+                        <option value="shop_gifts">Gift Shop</option>
+                        <option value="shop_antiques">Antiques</option>
+                      </optgroup>
+                      <optgroup label="Services">
+                        <option value="service_boat">Boat Rental / Charter</option>
+                        <option value="service_kayak">Kayak / Paddleboard</option>
+                        <option value="service_bike">Bike Rental</option>
+                        <option value="spa_wellness">Spa & Wellness</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="nl-city" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                      Village / Town <span class="text-dc-cherry-500">*</span>
+                    </label>
+                    <select id="nl-city" name="city" required class="input-field">
+                      <option value="">Select location</option>
+                      <option value="baileys_harbor">Baileys Harbor</option>
+                      <option value="egg_harbor">Egg Harbor</option>
+                      <option value="ellison_bay">Ellison Bay</option>
+                      <option value="ephraim">Ephraim</option>
+                      <option value="fish_creek">Fish Creek</option>
+                      <option value="gills_rock">Gills Rock</option>
+                      <option value="jacksonport">Jacksonport</option>
+                      <option value="sister_bay">Sister Bay</option>
+                      <option value="sturgeon_bay">Sturgeon Bay</option>
+                      <option value="washington_island">Washington Island</option>
+                      <option value="southern_door">Southern Door County</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="nl-address" class="block text-sm font-medium text-dc-lake-700 mb-1">Street Address</label>
+                  <input type="text" id="nl-address" name="address" placeholder="123 Main Street" class="input-field" />
+                </div>
+
+                <div>
+                  <label for="nl-website" class="block text-sm font-medium text-dc-lake-700 mb-1">Website</label>
+                  <input type="url" id="nl-website" name="website" placeholder="https://yourbusiness.com" class="input-field" />
+                </div>
+
+                <div>
+                  <label for="nl-description" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Short Description <span class="text-dc-lake-400 font-normal">(optional — 160 chars)</span>
+                  </label>
+                  <textarea
+                    id="nl-description"
+                    name="descriptionShort"
+                    rows="2"
+                    maxlength="160"
+                    placeholder="What makes your business special? Cuisine type, atmosphere, what you offer..."
+                    class="input-field resize-none"
+                  ></textarea>
+                </div>
+              </fieldset>
+
+              <!-- Contact Info -->
+              <fieldset class="space-y-4 pt-2 border-t border-dc-sand-100">
+                <legend class="text-xs font-bold text-dc-lake-500 uppercase tracking-widest mb-2 pt-4">Your Contact Info</legend>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="nl-firstName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                      First Name <span class="text-dc-cherry-500">*</span>
+                    </label>
+                    <input type="text" id="nl-firstName" name="firstName" required placeholder="Jane" class="input-field" />
+                  </div>
+                  <div>
+                    <label for="nl-lastName" class="block text-sm font-medium text-dc-lake-700 mb-1">Last Name</label>
+                    <input type="text" id="nl-lastName" name="lastName" placeholder="Smith" class="input-field" />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="nl-jobTitle" class="block text-sm font-medium text-dc-lake-700 mb-1">Your Role</label>
+                  <input type="text" id="nl-jobTitle" name="jobTitle" placeholder="Owner, Manager, etc." class="input-field" />
+                </div>
+
+                <div>
+                  <label for="nl-email" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Email <span class="text-dc-cherry-500">*</span>
+                  </label>
+                  <input type="email" id="nl-email" name="email" required placeholder="you@yourbusiness.com" class="input-field" />
+                </div>
+
+                <div>
+                  <label for="nl-phone" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Phone <span class="text-dc-cherry-500">*</span>
+                  </label>
+                  <input type="tel" id="nl-phone" name="phone" required placeholder="(920) 555-0100" class="input-field" />
+                </div>
+              </fieldset>
+
+              <!-- SMS Consent -->
+              <div class="bg-dc-sand-50 rounded-xl p-4 border border-dc-sand-200">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id="nl-smsConsent"
+                    name="smsConsent"
+                    required
+                    class="mt-0.5 h-4 w-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500"
+                  />
+                  <span class="text-xs text-dc-lake-600 leading-relaxed">
+                    I agree to receive SMS messages from Door County Visitor about my listing status,
+                    updates, and business tools. Message & data rates may apply. Reply STOP to unsubscribe.
+                    <span class="text-dc-cherry-600">*</span>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Error/Success messages -->
+              <div id="nl-message" class="hidden rounded-xl p-4 text-sm font-medium"></div>
+
+              <button
+                type="submit"
+                id="nl-submit"
+                class="btn btn-primary w-full py-3.5 text-base"
+              >
+                <span id="nl-btn-text">Submit for Free Listing Review</span>
+                <span id="nl-btn-loading" class="hidden">
+                  <svg class="animate-spin inline-block w-5 h-5 mr-2 -mt-0.5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting…
+                </span>
+              </button>
+
+              <p class="text-xs text-dc-lake-400 text-center">
+                By submitting, you confirm this is your business and agree to our
+                <a href="/terms" class="text-dc-cherry-600 hover:underline">terms of service</a>.
+              </p>
+            </form>
+
+            <!-- Claim Existing Form -->
+            <form
+              id="claim-existing-form"
+              class={isClaim ? 'space-y-6' : 'hidden space-y-6'}
+              novalidate
+            >
+              <input type="hidden" name="type" value="claim-existing" />
+              <input type="hidden" name="businessSlug" value={prefilledSlug} id="ce-businessSlug" />
+
+              {isClaim && existingListing && (
+                <div class="flex items-center gap-4 p-4 bg-dc-forest-50 rounded-xl border border-dc-forest-200 mb-6">
+                  {existingListing.image_primary && (
+                    <img
+                      src={existingListing.image_primary}
+                      alt={existingListing.name}
+                      class="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                    />
+                  )}
+                  <div>
+                    <p class="text-xs text-dc-forest-600 font-medium uppercase tracking-wide mb-0.5">Claiming listing</p>
+                    <p class="font-bold text-dc-lake-800">{existingListing.name}</p>
+                    {existingListing.city && (
+                      <p class="text-sm text-dc-lake-500">{existingListing.city.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}, WI</p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <!-- Business name field (shown when no prefill) -->
+              <div id="ce-businessName-wrapper" class={prefilledSlug ? 'hidden' : ''}>
+                <label for="ce-businessName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                  Business Name <span class="text-dc-cherry-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="ce-businessName"
+                  name="businessName"
+                  value={prefilledName}
+                  placeholder="Search for your listing name"
+                  class="input-field"
+                />
+                <p class="text-xs text-dc-lake-400 mt-1">Enter the name exactly as it appears in the directory.</p>
+              </div>
+              {prefilledSlug && (
+                <input type="hidden" name="businessName" value={prefilledName || existingListing?.name || prefilledSlug} />
+              )}
+
+              <!-- Contact Info -->
+              <fieldset class="space-y-4">
+                <legend class="text-xs font-bold text-dc-lake-500 uppercase tracking-widest mb-2">Your Contact Info</legend>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="ce-firstName" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                      First Name <span class="text-dc-cherry-500">*</span>
+                    </label>
+                    <input type="text" id="ce-firstName" name="firstName" required placeholder="Jane" class="input-field" />
+                  </div>
+                  <div>
+                    <label for="ce-lastName" class="block text-sm font-medium text-dc-lake-700 mb-1">Last Name</label>
+                    <input type="text" id="ce-lastName" name="lastName" placeholder="Smith" class="input-field" />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="ce-jobTitle" class="block text-sm font-medium text-dc-lake-700 mb-1">Your Role at This Business</label>
+                  <input type="text" id="ce-jobTitle" name="jobTitle" placeholder="Owner, Manager, etc." class="input-field" />
+                </div>
+
+                <div>
+                  <label for="ce-email" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Email <span class="text-dc-cherry-500">*</span>
+                  </label>
+                  <input type="email" id="ce-email" name="email" required placeholder="you@yourbusiness.com" class="input-field" />
+                </div>
+
+                <div>
+                  <label for="ce-phone" class="block text-sm font-medium text-dc-lake-700 mb-1">
+                    Phone <span class="text-dc-cherry-500">*</span>
+                  </label>
+                  <input type="tel" id="ce-phone" name="phone" required placeholder="(920) 555-0100" class="input-field" />
+                </div>
+              </fieldset>
+
+              <!-- SMS Consent -->
+              <div class="bg-dc-sand-50 rounded-xl p-4 border border-dc-sand-200">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id="ce-smsConsent"
+                    name="smsConsent"
+                    required
+                    class="mt-0.5 h-4 w-4 rounded border-dc-sand-300 text-dc-cherry-500 focus:ring-dc-cherry-500"
+                  />
+                  <span class="text-xs text-dc-lake-600 leading-relaxed">
+                    I agree to receive SMS messages from Door County Visitor about my listing status,
+                    updates, and business tools. Message & data rates may apply. Reply STOP to unsubscribe.
+                    <span class="text-dc-cherry-600">*</span>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Error/Success messages -->
+              <div id="ce-message" class="hidden rounded-xl p-4 text-sm font-medium"></div>
+
+              <button
+                type="submit"
+                id="ce-submit"
+                class="btn btn-primary w-full py-3.5 text-base"
+              >
+                <span id="ce-btn-text">Submit Claim Request</span>
+                <span id="ce-btn-loading" class="hidden">
+                  <svg class="animate-spin inline-block w-5 h-5 mr-2 -mt-0.5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting…
+                </span>
+              </button>
+
+              <p class="text-xs text-dc-lake-400 text-center">
+                By submitting, you confirm this is your business and agree to our
+                <a href="/terms" class="text-dc-cherry-600 hover:underline">terms of service</a>.
+              </p>
+            </form>
+
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-2 space-y-6">
+
+          <!-- Free tier benefits -->
+          <div class="bg-white rounded-2xl shadow-card p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="bg-dc-forest-500 rounded-lg p-2">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 class="font-display font-bold text-dc-lake-800">Free Listing Includes</h3>
+            </div>
+            <ul class="space-y-2.5">
+              {[
+                'Business name, address, phone & website',
+                'Category and village location',
+                'Short description',
+                'Listed in search results',
+                'Visible to all Door County visitors',
+                'JSON-LD schema for AI search engines',
+              ].map((item) => (
+                <li class="flex items-start gap-2 text-sm text-dc-lake-600">
+                  <svg class="w-4 h-4 text-dc-forest-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Premium upgrade -->
+          <div class="bg-dc-lake-800 rounded-2xl p-6 text-white">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-display font-bold">Premium Listing</h3>
+              <span class="text-xs bg-dc-cherry-500 text-white px-2.5 py-0.5 rounded-full font-semibold">Coming Soon</span>
+            </div>
+            <p class="text-dc-sand-300 text-sm mb-4">
+              Stand out with enhanced features that drive more bookings and calls.
+            </p>
+            <ul class="space-y-2">
+              {[
+                { icon: '📊', label: 'Priority placement in search results' },
+                { icon: '🖼️', label: 'Unlimited photos and gallery' },
+                { icon: '💬', label: 'Respond to visitor inquiries' },
+                { icon: '⚡', label: 'AI tools for marketing copy' },
+                { icon: '⭐', label: 'Featured badge on your listing' },
+                { icon: '✏️', label: 'Edit hours, description & amenities' },
+              ].map((f) => (
+                <li class="flex items-center gap-2 text-sm text-dc-sand-200">
+                  <span>{f.icon}</span>
+                  {f.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- How it works -->
+          <div class="bg-white rounded-2xl shadow-card p-6">
+            <h3 class="font-display font-bold text-dc-lake-800 mb-4">How It Works</h3>
+            <ol class="space-y-3">
+              {[
+                'Submit your business info below',
+                'We review your submission (1–2 business days)',
+                'Your listing goes live, reaching Door County visitors',
+                'Upgrade to premium anytime for more features',
+              ].map((step, i) => (
+                <li class="flex items-start gap-3 text-sm text-dc-lake-600">
+                  <span class="flex-shrink-0 w-5 h-5 bg-dc-cherry-100 text-dc-cherry-700 rounded-full flex items-center justify-center text-xs font-bold">
+                    {i + 1}
+                  </span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .input-field {
+    @apply w-full px-4 py-2.5 border border-dc-sand-300 rounded-lg text-sm
+      focus:ring-2 focus:ring-dc-cherry-400 focus:border-dc-cherry-400
+      transition-colors placeholder-dc-lake-300;
+  }
+</style>
+
+<script>
+  // ─── Tab switching (only relevant on generic /claim page) ───────────────────
+  const tabs = document.getElementById('mode-tabs');
+  if (tabs) {
+    const tabBtns = tabs.querySelectorAll<HTMLButtonElement>('.tab-btn');
+    const newForm = document.getElementById('new-listing-form') as HTMLFormElement | null;
+    const claimForm = document.getElementById('claim-existing-form') as HTMLFormElement | null;
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        tabBtns.forEach(b => b.classList.remove('active', 'bg-dc-lake-700', 'text-white'));
+        btn.classList.add('active', 'bg-dc-lake-700', 'text-white');
+
+        if (mode === 'new') {
+          newForm?.classList.remove('hidden');
+          claimForm?.classList.add('hidden');
+        } else {
+          newForm?.classList.add('hidden');
+          claimForm?.classList.remove('hidden');
+        }
+      });
+    });
+
+    // Initialize first tab as active
+    const firstTab = tabBtns[0];
+    if (firstTab) firstTab.classList.add('bg-dc-lake-700', 'text-white');
+  }
+
+  // ─── Generic form submission helper ────────────────────────────────────────
+  async function handleFormSubmit(
+    form: HTMLFormElement,
+    submitBtn: HTMLButtonElement,
+    btnText: HTMLElement,
+    btnLoading: HTMLElement,
+    messageEl: HTMLElement
+  ) {
+    const formData = new FormData(form);
+    const payload: Record<string, string | boolean> = {};
+
+    formData.forEach((value, key) => {
+      if (key === 'smsConsent') {
+        payload[key] = true; // checkbox only present if checked
+      } else {
+        payload[key] = value as string;
+      }
+    });
+
+    // If smsConsent key not in form data, it wasn't checked
+    if (!('smsConsent' in payload)) {
+      payload.smsConsent = false;
+    }
+
+    submitBtn.disabled = true;
+    btnText.classList.add('hidden');
+    btnLoading.classList.remove('hidden');
+    messageEl.classList.add('hidden');
+
+    try {
+      const res = await fetch('/api/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        // Replace form with success state
+        const parent = form.closest<HTMLDivElement>('.bg-white');
+        if (parent) {
+          parent.innerHTML = `
+            <div class="text-center py-12">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-dc-forest-100 rounded-full mb-4">
+                <svg class="w-8 h-8 text-dc-forest-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-display font-bold text-dc-lake-800 mb-2">Submission Received!</h3>
+              <p class="text-dc-lake-500 max-w-sm mx-auto">
+                We'll review your listing and get back to you within 1–2 business days.
+                Check your email at <strong>${payload.email}</strong> for confirmation.
+              </p>
+              <a href="/" class="inline-block mt-6 text-dc-cherry-600 hover:text-dc-cherry-700 font-medium text-sm transition-colors">
+                ← Back to Door County Visitor
+              </a>
+            </div>
+          `;
+        }
+      } else {
+        messageEl.textContent = result.error || 'Something went wrong. Please try again.';
+        messageEl.className = 'rounded-xl p-4 text-sm font-medium bg-dc-cherry-50 text-dc-cherry-800 border border-dc-cherry-200';
+      }
+    } catch {
+      messageEl.textContent = 'Unable to submit. Please check your connection and try again.';
+      messageEl.className = 'rounded-xl p-4 text-sm font-medium bg-dc-cherry-50 text-dc-cherry-800 border border-dc-cherry-200';
+    } finally {
+      submitBtn.disabled = false;
+      btnText.classList.remove('hidden');
+      btnLoading.classList.add('hidden');
+    }
+  }
+
+  // ─── New listing form ───────────────────────────────────────────────────────
+  const nlForm = document.getElementById('new-listing-form') as HTMLFormElement | null;
+  if (nlForm) {
+    nlForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleFormSubmit(
+        nlForm,
+        document.getElementById('nl-submit') as HTMLButtonElement,
+        document.getElementById('nl-btn-text') as HTMLElement,
+        document.getElementById('nl-btn-loading') as HTMLElement,
+        document.getElementById('nl-message') as HTMLElement,
+      );
+    });
+  }
+
+  // ─── Claim existing form ────────────────────────────────────────────────────
+  const ceForm = document.getElementById('claim-existing-form') as HTMLFormElement | null;
+  if (ceForm) {
+    ceForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await handleFormSubmit(
+        ceForm,
+        document.getElementById('ce-submit') as HTMLButtonElement,
+        document.getElementById('ce-btn-text') as HTMLElement,
+        document.getElementById('ce-btn-loading') as HTMLElement,
+        document.getElementById('ce-message') as HTMLElement,
+      );
+    });
+  }
+</script>
