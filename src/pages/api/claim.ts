@@ -2,7 +2,14 @@
 // Dedicated API endpoint for business listing claim and new-listing intake
 
 import type { APIRoute } from 'astro';
-import { upsertContact } from '../../lib/ghl';
+import { upsertContact, createOpportunity } from '../../lib/ghl';
+
+// GHL field IDs from scripts/custom-fields/field-ids.json
+const FIELD_LISTING_STATUS = '5sOxv4tBwlJZK0G7lyUp';
+const FIELD_INTAKE_COMPLETED = 'nZOqXdoykXm58vAR32r9';
+const FIELD_BUSINESS_TYPE = 'Rv4Ij1S1OSuDSK53kdYR';
+const FIELD_DESCRIPTION_SHORT = 'BFdDDHvUWA34Y6ffnl5b';
+const FIELD_LISTING_TIER = '308R59T07Eh16lWpQ507';
 
 export const prerender = false;
 
@@ -64,7 +71,7 @@ export const POST: APIRoute = async ({ request }) => {
 
       const tags = ['listing-claim', 'business-owner', 'website-lead', 'sms-consent'];
 
-      await upsertContact({
+      const contact = await upsertContact({
         firstName: body.firstName,
         lastName: body.lastName,
         email: body.email,
@@ -72,10 +79,24 @@ export const POST: APIRoute = async ({ request }) => {
         source: 'Claim Existing Listing',
         tags,
         customFields: {
-          listing_status: 'pending',
-          intake_completed: 'false',
+          [FIELD_LISTING_STATUS]: 'pending',
+          [FIELD_INTAKE_COMPLETED]: 'false',
         },
       });
+
+      // Create pipeline opportunity — stage: Claim Submitted
+      const pipelineId = import.meta.env.GHL_LISTINGS_PIPELINE_ID;
+      const stageId = import.meta.env.GHL_CLAIM_SUBMITTED_STAGE_ID;
+      if (pipelineId && stageId) {
+        await createOpportunity({
+          pipelineId,
+          pipelineStageId: stageId,
+          contactId: contact.id,
+          name: `${body.businessName} — Claim Submitted`,
+        }).catch((err) => console.error('[claim] Opportunity creation failed:', err));
+      } else {
+        console.warn('[claim] GHL_LISTINGS_PIPELINE_ID or GHL_CLAIM_SUBMITTED_STAGE_ID not set — skipping opportunity creation');
+      }
 
     } else if (body.type === 'new-listing') {
       if (!body.businessName?.trim()) return json({ success: false, error: 'Business name is required' }, 400);
@@ -84,7 +105,7 @@ export const POST: APIRoute = async ({ request }) => {
 
       const tags = ['new-listing', 'intake-requested', 'business-owner', 'website-lead', 'sms-consent'];
 
-      await upsertContact({
+      const contact = await upsertContact({
         firstName: body.firstName,
         lastName: body.lastName,
         email: body.email,
@@ -92,13 +113,27 @@ export const POST: APIRoute = async ({ request }) => {
         source: 'New Listing Intake Form',
         tags,
         customFields: {
-          business_type: body.businessType,
-          description_short: body.descriptionShort || '',
-          listing_status: 'pending',
-          listing_tier: 'free',
-          intake_completed: 'false',
+          [FIELD_BUSINESS_TYPE]: body.businessType,
+          [FIELD_DESCRIPTION_SHORT]: body.descriptionShort || '',
+          [FIELD_LISTING_STATUS]: 'pending',
+          [FIELD_LISTING_TIER]: 'free',
+          [FIELD_INTAKE_COMPLETED]: 'false',
         },
       });
+
+      // Create pipeline opportunity — stage: New Listing Submitted
+      const pipelineId = import.meta.env.GHL_LISTINGS_PIPELINE_ID;
+      const stageId = import.meta.env.GHL_NEW_LISTING_STAGE_ID;
+      if (pipelineId && stageId) {
+        await createOpportunity({
+          pipelineId,
+          pipelineStageId: stageId,
+          contactId: contact.id,
+          name: `${body.businessName} — New Listing`,
+        }).catch((err) => console.error('[claim] Opportunity creation failed:', err));
+      } else {
+        console.warn('[claim] GHL_LISTINGS_PIPELINE_ID or GHL_NEW_LISTING_STAGE_ID not set — skipping opportunity creation');
+      }
 
     } else {
       return json({ success: false, error: 'Unknown submission type' }, 400);
