@@ -1,0 +1,282 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/ListingCard.astro';
+import { getCommunity, getCommunities, getListings } from '../../lib/supabase';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+export const prerender = false;
+
+const SITE_URL = 'https://doorcountyvisitor.com';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/communities');
+}
+
+const community = await getCommunity('door-county', slug);
+
+if (!community) {
+  return Astro.redirect('/communities');
+}
+
+// Fetch all listings for this community in one call
+const allListings = await getListings('door-county', { community: slug });
+
+// Split into sections
+const eatTypes = ['restaurant', 'bar', 'cafe', 'winery', 'brewery', 'distillery'];
+const stayTypes = ['lodging_hotel', 'lodging_resort', 'lodging_bnb', 'lodging_vacation_rental', 'lodging_campground', 'lodging_cabin'];
+const doTypes = ['attraction', 'park', 'museum', 'gallery', 'activity', 'outdoor_recreation', 'theater', 'tour_operator', 'spa_wellness', 'service_boat', 'service_bike', 'service_kayak'];
+const shopTypes = ['shop_retail', 'shop_gifts', 'shop_antiques', 'shop'];
+
+const eatListings = allListings.filter(l => eatTypes.includes(l.type));
+const stayListings = allListings.filter(l => stayTypes.some(t => l.type.startsWith('lodging') || l.type === t));
+const doListings = allListings.filter(l => doTypes.includes(l.type));
+const shopListings = allListings.filter(l => shopTypes.includes(l.type) || l.type.startsWith('shop'));
+
+// Fallback descriptions
+const fallbackDescriptions: Record<string, string> = {
+  'fish-creek': 'The arts capital of Door County, Fish Creek perches dramatically on a bluff above Green Bay. Home to Peninsula Players Theatre — America\'s oldest professional resident outdoor theater — plus galleries, boutiques, and the gateway to Peninsula State Park.',
+  'sister-bay': 'Door County\'s liveliest village, famous for Al Johnson\'s Swedish Restaurant with goats grazing on the roof. Sister Bay boasts the peninsula\'s largest marina, sandy beaches, eclectic dining, and a festive main street year-round.',
+  'ephraim': 'The only dry (alcohol-free) village in Wisconsin, Ephraim is a pristine historic community founded by Moravian settlers in 1853. White-painted buildings cascade down a hillside to Eagle Harbor — stunning for sailing, kayaking, and sunsets.',
+  'egg-harbor': 'The welcoming gateway to Door County, Egg Harbor charms visitors with its waterfront park, sandy beach, and marina. A vibrant mix of dining, shopping, and the beloved Egg Harbor Farmers Market anchor this approachable village.',
+  'sturgeon-bay': 'The county seat and largest city on the peninsula, Sturgeon Bay bridges two sides of Door County — literally. A rich shipbuilding heritage, the Door County Maritime Museum, and a walkable 3rd Avenue arts district define this year-round hub.',
+  'baileys-harbor': 'Door County\'s oldest settled village sits along the rocky eastern Lake Michigan shore. The Ridges Sanctuary — Wisconsin\'s oldest nature preserve — draws birders and wildflower lovers, while nearby Cana Island Lighthouse is one of the most photographed in the Midwest.',
+  'gills-rock': 'At the very tip of the peninsula, tiny Gills Rock is the departure point for the Washington Island Ferry. This authentic fishing village — "the top of the thumb" — offers a glimpse of old Door County, with a fishing museum and stunning strait views.',
+  'ellison-bay': 'A quiet, artistic enclave near the peninsula\'s northern tip, Ellison Bay attracts painters, writers, and those seeking solitude. The historic 1847 Olde Ellison Bay church, watercolor galleries, and a serene harbor define this unhurried village.',
+  'jacksonport': 'On the quieter Lake Michigan side of the peninsula, Jacksonport is a peaceful lakeside village with a sandy town beach and boat launch. Easy access to nature preserves and proximity to Rowleys Bay makes it a nature lover\'s base camp.',
+  'whitefish-bay': 'Tucked along the Lake Michigan shore in southern Door County, Whitefish Bay is the gateway to Whitefish Dunes State Park — home to the highest sand dunes on Wisconsin\'s Lake Michigan coast — and the dramatic Cave Point County Park.',
+  'washington-island': 'Accessible only by ferry from Gills Rock, Washington Island is a world apart. About 700 year-round residents maintain a distinct island culture descended from Icelandic settlers (1870s). Explore lavender farms, art galleries, pristine beaches, and a Norwegian stavkirke.',
+};
+
+const fallbackHighlights: Record<string, string[]> = {
+  'fish-creek': ['Peninsula State Park', 'Peninsula Players Theatre', 'Main Street galleries', 'Fish Creek Beach'],
+  'sister-bay': ['Al Johnson\'s goats on the roof', 'Sister Bay Marina', 'Waterfront dining', 'Sandy beaches'],
+  'ephraim': ['Eagle Harbor views', 'Wilson\'s Ice Cream', 'Sailing & kayaking', 'Historic Moravian church'],
+  'egg-harbor': ['Farmers Market', 'Egg Harbor Beach', 'Waterfront park', 'Marina access'],
+  'sturgeon-bay': ['Maritime Museum', '3rd Avenue shops', 'Ship canal views', 'Year-round dining'],
+  'baileys-harbor': ['Ridges Sanctuary', 'Cana Island Lighthouse', 'Birding & wildflowers', 'Rowleys Bay nearby'],
+  'gills-rock': ['Washington Island Ferry', 'Fishing heritage', 'Peninsula tip views', 'Kayaking'],
+  'ellison-bay': ['Art galleries', 'Quiet harbor', 'Historic church', 'Northern solitude'],
+  'jacksonport': ['Town beach', 'Boat launch', 'Rowleys Bay', 'Nature preserves'],
+  'whitefish-bay': ['Whitefish Dunes State Park', 'Cave Point County Park', 'Lake Michigan shore', 'Sand dunes'],
+  'washington-island': ['Ferry adventure', 'Lavender farms', 'Stavkirke church', 'Island beaches'],
+};
+
+const description = community.description || fallbackDescriptions[slug] || `Discover ${community.name}, one of Door County's most charming communities.`;
+const highlights = community.highlights || fallbackHighlights[slug] || [];
+
+// SEO
+const pageTitle = `${community.name} | Door County, Wisconsin`;
+const metaDescription = `Explore ${community.name} in Door County, Wisconsin. ${description.slice(0, 140)}...`;
+
+// Schema
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: SITE_URL },
+  { name: 'Communities', url: `${SITE_URL}/communities` },
+  { name: community.name, url: `${SITE_URL}/communities/${slug}` },
+]);
+
+const communitySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristDestination',
+  '@id': `${SITE_URL}/communities/${slug}/#destination`,
+  name: community.name,
+  description: description,
+  url: `${SITE_URL}/communities/${slug}`,
+  ...(community.image_url && { image: community.image_url }),
+  ...(community.latitude && community.longitude && {
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: community.latitude,
+      longitude: community.longitude,
+    },
+  }),
+  containedInPlace: {
+    '@type': 'AdministrativeArea',
+    name: 'Door County',
+    addressRegion: 'WI',
+    addressCountry: 'US',
+  },
+  touristType: ['Family', 'Couple', 'Outdoor Enthusiast', 'Art Lover', 'Food Lover'],
+};
+
+const sections = [
+  { label: 'Places to Eat', listings: eatListings, category: 'eat' as const, icon: '🍽️', href: `/eat?community=${slug}` },
+  { label: 'Places to Stay', listings: stayListings, category: 'stay' as const, icon: '🛏️', href: `/stay?community=${slug}` },
+  { label: 'Things to Do', listings: doListings, category: 'do' as const, icon: '🧭', href: `/do?community=${slug}` },
+  { label: 'Shopping', listings: shopListings, category: 'shop' as const, icon: '🛍️', href: `/shop?community=${slug}` },
+];
+
+const totalListings = allListings.length;
+---
+
+<BaseLayout title={pageTitle} description={metaDescription} schema={[breadcrumbSchema, communitySchema]} image={community.image_url || undefined}>
+  <!-- Hero -->
+  <section class="relative min-h-[50vh] flex items-end bg-dc-lake-900 overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img
+        src={community.image_url || `/images/communities/${slug}.jpg`}
+        alt={`${community.name}, Door County, Wisconsin`}
+        class="w-full h-full object-cover opacity-50"
+        onerror="this.style.display='none'"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-dc-lake-900 via-dc-lake-900/60 to-dc-lake-900/20"></div>
+    </div>
+
+    <div class="container-wide relative pb-12 pt-20">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm text-dc-lake-300 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <svg class="w-4 h-4 text-dc-lake-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <a href="/communities" class="hover:text-white transition-colors">Communities</a>
+        <svg class="w-4 h-4 text-dc-lake-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <span class="text-white font-medium">{community.name}</span>
+      </nav>
+
+      <div class="max-w-3xl">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4">
+          {community.name}
+        </h1>
+        {community.tagline && (
+          <p class="text-xl text-dc-cherry-400 font-accent font-medium mb-6">
+            {community.tagline}
+          </p>
+        )}
+        <p class="text-lg text-dc-lake-100 mb-8 max-w-2xl">
+          {description}
+        </p>
+
+        <!-- Quick Stats -->
+        {totalListings > 0 && (
+          <div class="flex flex-wrap gap-6">
+            {eatListings.length > 0 && (
+              <div class="flex items-center gap-2">
+                <span class="text-2xl font-display font-bold text-white">{eatListings.length}</span>
+                <span class="text-dc-lake-300 text-sm">Restaurants</span>
+              </div>
+            )}
+            {stayListings.length > 0 && (
+              <div class="flex items-center gap-2">
+                <span class="text-2xl font-display font-bold text-white">{stayListings.length}</span>
+                <span class="text-dc-lake-300 text-sm">Places to Stay</span>
+              </div>
+            )}
+            {doListings.length > 0 && (
+              <div class="flex items-center gap-2">
+                <span class="text-2xl font-display font-bold text-white">{doListings.length}</span>
+                <span class="text-dc-lake-300 text-sm">Things to Do</span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights Bar -->
+  {highlights.length > 0 && (
+    <section class="bg-dc-cherry-600 text-white py-4">
+      <div class="container-wide">
+        <div class="flex flex-wrap items-center gap-6">
+          <span class="text-dc-cherry-200 text-sm font-medium uppercase tracking-wider hidden sm:block">Highlights:</span>
+          {highlights.map(h => (
+            <div class="flex items-center gap-2 text-sm">
+              <svg class="w-4 h-4 text-dc-cherry-300" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>{h}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Listings Sections -->
+  {totalListings > 0 ? (
+    sections.filter(s => s.listings.length > 0).map(section => (
+      <section class="section bg-dc-sand-50">
+        <div class="container-wide">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">{section.icon}</span>
+              <div>
+                <h2 class="text-2xl md:text-3xl font-display font-bold text-dc-lake-800">
+                  {section.label}
+                </h2>
+                <p class="text-dc-lake-600 text-sm">
+                  in {community.name}
+                </p>
+              </div>
+            </div>
+            <a
+              href={section.href}
+              class="hidden sm:flex items-center gap-2 text-dc-lake-500 hover:text-dc-cherry-600 transition-colors text-sm font-medium"
+            >
+              View all
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {section.listings.slice(0, 8).map(listing => (
+              <ListingCard listing={listing} category={section.category} />
+            ))}
+          </div>
+
+          {section.listings.length > 8 && (
+            <div class="text-center mt-8">
+              <a href={section.href} class="btn btn-outline">
+                View all {section.listings.length} {section.label.toLowerCase()} in {community.name}
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    ))
+  ) : (
+    <section class="section bg-dc-sand-50">
+      <div class="container-wide">
+        <div class="text-center py-16">
+          <svg class="w-16 h-16 text-dc-sand-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+          <h3 class="text-xl font-display font-semibold text-dc-lake-800 mb-2">Listings Coming Soon</h3>
+          <p class="text-dc-lake-600 mb-6">We're adding businesses in {community.name}. Check back soon!</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/eat" class="btn btn-primary">Browse All Restaurants</a>
+            <a href="/stay" class="btn btn-outline">Find a Place to Stay</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Explore More Communities -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-display font-bold text-dc-lake-800 mb-3">
+          Explore More Communities
+        </h2>
+        <p class="text-dc-lake-600">
+          Door County has 11 unique villages. Discover them all.
+        </p>
+      </div>
+
+      <div class="text-center">
+        <a href="/communities" class="btn btn-primary">
+          View All 11 Communities
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

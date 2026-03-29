@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCommunities } from '../../lib/supabase';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+const SITE_URL = 'https://doorcountyvisitor.com';
+
+const title = "Door County Communities | Explore All 11 Villages & Towns";
+const description = "Explore all 11 Door County communities — from the artsy streets of Fish Creek to the island paradise of Washington Island. Find the perfect village for your Door County getaway.";
+
+const communities = await getCommunities('door-county');
+
+// Fallback descriptions for communities that may have empty description fields
+const fallbackDescriptions: Record<string, string> = {
+  'fish-creek': 'The arts capital of Door County, Fish Creek perches dramatically on a bluff above Green Bay. Home to Peninsula Players Theatre — America\'s oldest professional resident outdoor theater — plus galleries, boutiques, and the gateway to Peninsula State Park.',
+  'sister-bay': 'Door County\'s liveliest village, famous for Al Johnson\'s Swedish Restaurant with goats grazing on the roof. Sister Bay boasts the peninsula\'s largest marina, sandy beaches, eclectic dining, and a festive main street year-round.',
+  'ephraim': 'The only dry (alcohol-free) village in Wisconsin, Ephraim is a pristine historic community founded by Moravian settlers in 1853. White-painted buildings cascade down a hillside to Eagle Harbor — stunning for sailing, kayaking, and sunsets.',
+  'egg-harbor': 'The welcoming gateway to Door County, Egg Harbor charms visitors with its waterfront park, sandy beach, and marina. A vibrant mix of dining, shopping, and the beloved Egg Harbor Farmers Market anchor this approachable village.',
+  'sturgeon-bay': 'The county seat and largest city on the peninsula, Sturgeon Bay bridges two sides of Door County — literally. A rich shipbuilding heritage, the Door County Maritime Museum, and a walkable 3rd Avenue arts district define this year-round hub.',
+  'baileys-harbor': 'Door County\'s oldest settled village sits along the rocky eastern Lake Michigan shore. The Ridges Sanctuary — Wisconsin\'s oldest nature preserve — draws birders and wildflower lovers, while nearby Cana Island Lighthouse is one of the most photographed in the Midwest.',
+  'gills-rock': 'At the very tip of the peninsula, tiny Gills Rock is the departure point for the Washington Island Ferry. This authentic fishing village — "the top of the thumb" — offers a glimpse of old Door County, with a fishing museum and stunning strait views.',
+  'ellison-bay': 'A quiet, artistic enclave near the peninsula\'s northern tip, Ellison Bay attracts painters, writers, and those seeking solitude. The historic 1847 Olde Ellison Bay church, watercolor galleries, and a serene harbor define this unhurried village.',
+  'jacksonport': 'On the quieter Lake Michigan side of the peninsula, Jacksonport is a peaceful lakeside village with a sandy town beach and boat launch. Easy access to nature preserves and proximity to Rowleys Bay makes it a nature lover\'s base camp.',
+  'whitefish-bay': 'Tucked along the Lake Michigan shore in southern Door County, Whitefish Bay is the gateway to Whitefish Dunes State Park — home to the highest sand dunes on Wisconsin\'s Lake Michigan coast — and the dramatic Cave Point County Park.',
+  'washington-island': 'Accessible only by ferry from Gills Rock, Washington Island is a world apart. About 700 year-round residents maintain a distinct island culture descended from Icelandic settlers (1870s). Explore lavender farms, art galleries, pristine beaches, and a Norwegian stavkirke.',
+};
+
+const fallbackTaglines: Record<string, string> = {
+  'fish-creek': 'Arts, Theater & Peninsula State Park',
+  'sister-bay': 'Famous for Goats on the Roof',
+  'ephraim': 'Historic Moravian Village on Eagle Harbor',
+  'egg-harbor': 'Welcoming Gateway to Door County',
+  'sturgeon-bay': 'County Seat & Maritime Heritage',
+  'baileys-harbor': 'Nature Preserves & Lighthouse Views',
+  'gills-rock': 'The Top of the Thumb',
+  'ellison-bay': 'Quiet Arts Village',
+  'jacksonport': 'Peaceful Lake Michigan Shore',
+  'whitefish-bay': 'Sand Dunes & Cave Point',
+  'washington-island': 'Island Getaway by Ferry',
+};
+
+// Enrich communities with fallback data
+const enrichedCommunities = communities.map(c => ({
+  ...c,
+  description: c.description || fallbackDescriptions[c.slug] || null,
+  tagline: c.tagline || fallbackTaglines[c.slug] || null,
+}));
+
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', url: SITE_URL },
+  { name: 'Communities', url: `${SITE_URL}/communities` },
+]);
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Door County Communities',
+  description: 'All 11 villages and communities in Door County, Wisconsin',
+  numberOfItems: enrichedCommunities.length,
+  itemListElement: enrichedCommunities.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'City',
+      '@id': `${SITE_URL}/communities/${c.slug}`,
+      name: c.name,
+      description: c.description,
+      url: `${SITE_URL}/communities/${c.slug}`,
+      ...(c.image_url && { image: c.image_url }),
+    },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema, itemListSchema]}>
+  <!-- Hero -->
+  <section class="relative bg-gradient-to-br from-dc-lake-700 to-dc-lake-900 text-white py-16 md:py-24">
+    <div class="absolute inset-0 bg-[url('/images/pattern-waves.svg')] opacity-10"></div>
+    <div class="container-wide relative">
+      <div class="max-w-3xl">
+        <p class="text-dc-sand-300 font-medium mb-3">Explore Door County</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
+          The <span class="text-dc-cherry-400">Communities</span>
+        </h1>
+        <p class="text-xl text-dc-lake-100 mb-8">
+          Eleven villages, each with its own character. From the lively streets of Sister Bay to the wild shores of Washington Island — find the community that speaks to you.
+        </p>
+        <div class="flex flex-wrap gap-6">
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">{enrichedCommunities.length}</span>
+            <span class="text-dc-lake-200 text-sm">Communities</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">300+</span>
+            <span class="text-dc-lake-200 text-sm">Miles of Shoreline</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-3xl font-display font-bold">5</span>
+            <span class="text-dc-lake-200 text-sm">State Parks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Communities Grid -->
+  <section class="section bg-dc-sand-50">
+    <div class="container-wide">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-4">
+          Explore Every Village
+        </h2>
+        <p class="text-dc-lake-600 text-lg max-w-2xl mx-auto">
+          Each Door County community has its own personality. Browse them all to find your perfect match.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {enrichedCommunities.map((community, index) => (
+          <a
+            href={`/communities/${community.slug}`}
+            class="group card overflow-hidden hover:-translate-y-1 transition-all duration-300 animate-fade-in"
+            style={`animation-delay: ${Math.min(index * 60, 400)}ms`}
+          >
+            <!-- Image -->
+            <div class="relative aspect-[16/9] overflow-hidden bg-dc-lake-800">
+              <img
+                src={community.image_url || `/images/communities/${community.slug}.jpg`}
+                alt={`${community.name}, Door County`}
+                class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-70 group-hover:scale-105 transition-all duration-300"
+                loading="lazy"
+                onerror="this.parentElement.style.background='#1e3a5f'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-dc-lake-900/70 via-transparent to-transparent"></div>
+              {community.is_featured && (
+                <div class="absolute top-3 left-3">
+                  <span class="bg-dc-cherry-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+                    Popular
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <!-- Content -->
+            <div class="p-5">
+              <h3 class="text-xl font-display font-bold text-dc-lake-800 group-hover:text-dc-cherry-600 transition-colors mb-1">
+                {community.name}
+              </h3>
+              {community.tagline && (
+                <p class="text-dc-cherry-500 font-accent font-medium text-sm mb-3">
+                  {community.tagline}
+                </p>
+              )}
+              <p class="text-dc-lake-600 text-sm line-clamp-3">
+                {community.description || `Discover ${community.name}, one of Door County's most charming villages.`}
+              </p>
+              <div class="mt-4 flex items-center gap-2 text-dc-lake-500 group-hover:text-dc-cherry-500 transition-colors text-sm font-medium">
+                <span>Explore {community.name}</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Navigation Map Section -->
+  <section class="section bg-white">
+    <div class="container-wide">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-dc-cherry-500 font-medium text-sm uppercase tracking-wider mb-2 block">The Peninsula</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-dc-lake-800 mb-6">
+            A 70-Mile Stretch of Magic
+          </h2>
+          <p class="text-dc-lake-600 text-lg mb-6">
+            Door County is a narrow peninsula jutting 70 miles into Lake Michigan, forming Green Bay to the west and meeting open Lake Michigan to the east. The communities string along both shorelines like pearls — each one worth a stop.
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-dc-lake-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-dc-lake-600 text-xs font-bold">W</span>
+              </div>
+              <div>
+                <span class="font-medium text-dc-lake-800">Green Bay Side</span>
+                <span class="text-dc-lake-600"> — Calmer waters, stunning sunsets: Egg Harbor, Fish Creek, Ephraim, Sister Bay</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-dc-cherry-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-dc-cherry-600 text-xs font-bold">E</span>
+              </div>
+              <div>
+                <span class="font-medium text-dc-lake-800">Lake Michigan Side</span>
+                <span class="text-dc-lake-600"> — Rocky shores, dramatic dunes: Sturgeon Bay, Baileys Harbor, Jacksonport, Whitefish Bay</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 bg-dc-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-dc-forest-600 text-xs font-bold">N</span>
+              </div>
+              <div>
+                <span class="font-medium text-dc-lake-800">The Far North</span>
+                <span class="text-dc-lake-600"> — Wild and remote: Ellison Bay, Gills Rock, and Washington Island by ferry</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-dc-sand-100 rounded-2xl p-8">
+          <h3 class="font-display font-bold text-dc-lake-800 text-xl mb-6">Quick Community Links</h3>
+          <div class="grid grid-cols-2 gap-3">
+            {enrichedCommunities.map(community => (
+              <a
+                href={`/communities/${community.slug}`}
+                class="flex items-center gap-2 text-dc-lake-700 hover:text-dc-cherry-600 hover:bg-white rounded-lg px-3 py-2 transition-all text-sm font-medium group"
+              >
+                <svg class="w-4 h-4 text-dc-lake-400 group-hover:text-dc-cherry-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {community.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section bg-dc-cherry-600 text-white">
+    <div class="container-narrow text-center">
+      <h2 class="text-white text-3xl md:text-4xl font-display font-bold mb-6">
+        Ready to Explore Door County?
+      </h2>
+      <p class="text-xl text-dc-cherry-100 mb-8">
+        Browse businesses, restaurants, lodging, and activities in each community.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/stay" class="btn bg-white text-dc-cherry-600 hover:bg-dc-sand-100">
+          Find a Place to Stay
+        </a>
+        <a href="/eat" class="btn border-2 border-white text-white hover:bg-white/10">
+          Find Restaurants
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

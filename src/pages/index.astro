@@ -241,12 +241,18 @@ const seasons = [
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {communities.map((community) => (
-          <a 
+          <a
             href={`/communities/${community.slug}`}
             class="card overflow-hidden group"
           >
             <div class="aspect-listing bg-dc-lake-200 relative overflow-hidden">
-              <!-- TODO: Add community images -->
+              <img
+                src={community.image || `/images/communities/${community.slug}.jpg`}
+                alt={community.name}
+                class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-60 group-hover:scale-105 transition-all duration-300"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              />
               <div class="absolute inset-0 bg-gradient-to-t from-dc-lake-900/80 to-transparent"></div>
               <div class="absolute bottom-4 left-4 right-4">
                 <h3 class="text-white text-2xl group-hover:text-dc-cherry-300 transition-colors">
