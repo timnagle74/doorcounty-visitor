@@ -36,6 +36,24 @@ interface GHLResponse<T> {
   error?: string;
 }
 
+interface GHLOpportunity {
+  id: string;
+  name: string;
+  pipelineId: string;
+  pipelineStageId: string;
+  contactId: string;
+  status: string;
+  locationId: string;
+}
+
+interface OpportunityData {
+  pipelineId: string;
+  pipelineStageId: string;
+  contactId: string;
+  name: string;
+  status?: 'open' | 'won' | 'lost' | 'abandoned';
+}
+
 /**
  * Get GHL configuration from environment variables
  */
@@ -91,8 +109,10 @@ export async function createContact(data: ContactData): Promise<GHLContact> {
     phone: data.phone || '',
     source: data.source || 'Door County Visitor Website',
     tags: data.tags || ['website-lead'],
-    customFields: data.customFields ? Object.entries(data.customFields).map(([key, value]) => ({
-      key,
+    // GHL v1 API requires custom fields as [{ id, value }] — using field IDs from field-ids.json
+    // Key-based mapping ({ key, value }) is NOT reliably supported; always use field IDs.
+    customFields: data.customFields ? Object.entries(data.customFields).map(([id, value]) => ({
+      id,
       value,
     })) : [],
   };
@@ -218,6 +238,32 @@ export async function submitContactForm(data: {
       ...(data.subject && { subject: data.subject }),
     },
   });
+}
+
+/**
+ * Create a pipeline opportunity and link it to a contact
+ * Requires GHL_LISTINGS_PIPELINE_ID env var (the Listings pipeline ID from GHL dashboard).
+ * Stage IDs passed as pipelineStageId — use GHL_CLAIM_SUBMITTED_STAGE_ID or GHL_NEW_LISTING_STAGE_ID.
+ * Returns null and logs a warning if pipeline IDs are not configured (graceful degradation).
+ */
+export async function createOpportunity(data: OpportunityData): Promise<GHLOpportunity | null> {
+  const config = getConfig();
+
+  const payload = {
+    locationId: config.locationId,
+    pipelineId: data.pipelineId,
+    pipelineStageId: data.pipelineStageId,
+    contactId: data.contactId,
+    name: data.name,
+    status: data.status || 'open',
+  };
+
+  const response = await ghlFetch<{ opportunity: GHLOpportunity }>('/opportunities/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  return response.opportunity ?? null;
 }
 
 /**
