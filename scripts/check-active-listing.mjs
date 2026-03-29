@@ -1,6 +1,12 @@
 // Check for contacts with active-listing tag
-const GHL_API_TOKEN = 'pit-ccfc2ac8-6e3e-42e7-bfe3-82f4471d2d22';
-const GHL_LOCATION_ID = 'a1pjpfTVaYjMD8QJgINa';
+// Requires: GHL_API_TOKEN and GHL_LOCATION_ID environment variables
+const GHL_API_TOKEN = process.env.GHL_API_TOKEN;
+const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID;
+
+if (!GHL_API_TOKEN || !GHL_LOCATION_ID) {
+  console.error('Error: GHL_API_TOKEN and GHL_LOCATION_ID env vars are required');
+  process.exit(1);
+}
 
 async function main() {
   const response = await fetch(

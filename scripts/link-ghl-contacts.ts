@@ -1,10 +1,16 @@
 // Script to link GHL contacts to Supabase listings by matching names
 // Run with: npx tsx scripts/link-ghl-contacts.ts
 
-const SUPABASE_URL = 'https://taeckxnjesfrmynzjnht.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhZWNreG5qZXNmcm15bnpqbmh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NjgzNjUsImV4cCI6MjA4MzA0NDM2NX0.R8E2PZYqu3rhr5Ke8m9obu1M4nsnBwCaFj-5T0yZKfE';
-const GHL_API_TOKEN = 'pit-ccfc2ac8-6e3e-42e7-bfe3-82f4471d2d22';
-const GHL_LOCATION_ID = 'a1pjpfTVaYjMD8QJgINa';
+// Requires: SUPABASE_URL, SUPABASE_KEY, GHL_API_TOKEN, GHL_LOCATION_ID environment variables
+const SUPABASE_URL = process.env.SUPABASE_URL!;
+const SUPABASE_KEY = process.env.SUPABASE_KEY!;
+const GHL_API_TOKEN = process.env.GHL_API_TOKEN!;
+const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID!;
+
+if (!SUPABASE_URL || !SUPABASE_KEY || !GHL_API_TOKEN || !GHL_LOCATION_ID) {
+  console.error('Error: SUPABASE_URL, SUPABASE_KEY, GHL_API_TOKEN, and GHL_LOCATION_ID env vars are required');
+  process.exit(1);
+}
 
 interface GHLContact {
   id: string;

@@ -1,12 +1,18 @@
 // Simple script to link GHL contacts to Supabase listings
 // Run with: node scripts/link-ghl-simple.mjs
 
-const SUPABASE_URL = 'https://taeckxnjesfrmynzjnht.supabase.co';
-// Use service role key for update permissions
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhZWNreG5qZXNmcm15bnpqbmh0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzQ2ODM2NSwiZXhwIjoyMDgzMDQ0MzY1fQ.vrwxYPSI_gKJ3pQgjlxwrWpHkXTlvR6U0Um4yFh5vAQ';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhZWNreG5qZXNmcm15bnpqbmh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NjgzNjUsImV4cCI6MjA4MzA0NDM2NX0.R8E2PZYqu3rhr5Ke8m9obu1M4nsnBwCaFj-5T0yZKfE';
-const GHL_API_TOKEN = 'pit-ccfc2ac8-6e3e-42e7-bfe3-82f4471d2d22';
-const GHL_LOCATION_ID = 'a1pjpfTVaYjMD8QJgINa';
+// Requires: SUPABASE_URL, SUPABASE_KEY, GHL_API_TOKEN, GHL_LOCATION_ID environment variables
+// Use service role key for update permissions (SUPABASE_KEY)
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const GHL_API_TOKEN = process.env.GHL_API_TOKEN;
+const GHL_LOCATION_ID = process.env.GHL_LOCATION_ID;
+
+if (!SUPABASE_URL || !SUPABASE_KEY || !GHL_API_TOKEN || !GHL_LOCATION_ID) {
+  console.error('Error: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, GHL_API_TOKEN, and GHL_LOCATION_ID env vars are required');
+  process.exit(1);
+}
 
 function normalizeName(name) {
   return name
